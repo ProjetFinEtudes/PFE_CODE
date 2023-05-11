@@ -1,0 +1,28 @@
+version: '3.3'
+
+services:
+  db:
+    build: ./database
+    ports:
+      - ${MYSQL_PORT}:${MYSQL_PORT}
+    env_file:
+      - ./.env
+    volumes:
+      - mysql-data:/var/lib/mysql
+      - ./.env:/code/src/.env
+    networks:
+      backend: 
+        ipv4_address: "${MYSQL_URL}"
+    healthcheck:
+        test: ["CMD", "mysqladmin" ,"ping", "-h", "localhost"]
+        timeout: 10s
+        retries: 6
+networks:
+  backend: 
+    driver: bridge
+    ipam: 
+      config:
+        - subnet: "${NETWORK_BACK}/27"
+          gateway: "${NETWORK_BACK_GATEWAY}"
+volumes:
+  mysql-data:
