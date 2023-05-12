@@ -1,12 +1,12 @@
 from fastapi import FastAPI, HTTPException
 from pyparsing import Optional
 
-from .controller import rec
+from .controller import recommend_recipes
 app = FastAPI()
 
 @app.post("/ia/predict")
 async def predict(text):
-    return rec(text)
+    return recommend_recipes(text)
     
 
 

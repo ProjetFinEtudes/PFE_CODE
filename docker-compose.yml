@@ -17,6 +17,37 @@ services:
         test: ["CMD", "mysqladmin" ,"ping", "-h", "localhost"]
         timeout: 10s
         retries: 6
+  reco-service:
+    build: ./reco-service
+    depends_on:
+      db: 
+        condition: service_healthy
+    links:
+      - db
+    ports:
+      - ${RECO_PORT}:${RECO_PORT}
+    env_file:
+      - ./.env
+    volumes:
+      - ./model:/code/model
+      - ./schema:/code/schema
+      - ./.env:/code/src/.env
+    networks:
+      backend:
+        ipv4_address: "${RECO_IP}"        
+  gateway-service:
+    build: ./gateway-service
+    ports:
+      - 3212:3212
+    env_file:
+      - ./.env
+    volumes:
+      - ./model:/code/model
+      - ./schema:/code/schema
+      - ./.env:/code/src/.env
+    networks:
+      backend:
+        ipv4_address: "${GATEWAY_IP_B}"
 networks:
   backend: 
     driver: bridge

@@ -9,7 +9,8 @@ nlp = spacy.load("en_core_web_sm")
 
 # Establish a connection to the database
 connection = pymysql.connect(
-    host='localhost',
+    host='10.5.0.2',
+    port=3306,
     user='root',
     password='7iJoxvKgMGw4x3nBXMAt',
     database='recsys',
@@ -25,17 +26,23 @@ INNER JOIN ingredients AS i ON ri.ingredient_id = i.id
 GROUP BY r.name
 """
 with connection.cursor() as cursor:
+    query1 = "SELECT name FROM ingredients"
+    cursor.execute(query1)
+    ingredient_words = [name['name'] for name in cursor.fetchall()]
     cursor.execute(query)
     result = cursor.fetchall()
 # Function to extract ingredients from user input text
-def extract_ingredients(text):
-    doc = nlp(text)
-    ingredients = []
-    for token in doc:
-        if token.pos_ == 'NOUN' and token.dep_ != 'compound':
-            ingredients.append(token.text)
-    return ingredients
+def extract_ingredients(sentence):
+    nlp = spacy.load("en_core_web_sm")
+    doc = nlp(sentence)
 
+    ingredients = []
+
+    for token in doc:
+        if token.pos_ == "NOUN" and token.text.lower() in ingredient_words:
+            ingredients.append(token.text)
+
+    return ingredients
 def recommend_recipes(ingredients):
 
 
@@ -45,7 +52,8 @@ def recommend_recipes(ingredients):
         recipe_name = row['name']
         ingredient_list = row['ingredient_list']
         recipes.append(ingredient_list)
-
+    #print(ingredients)
+    print(recipes)
     # Transform ingredient lists into TF-IDF vectors
     vectorizer = TfidfVectorizer()
     tfidf_matrix = vectorizer.fit_transform(recipes)
@@ -60,13 +68,10 @@ def recommend_recipes(ingredients):
     sorted_indices = np.argsort(similarities, axis=0)[::-1].flatten()
     sorted_recipes = [result[i] for i in sorted_indices]
 
-    return sorted_recipes[:5]
+    return (sorted_recipes[:5],sorted_indices)
 # Example usage
 text_input = "'beef broth,butter,flour,fresh dill,juice of lemon"
 ingredients_list = extract_ingredients(text_input)
-
-print(recommend_recipes(text_input))
-
 # Close the database connection
 connection.close()
 
