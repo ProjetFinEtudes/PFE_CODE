@@ -7,15 +7,15 @@ import requests
 from schema import Message
 load_dotenv()
 
-RECO_URL = os.getenv("RECO_URL")
+CHAT_URL = os.getenv("CHAT_URL")
 
 router = APIRouter(
-    prefix="/predict",
-    tags=['recommendation']
+    prefix="/chat",
+    tags=['chatbot']
 )
 
-@router.post('/')
-def get_recommendation(text: Message):
+@router.post('/chat')
+def get_chatResp(text: Message):
     headers = {'Content-Type': 'application/json', 'accept': 'application/json'}
-    response = requests.post(f"{RECO_URL}", headers=headers, data=text.json())
+    response = requests.post(f"{CHAT_URL}/chat", headers=headers, data=text.json())
     return response.json()

@@ -17,11 +17,25 @@ services:
         test: ["CMD", "mysqladmin" ,"ping", "-h", "localhost"]
         timeout: 10s
         retries: 6
+        
+  chatbot-service:
+    build: ./chatbot-service
+    ports:
+      - ${CHAT_PORT}:${CHAT_PORT}
+    env_file:
+      - ./.env
+    volumes: 
+      - ./model:/code/model
+      - ./schema:/code/schema
+      - ./.env:/code/src/.env
+    networks:
+      backend: 
+        ipv4_address: "${CHAT_IP}"
+
   reco-service:
     build: ./reco-service
     depends_on:
-      db: 
-        condition: service_healthy
+      - db
     links:
       - db
     ports:

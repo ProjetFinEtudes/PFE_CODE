@@ -2,9 +2,8 @@ import pymysql
 import spacy
 import numpy as np
 from sklearn.feature_extraction.text import TfidfVectorizer
-from sklearn.metrics.pairwise import cosine_similarity
-# Load the Spacy language model
 
+# Load the Spacy language model
 nlp = spacy.load("en_core_web_sm")
 
 # Establish a connection to the database
@@ -17,7 +16,8 @@ connection = pymysql.connect(
     charset='utf8mb4',
     cursorclass=pymysql.cursors.DictCursor
 )
-    # Retrieve recipe names and ingredient lists from the database
+
+# Retrieve recipe names and ingredient lists from the database
 query = """
 SELECT r.name, GROUP_CONCAT(i.name ORDER BY i.name SEPARATOR ',') AS ingredient_list
 FROM recipes AS r
@@ -25,17 +25,17 @@ INNER JOIN recipe_ingredients AS ri ON r.id = ri.recipe_id
 INNER JOIN ingredients AS i ON ri.ingredient_id = i.id
 GROUP BY r.name
 """
+
 with connection.cursor() as cursor:
     query1 = "SELECT name FROM ingredients"
     cursor.execute(query1)
     ingredient_words = [name['name'] for name in cursor.fetchall()]
     cursor.execute(query)
     result = cursor.fetchall()
+
 # Function to extract ingredients from user input text
 def extract_ingredients(sentence):
-    nlp = spacy.load("en_core_web_sm")
     doc = nlp(sentence)
-
     ingredients = []
 
     for token in doc:
@@ -43,35 +43,34 @@ def extract_ingredients(sentence):
             ingredients.append(token.text)
 
     return ingredients
-def recommend_recipes(ingredients):
 
+def jaccard_similarity(set1, set2):
+    intersection = len(set1.intersection(set2))
+    union = len(set1.union(set2))
+    return intersection / union
 
-    # Create ingredient list for each recipe
+def recommend_recipes(sentance):
+    ingredients = extract_ingredients(sentance)
+    # Create ingredient set for each recipe
     recipes = []
     for row in result:
         recipe_name = row['name']
-        ingredient_list = row['ingredient_list']
+        ingredient_list = set(row['ingredient_list'].split(','))
         recipes.append(ingredient_list)
-    #print(ingredients)
-    print(recipes)
-    # Transform ingredient lists into TF-IDF vectors
-    vectorizer = TfidfVectorizer()
-    tfidf_matrix = vectorizer.fit_transform(recipes)
 
-    # Transform the input ingredients into a TF-IDF vector
-    input_vector = vectorizer.transform([','.join(ingredients)])
+    # Transform the input ingredients into a set
+    input_ingredients = set(ingredients)
 
-    # Compute cosine similarity between input vector and recipe vectors
-    similarities = cosine_similarity(tfidf_matrix, input_vector)
+    # Calculate Jaccard similarity between input set and recipe sets
+    similarities = []
+    for recipe in recipes:
+        similarity = jaccard_similarity(input_ingredients, recipe)
+        similarities.append(similarity)
 
     # Sort recipes based on similarity scores
-    sorted_indices = np.argsort(similarities, axis=0)[::-1].flatten()
+    sorted_indices = np.argsort(similarities)[::-1]
     sorted_recipes = [result[i] for i in sorted_indices]
 
-    return (sorted_recipes[:5],sorted_indices)
-# Example usage
-text_input = "'beef broth,butter,flour,fresh dill,juice of lemon"
-ingredients_list = extract_ingredients(text_input)
+    return sorted_recipes[:5]
 # Close the database connection
 connection.close()
-
