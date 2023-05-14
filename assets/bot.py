@@ -1,14 +1,14 @@
-import json
 from neuralintents import GenericAssistant
-import asyncio
 
+assistant = GenericAssistant('intents.json', model_name="food_recommendation_model")
+assistant.train_model()
+assistant.save_model()
 
-new_assistant = GenericAssistant('./intents.json')
-new_assistant.load_model(model_name='food_recommendation_model')
 done = False
-# Start the assistant
-def chatbot_endpoint(message):
-    bot_response = new_assistant.request(message)
-    return {"response": bot_response}
 
-print(chatbot_endpoint('hello'))
+while not done:
+    message = input("Enter a message: ")
+    if message == "STOP":
+        done = True
+    else:
+        assistant.request(message)

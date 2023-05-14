@@ -13,7 +13,16 @@
         "What are some recipes for {dish}?",
         "I'm craving {dish}, any suggestions?",
         "Share some {dish} recipe ideas",
-        "I want to cook {dish} tonight"
+        "I want to cook {dish} tonight",
+        "How do I cook {dish}?",
+        "What are the steps to prepare {dish}?",
+        "Can you provide the recipe steps for {dish}?",
+        "What is the cooking process for {dish}?",
+        "Tell me how to make {dish}",
+        "I'd like the recipe steps for {dish}",
+        "Give me the instructions for making {dish}",
+        "How can I prepare {dish}?",
+        "What are the cooking instructions for {dish}?"
       ],
       "responses": [
         "Absolutely! {dish} is a delicious choice. Let me find some recipes for you.",

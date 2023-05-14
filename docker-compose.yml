@@ -52,7 +52,7 @@ services:
   gateway-service:
     build: ./gateway-service
     ports:
-      - 3212:3212
+      - ${GATEWAY_PORT}:${GATEWAY_PORT}
     env_file:
       - ./.env
     volumes:
@@ -61,7 +61,7 @@ services:
       - ./.env:/code/src/.env
     networks:
       backend:
-        ipv4_address: "${GATEWAY_IP_B}"
+        ipv4_address: "${GATEWAY_IP}"
 networks:
   backend: 
     driver: bridge

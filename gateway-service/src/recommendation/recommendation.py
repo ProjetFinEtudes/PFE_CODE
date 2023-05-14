@@ -17,5 +17,10 @@ router = APIRouter(
 @router.post('/')
 def get_recommendation(text: Message):
     headers = {'Content-Type': 'application/json', 'accept': 'application/json'}
-    response = requests.post(f"{RECO_URL}", headers=headers, data=text.json())
+    response = requests.post(f"{RECO_URL}/predict", headers=headers, data=text.json())
+    return response.json()
+@router.post('/getdish')
+def get_dish(text: Message):
+    headers = {'Content-Type': 'application/json', 'accept': 'application/json'}
+    response = requests.post(f"{RECO_URL}/getdish", headers=headers, data=text.json())
     return response.json()

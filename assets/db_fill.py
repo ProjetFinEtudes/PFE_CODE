@@ -45,8 +45,7 @@ try:
             steps_str = row['steps']
             steps_str = steps_str.replace('[', '').replace(']', '')
             steps_str = steps_str.replace("'", "").replace('"', '')
-            ingredients = [step.strip() for step in steps_str.split(',')]
-            steps = ast.literal_eval(row['steps'])
+            steps = [step.strip() for step in steps_str.split(',')]
             for step_number, description in enumerate(steps, start=1):
                 step_data = {
                     'recipe_id': int(row['id']),
@@ -54,6 +53,17 @@ try:
                     'description': description
                 }
                 insert_data('steps', step_data)
+
+                # Insert data into the 'recipe_steps' table
+                cursor.execute("SELECT id FROM steps WHERE recipe_id=%s AND step_number=%s",
+                            (int(row['id']), step_number))
+                step_id = cursor.fetchone()
+                if step_id is not None:
+                    recipe_step_data = {
+                        'recipe_id': int(row['id']),
+                        'step_id': step_id[0]
+                    }
+                    insert_data('recipe_steps', recipe_step_data)
 
             # Insert data into the 'tags' table
             tags_str = row['ingredients']
