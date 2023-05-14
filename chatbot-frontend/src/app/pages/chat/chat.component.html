@@ -1,0 +1,23 @@
+<div class="container d-flex flex-column align-items-center justify-content-between min-vh-100">
+  <div class="messages-container mb-4">
+    <div *ngFor="let message of messages" [ngClass]="{'message-from-user': message.from === 'user', 'message-from-bot': message.from === 'bot'}">
+      <div class="message">{{ message.text }}</div>
+    </div>
+    <div *ngIf="waitingForBot" class="message dots">
+      <span></span><span></span><span></span>
+    </div>
+  </div>
+
+  <div class="input-container">
+    <div class="input-wrapper">
+      <div class="input-group">
+        <input class="form-control" type="text" placeholder="Type your message" [(ngModel)]="userInput">
+        <div class="input-group-append">
+          <button class="btn btn-primary" type="button" (click)="sendMessage()">
+            <i class="material-icons">send</i>
+          </button>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
