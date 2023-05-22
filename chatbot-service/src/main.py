@@ -1,6 +1,6 @@
 from fastapi import FastAPI, HTTPException
 from pyparsing import Optional
-from schema import Message
+from schemas import Message
 from .controller import chatbot_endpoint
 app = FastAPI()
 

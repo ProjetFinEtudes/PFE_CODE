@@ -1,6 +1,6 @@
 import json
 from .neuralintent.main import GenericAssistant
-from schema import Message
+from schemas import Message
 from dotenv import load_dotenv
 import requests
 import os
@@ -15,6 +15,7 @@ def dish_step_reco(message:Message):
     headers = {'Content-Type': 'application/json', 'accept': 'application/json'}
     response = requests.post(f"{RECO_URL}/getdish", headers=headers, data=message.json())
     dish_steps = response.json()
+    print(response)
     #recipe_names = [recipe['name'] for recipe in dish_steps]
     result = new_assistant.request(message.message) + "\n" + dish_steps
     print(result)

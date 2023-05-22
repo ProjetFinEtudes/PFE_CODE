@@ -2,7 +2,7 @@ from fastapi import FastAPI, HTTPException
 from pyparsing import Optional
 from .controller import recommend_recipes
 from .controller import dish_step
-from schema import Message
+from schemas import Message
 app = FastAPI()
 
 @app.post("/ia/predict")

@@ -4,7 +4,7 @@ from typing import Annotated
 from dotenv import load_dotenv
 import os
 import requests
-from schema import Message
+from schemas import Message
 load_dotenv()
 
 CHAT_URL = os.getenv("CHAT_URL")

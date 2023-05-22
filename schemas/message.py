@@ -2,32 +2,6 @@ from pydantic import BaseModel
 
 class Message(BaseModel):
     message: str
-class AuthBase(BaseModel):
-    email: str
-
-class AuthCreate(AuthBase):
-    password: str
-
-class Auth(AuthBase):
-    uid: int
-
-    class Config:
-        orm_mode = True
-
-class UserBase(BaseModel):
-    first_name: str
-    last_name: str
-    age: int
-    genre: str
-
-class UserCreate(UserBase):
-    uid: int
-
-class User(UserBase):
-    uid: int
-
-    class Config:
-        orm_mode = True
 
 class IngredientBase(BaseModel):
     name: str
