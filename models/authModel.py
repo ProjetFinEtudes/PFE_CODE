@@ -1,12 +1,9 @@
 from pydantic import BaseModel
 
-class AuthBase(BaseModel):
+class Auth(BaseModel):
+    id_auth: int
     email: str
-
-class AuthCreate(AuthBase):
     password: str
-
-class Auth(AuthBase):
     uid: int
     class Config:
         orm_mode = True

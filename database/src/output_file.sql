@@ -18,16 +18,18 @@
 --
 -- Table structure for table `auth`
 --
+CREATE DATABASE IF NOT EXISTS recsys;
+USE recsys;
 
 DROP TABLE IF EXISTS `auth`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
 /*!50503 SET character_set_client = utf8mb4 */;
 CREATE TABLE `auth` (
-  `uid` int NOT NULL AUTO_INCREMENT,
-  `email` varchar(100) NOT NULL,
+  `id_auth` int PRIMARY KEY NOT NULL AUTO_INCREMENT,
+  `email` VARCHAR(100) UNIQUE NOT NULL,
   `password` text NOT NULL,
-  PRIMARY KEY (`uid`),
-  UNIQUE KEY `email` (`email`)
+  `uid` INT NOT NULL,
+  CONSTRAINT `fk_user` FOREIGN KEY (`uid`) REFERENCES `user`(`uid`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
@@ -236,13 +238,11 @@ DROP TABLE IF EXISTS `user`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
 /*!50503 SET character_set_client = utf8mb4 */;
 CREATE TABLE `user` (
-  `uid` int NOT NULL,
+  `uid` INT PRIMARY KEY NOT NULL,
   `first_name` varchar(100) NOT NULL,
   `last_name` varchar(100) NOT NULL,
-  `age` int NOT NULL,
-  `genre` char(1) NOT NULL,
-  PRIMARY KEY (`uid`),
-  CONSTRAINT `user_ibfk_1` FOREIGN KEY (`uid`) REFERENCES `auth` (`uid`) ON DELETE CASCADE
+  `birth_date` DATE NOT NULL,
+  `genre` char(1) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
