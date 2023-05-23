@@ -25,8 +25,8 @@ services:
     env_file:
       - ./.env
     volumes: 
-      - ./model:/code/model
-      - ./schema:/code/schema
+      - ./models:/code/models
+      - ./schemas:/code/schemas
       - ./.env:/code/src/.env
     networks:
       backend: 
@@ -35,7 +35,8 @@ services:
   reco-service:
     build: ./reco-service
     depends_on:
-      - db
+      db: 
+        condition: service_healthy
     links:
       - db
     ports:
@@ -43,8 +44,8 @@ services:
     env_file:
       - ./.env
     volumes:
-      - ./model:/code/model
-      - ./schema:/code/schema
+      - ./models:/code/models
+      - ./schemas:/code/schemas
       - ./.env:/code/src/.env
     networks:
       backend:
@@ -56,8 +57,8 @@ services:
     env_file:
       - ./.env
     volumes:
-      - ./model:/code/model
-      - ./schema:/code/schema
+      - ./models:/code/models
+      - ./schemas:/code/schemas
       - ./.env:/code/src/.env
     networks:
       backend:
@@ -71,3 +72,4 @@ networks:
           gateway: "${NETWORK_BACK_GATEWAY}"
 volumes:
   mysql-data:
+
