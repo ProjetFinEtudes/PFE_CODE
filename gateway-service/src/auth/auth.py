@@ -18,5 +18,5 @@ router = APIRouter(
 def user_login(email: str, password: str):
     headers = {'Content-Type': 'application/json', 'accept': 'application/json'}
     text = {'email': email, 'password': password}
-    response = requests.post(f"{AUTH_URL}/login", headers=headers, data=text.json())
+    response = requests.post(f"{AUTH_URL}/login", headers=headers, data=json.dumps(text))
     return response.json()
