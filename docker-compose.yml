@@ -49,7 +49,8 @@ services:
       - ./.env:/code/src/.env
     networks:
       backend:
-        ipv4_address: "${RECO_IP}"        
+        ipv4_address: "${RECO_IP}" 
+
   gateway-service:
     build: ./gateway-service
     ports:
@@ -63,6 +64,21 @@ services:
     networks:
       backend:
         ipv4_address: "${GATEWAY_IP}"
+    
+  auth-service:
+    build: ./auth-service
+    ports:
+      - ${AUTH_PORT}:${AUTH_PORT}
+    env_file:
+      - ./.env
+    volumes:
+      - ./models:/code/models
+      - ./schemas:/code/schemas
+      - ./.env:/code/src/.env
+    networks:
+      backend:
+        ipv4_address: "${AUTH_IP}"
+
 networks:
   backend: 
     driver: bridge

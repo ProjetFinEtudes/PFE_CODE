@@ -1,17 +1,46 @@
+from fastapi import HTTPException, status
 from sqlalchemy.orm import Session
+from jose import JWTError, jwt
+from datetime import datetime
+from fastapi.security import OAuth2PasswordBearer
 
-
-from schemas.authSchema import AuthSchema
-from schemas.userSchema import UserSchema
+from user import User
 
 class Authentication:
 
-    def get_user_info_by_email(self, email: str, db: Session):
-        auth_entry = db.query(AuthSchema).filter_by(email=email).first()
-        if auth_entry:
-            user_entry = db.query(UserSchema).filter_by(uid=auth_entry.uid).first()
+    def __init__(self):
+        self.userService = User()
+        self.oauth2_schema = OAuth2PasswordBearer(tokenUrl="/login")
 
-            if user_entry:
-                return user_entry
+    def verify_password(self, plain_password, hashed_password):
+        return plain_password == hashed_password
 
-        return None
+    def authenticate_user(self, email: str, password: str, db: Session):
+        user = self.userService.get_user_info_by_email(email, db)
+        if not user:
+            raise HTTPException(status_code=404, detail="User not found")
+        if not self.verify_password(password, user.password):
+            raise HTTPException(status_code=400, detail="Incorrect password")
+        return user
+    
+    def get_user_from_token(self, token: str, db: Session):
+        credentials_exception = HTTPException(
+            status_code=status.HTTP_401_UNAUTHORIZED,
+            detail="Could not validate credentials",
+            headers={"WWW-Authenticate": "Bearer"}
+        )
+        try:
+            payload = jwt.decode(token, SECRET_KEY, algorithms=[ALGORITHM])
+
+            email: str = payload.get('email')
+            exp: int = int(payload.get('exp'))
+            if datetime.utcnow() > datetime.fromtimestamp(exp):
+                raise credentials_exception
+            if email is None:
+                raise credentials_exception
+        except JWTError:
+            raise credentials_exception
+        user = self.userService.get_user_info_by_email(email, db)
+        if user is None:
+            raise credentials_exception
+        return user
