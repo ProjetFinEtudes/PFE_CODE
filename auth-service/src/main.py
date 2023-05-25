@@ -3,7 +3,7 @@ import os
 from fastapi import FastAPI, Depends, HTTPException
 from datetime import datetime, timedelta
 from sqlalchemy import create_engine
-from .controller.authentication import authenticate_user
+from .controller.authentication import Authentication
 from .controller.security import create_access_token
 from sqlalchemy.orm import Session, sessionmaker
 
@@ -23,7 +23,7 @@ def get_db():
 
 @app.post("/login")
 async def user_login(email: str, password: str, db: Session = Depends(get_db)):
-    user = authenticate_user(email, password, db)
+    user = Authentication.authenticate_user(email, password, db)
     print(user)
 
     if not user:

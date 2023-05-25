@@ -4,7 +4,7 @@ from jose import JWTError, jwt
 from datetime import datetime
 from fastapi.security import OAuth2PasswordBearer
 
-from user import User
+from .user import User
 
 class Authentication:
 
