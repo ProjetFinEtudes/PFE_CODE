@@ -1,10 +1,10 @@
 import json
 from fastapi import APIRouter,Depends
-from typing import Annotated
 from dotenv import load_dotenv
 import os
 import requests
-from schemas import Message
+from models.authModel import AuthBase
+
 load_dotenv()
 
 AUTH_URL = os.getenv("AUTH_URL")
@@ -15,8 +15,8 @@ router = APIRouter(
 )
 
 @router.post('/login')
-def user_login(email: str, password: str):
+def user_login(credentials: AuthBase):
     headers = {'Content-Type': 'application/json', 'accept': 'application/json'}
-    text = {'email': email, 'password': password}
+    text = {'email': credentials.email, 'password': credentials.password}
     response = requests.post(f"{AUTH_URL}/login", headers=headers, data=json.dumps(text))
     return response.json()

@@ -1,6 +1,4 @@
-import json
 from fastapi import APIRouter,Depends
-from typing import Annotated
 from dotenv import load_dotenv
 import os
 import requests

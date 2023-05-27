@@ -6,7 +6,7 @@ class Base(DeclarativeBase):
     pass
 
 class UserSchema(Base):
-    __tablename__ = 'User'
+    __tablename__ = 'user'
     uid = Column(Integer, primary_key=True, index=True)
     first_name = Column(String(100))
     last_name = Column(String(100))

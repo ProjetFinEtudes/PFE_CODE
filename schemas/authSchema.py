@@ -9,7 +9,7 @@ class Base(DeclarativeBase):
     pass
 
 class AuthSchema(Base):
-    __tablename__ = 'Auth'
+    __tablename__ = 'auth'
     id_auth = Column(Integer, primary_key=True, autoincrement=True)
     email = Column(String(100), unique=True, nullable=False)
     password = Column(Text, nullable=False)

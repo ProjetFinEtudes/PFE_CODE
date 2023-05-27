@@ -6,6 +6,7 @@ from sqlalchemy import create_engine
 from .controller.authentication import Authentication
 from .controller.security import create_access_token
 from sqlalchemy.orm import Session, sessionmaker
+from models.authModel import AuthBase
 
 app = FastAPI()
 
@@ -13,6 +14,7 @@ MYSQL_DATABASE_URL= os.getenv('MYSQL_DATABASE_URL')
 
 engine = create_engine(MYSQL_DATABASE_URL)
 SessionLocal = sessionmaker(autocommit=False, autoflush=False, bind=engine)
+auth = Authentication()
 
 def get_db():
     db = SessionLocal()
@@ -21,14 +23,24 @@ def get_db():
     finally :
         db.close()
 
+# @app.post("/register")
+# async def user_register(credentials: AuthBase, db: Session = Depends(get_db)):
+#     user = auth.authenticate_user(credentials.email, credentials.password, db)
+
+#     if not user:
+#         raise HTTPException(status_code=401, detail="Invalid email or password")
+#     access_token = create_access_token(
+#         data={"email": user[1].email, "exp": datetime.utcnow() + timedelta(minutes=30)}
+#     )
+#     return {"token": access_token, "token_type": "bearer"}
+
 @app.post("/login")
-async def user_login(email: str, password: str, db: Session = Depends(get_db)):
-    user = Authentication.authenticate_user(email, password, db)
-    print(user)
+async def user_login(credentials: AuthBase, db: Session = Depends(get_db)):
+    user = auth.authenticate_user(credentials.email, credentials.password, db)
 
     if not user:
         raise HTTPException(status_code=401, detail="Invalid email or password")
     access_token = create_access_token(
-        data={"email": user.email, "exp": datetime.utcnow() + timedelta(minutes=30)}
+        data={"email": user[1].email, "exp": datetime.utcnow() + timedelta(minutes=30)}
     )
     return {"token": access_token, "token_type": "bearer"}
