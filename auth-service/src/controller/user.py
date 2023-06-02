@@ -1,12 +1,14 @@
-from sqlalchemy.orm import Session
 from fastapi import HTTPException
+from sqlalchemy.orm import Session
+from sqlalchemy import exists
 from sqlalchemy.exc import SQLAlchemyError
-from sqlalchemy.sql import exists
 
 from schemas.authSchema import AuthSchema
 from schemas.userSchema import UserSchema
 
 from models.userModel import UserBase, User
+from models.authModel import AuthBase, Auth
+
 
 class User:
 
@@ -40,11 +42,20 @@ class User:
         except SQLAlchemyError as e:
             raise HTTPException(status_code=500, detail=str(e.__dict__['orig']))
         
+
+        
     def is_user_in_db_by_email(self, email: str, db: Session):
-        return db.query(exists().where(UserSchema.email == email)).scalar()
+        auth = db.query(AuthSchema).filter(AuthSchema.email==email).first()
+        if auth != None: 
+            auth_base = Auth.from_orm(auth)
+            return db.query(UserSchema).filter(UserSchema.uid==auth_base.uid).scalar()
+        return False
     
+
+
     def is_user_in_db_by_uid(self, uid: int, db: Session):
         return db.query(exists().where(UserSchema.uid == uid)).scalar()
+    
     
     def get_user_id(self, email: str, db: Session):
         try:
@@ -59,17 +70,18 @@ class User:
         
     def create_user(self, user: UserBase, db: Session):
         try:
-            if not self.is_user_in_db_by_uid(user.uid, db):
+            #if not self.is_user_in_db_by_uid(user.uid, db):
                 pydantic_user = UserSchema(**user.dict())
                 db.add(pydantic_user)
                 db.commit()
                 db.refresh(pydantic_user)
-                return {'message': 'User created successfully'}
-            else:
-                raise HTTPException(status_code=409, detail="User already exists")
+                return pydantic_user
+                # return {'message': 'User created successfully'}
+            #else:
+                #raise HTTPException(status_code=409, detail="User already exists")
         except SQLAlchemyError as e:
             db.rollback()
-            raise HTTPException(status_code=500, detail=str(e.__dict__['orig']))
+            raise HTTPException(status_code=500, detail="Could not create user")
         
     def delete_user(self, user: UserBase, db: Session):
         try:
