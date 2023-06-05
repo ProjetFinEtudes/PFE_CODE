@@ -6,7 +6,7 @@ from sqlalchemy.exc import SQLAlchemyError
 from fastapi.security import OAuth2PasswordBearer
 
 from .user import User
-from models.authModel import AuthBase, Auth
+from models.authModel import AuthBase
 
 from schemas.authSchema import AuthSchema
 
@@ -17,15 +17,17 @@ class Authentication:
         self.oauth2_schema = OAuth2PasswordBearer(tokenUrl="/login")
 
     def create_auth(self, auth: AuthBase, db: Session):
+        pydantic_auth = AuthSchema(email=auth.email,
+                                   password=auth.password,
+                                   uid=auth.uid)
         try:
-            pydantic_auth = AuthSchema(**auth.dict())
             db.add(pydantic_auth)
             db.commit()
             db.refresh(pydantic_auth)
-            return pydantic_auth
         except SQLAlchemyError as e:
             db.rollback()
-            raise HTTPException(status_code=500, detail="Could not create auth")
+            raise HTTPException(status_code=409, detail="Auth already exists")
+        return pydantic_auth.id_auth
 
     def verify_password(self, plain_password, hashed_password):
         return plain_password == hashed_password

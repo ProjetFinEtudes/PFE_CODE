@@ -1,4 +1,4 @@
-from fastapi import HTTPException
+from fastapi import HTTPException, status
 from sqlalchemy.orm import Session
 from sqlalchemy import exists
 from sqlalchemy.exc import SQLAlchemyError
@@ -7,7 +7,7 @@ from schemas.authSchema import AuthSchema
 from schemas.userSchema import UserSchema
 
 from models.userModel import UserBase, User
-from models.authModel import AuthBase, Auth
+from models.authModel import AuthBase
 
 
 class User:
@@ -47,7 +47,9 @@ class User:
     def is_user_in_db_by_email(self, email: str, db: Session):
         auth = db.query(AuthSchema).filter(AuthSchema.email==email).first()
         if auth != None: 
-            auth_base = Auth.from_orm(auth)
+            auth_base = AuthBase.from_orm(auth)
+            # print(auth_base)
+            # print(auth_base.uid)
             return db.query(UserSchema).filter(UserSchema.uid==auth_base.uid).scalar()
         return False
     
@@ -69,19 +71,19 @@ class User:
             raise HTTPException(status_code=500, detail=str(e.__dict__['orig']))
         
     def create_user(self, user: UserBase, db: Session):
-        try:
-            #if not self.is_user_in_db_by_uid(user.uid, db):
-                pydantic_user = UserSchema(**user.dict())
-                db.add(pydantic_user)
-                db.commit()
-                db.refresh(pydantic_user)
-                return pydantic_user
-                # return {'message': 'User created successfully'}
-            #else:
-                #raise HTTPException(status_code=409, detail="User already exists")
-        except SQLAlchemyError as e:
-            db.rollback()
-            raise HTTPException(status_code=500, detail="Could not create user")
+        pydantic_user = UserSchema(first_name=user.first_name, \
+                                   last_name=user.last_name, \
+                                   birth_date=user.birth_date, \
+                                   genre=user.genre)
+        print(pydantic_user)
+        # try:        
+        db.add(pydantic_user)
+        db.commit()
+            # db.refresh(pydantic_user)
+        # except SQLAlchemyError as e:
+        #     db.rollback()
+        #     raise HTTPException(status_code=409, detail="User already exists")
+        return pydantic_user.uid
         
     def delete_user(self, user: UserBase, db: Session):
         try:

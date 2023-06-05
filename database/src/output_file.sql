@@ -25,7 +25,7 @@ DROP TABLE IF EXISTS `auth`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
 /*!50503 SET character_set_client = utf8mb4 */;
 CREATE TABLE `auth` (
-  `id_auth` int PRIMARY KEY NOT NULL AUTO_INCREMENT,
+  `id_auth` int PRIMARY KEY AUTO_INCREMENT,
   `email` VARCHAR(100) UNIQUE NOT NULL,
   `password` text NOT NULL,
   `uid` INT NOT NULL,
@@ -238,7 +238,7 @@ DROP TABLE IF EXISTS `user`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
 /*!50503 SET character_set_client = utf8mb4 */;
 CREATE TABLE `user` (
-  `uid` INT PRIMARY KEY NOT NULL AUTO_INCREMENT,
+  `uid` INT PRIMARY KEY AUTO_INCREMENT,
   `first_name` varchar(100) NOT NULL,
   `last_name` varchar(100) NOT NULL,
   `birth_date` DATE NOT NULL,
