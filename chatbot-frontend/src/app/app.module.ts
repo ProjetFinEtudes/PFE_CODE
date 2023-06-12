@@ -10,10 +10,14 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { MatInputModule } from '@angular/material/input';
 import { MatAutocompleteModule } from '@angular/material/autocomplete';
 import { MatButtonModule } from '@angular/material/button';
+import { HeaderComponent } from './header/header.component';
+import { FooterComponent } from './footer/footer.component';
 @NgModule({
   declarations: [
     AppComponent,
-    ChatComponent
+    ChatComponent,
+    HeaderComponent,
+    FooterComponent
   ],
   imports: [
     BrowserModule,
