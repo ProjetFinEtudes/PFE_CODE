@@ -6,7 +6,7 @@ from sqlalchemy.exc import SQLAlchemyError
 from schemas.authSchema import AuthSchema
 from schemas.userSchema import UserSchema
 
-from models.userModel import UserBase, User
+from models.userModel import UserBase
 from models.authModel import AuthBase
 
 
@@ -46,10 +46,11 @@ class User:
         
     def is_user_in_db_by_email(self, email: str, db: Session):
         auth = db.query(AuthSchema).filter(AuthSchema.email==email).first()
+        print("test:", auth)
         if auth != None: 
             auth_base = AuthBase.from_orm(auth)
-            # print(auth_base)
-            # print(auth_base.uid)
+            print(auth_base)
+            print(db.query(UserSchema).filter(UserSchema.uid==auth_base.uid).scalar())
             return db.query(UserSchema).filter(UserSchema.uid==auth_base.uid).scalar()
         return False
     
@@ -74,15 +75,16 @@ class User:
         pydantic_user = UserSchema(first_name=user.first_name, \
                                    last_name=user.last_name, \
                                    birth_date=user.birth_date, \
-                                   genre=user.genre)
-        print(pydantic_user)
-        # try:        
-        db.add(pydantic_user)
-        db.commit()
-            # db.refresh(pydantic_user)
-        # except SQLAlchemyError as e:
-        #     db.rollback()
-        #     raise HTTPException(status_code=409, detail="User already exists")
+                                   genre=user.genre, \
+                                   id_auth=user.id_auth)
+        # print(pydantic_user)
+        try:        
+            db.add(pydantic_user)
+            db.commit()
+            db.refresh(pydantic_user)
+        except SQLAlchemyError as e:
+            db.rollback()
+            raise HTTPException(status_code=400, detail="Could not create user")
         return pydantic_user.uid
         
     def delete_user(self, user: UserBase, db: Session):

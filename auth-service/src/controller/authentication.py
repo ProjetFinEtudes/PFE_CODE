@@ -18,15 +18,15 @@ class Authentication:
 
     def create_auth(self, auth: AuthBase, db: Session):
         pydantic_auth = AuthSchema(email=auth.email,
-                                   password=auth.password,
-                                   uid=auth.uid)
+                                   password=auth.password)
+        print(pydantic_auth)
         try:
             db.add(pydantic_auth)
             db.commit()
             db.refresh(pydantic_auth)
         except SQLAlchemyError as e:
             db.rollback()
-            raise HTTPException(status_code=409, detail="Auth already exists")
+            raise HTTPException(status_code=400, detail="Could not create auth")
         return pydantic_auth.id_auth
 
     def verify_password(self, plain_password, hashed_password):

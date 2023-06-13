@@ -25,11 +25,9 @@ DROP TABLE IF EXISTS `auth`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
 /*!50503 SET character_set_client = utf8mb4 */;
 CREATE TABLE `auth` (
-  `id_auth` int PRIMARY KEY AUTO_INCREMENT,
+  `id_auth` int PRIMARY KEY NOT NULL AUTO_INCREMENT,
   `email` VARCHAR(100) UNIQUE NOT NULL,
-  `password` text NOT NULL,
-  `uid` INT NOT NULL,
-  CONSTRAINT `fk_user` FOREIGN KEY (`uid`) REFERENCES `user`(`uid`)
+  `password` text NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
@@ -238,11 +236,13 @@ DROP TABLE IF EXISTS `user`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
 /*!50503 SET character_set_client = utf8mb4 */;
 CREATE TABLE `user` (
-  `uid` INT PRIMARY KEY AUTO_INCREMENT,
+  `uid` INT PRIMARY KEY NOT NULL AUTO_INCREMENT,
   `first_name` varchar(100) NOT NULL,
   `last_name` varchar(100) NOT NULL,
   `birth_date` DATE NOT NULL,
-  `genre` char(1) NOT NULL
+  `genre` char(1) NOT NULL,
+  `id_auth` INT NOT NULL,
+  CONSTRAINT `fk_auth` FOREIGN KEY (`id_auth`) REFERENCES `auth`(`id_auth`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
