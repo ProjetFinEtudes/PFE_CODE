@@ -23,6 +23,13 @@ class User(Base):
     genre = Column(String(1), nullable=False)
     auth = relationship("Auth", backref="user", cascade="all, delete")
 
+class Chatmessage(Base):
+    __tablename__ = 'chatmessage'
+
+    uid = Column(Integer, primary_key=True)
+    fromu = Column(String(100), nullable=False)
+    text = Column(String(10000), nullable=False)
+    user_uid = relationship("User", backref="chatmessage", cascade="all, delete")
 
 class Ingredient(Base):
     __tablename__ = 'ingredients'

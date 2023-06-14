@@ -79,6 +79,20 @@ services:
       backend:
         ipv4_address: "${AUTH_IP}"
 
+  chatmessage-service:
+    build: ./chatmessage-service
+    ports:
+      - ${CHATMESSAGE_PORT}:${CHATMESSAGE_PORT}
+    env_file:
+      - ./.env
+    volumes:
+      - ./models:/code/models
+      - ./schemas:/code/schemas
+      - ./.env:/code/src/.env
+    networks:
+      backend:
+        ipv4_address: "${CHATMESSAGE_IP}"
+
 networks:
   backend: 
     driver: bridge
