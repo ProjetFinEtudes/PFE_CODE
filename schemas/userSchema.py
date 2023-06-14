@@ -1,6 +1,6 @@
 from sqlalchemy import ForeignKey
 from sqlalchemy.schema import Column
-from sqlalchemy import Integer, String, Date
+from sqlalchemy import Integer, String, Date, CHAR
 from sqlalchemy.orm import DeclarativeBase
 
 from schemas.authSchema import AuthSchema
@@ -14,11 +14,11 @@ class UserSchema(Base):
     uid = Column(Integer, primary_key=True, nullable=False, autoincrement=True)
     first_name = Column(String(100))
     last_name = Column(String(100))
-    birth_date = Column(String(10))
-    genre = Column(String(1))
+    birth_date = Column(Date)
+    genre = Column(CHAR)
     id_auth = Column(Integer, ForeignKey(AuthSchema.id_auth), nullable=False)
 
-    def __init__(self, first_name: str, last_name: str, birth_date: str, genre: str, id_auth: int):
+    def __init__(self, first_name: str, last_name: str, birth_date: Date, genre: str, id_auth: int):
         self.first_name = first_name
         self.last_name = last_name
         self.birth_date = birth_date

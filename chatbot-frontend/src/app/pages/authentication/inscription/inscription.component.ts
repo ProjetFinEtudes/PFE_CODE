@@ -48,22 +48,21 @@ export class InscriptionComponent implements OnInit {
   get f() { return this.form.controls; }
 
   onSubmit() {
-    let auth: Auth = {
-      email: this.form.value.email,
-      password: this.form.value.password
-    }
-    let user: User = {
-      first_name: this.form.value.firstname,
-      last_name: this.form.value.lastname,
-      birth_date: this.form.value.birthdate.toLocaleDateString(),
-      genre: this.form.value.genre,
-      id_auth: 0
-    }
-
     const json = {
-      "data": user,
-      "credentials": auth
-    }
+      "credentials": {
+        email: this.form.value.email,
+        password: this.form.value.password
+      },
+      "data": {
+        first_name: this.form.value.firstname,
+        last_name: this.form.value.lastname,
+        birth_date: this.form.value.birthdate.toString().split(' (')[0],
+        genre: this.form.value.genre,
+        id_auth: 0
+      }
+    };
+
+    console.log(json);
 
     this.http.post(`http://localhost:3212/api/auth/register`, json)
       .subscribe({
