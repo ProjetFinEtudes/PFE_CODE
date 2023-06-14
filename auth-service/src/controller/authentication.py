@@ -1,4 +1,4 @@
-from fastapi import HTTPException, status
+from fastapi import HTTPException, Depends, status
 from sqlalchemy.orm import Session
 from jose import JWTError, jwt
 from datetime import datetime
@@ -14,7 +14,7 @@ class Authentication:
 
     def __init__(self):
         self.userService = User()
-        self.oauth2_schema = OAuth2PasswordBearer(tokenUrl="/login")
+        self.oauth2_scheme = OAuth2PasswordBearer(tokenUrl="/login")
 
     def create_auth(self, auth: AuthBase, db: Session):
         pydantic_auth = AuthSchema(email=auth.email,
@@ -41,14 +41,14 @@ class Authentication:
             raise HTTPException(status_code=400, detail="Incorrect password")
         return user
     
-    def get_user_from_token(self, token: str, db: Session):
+    
+    def get_user_from_token(self, token: str = Depends(oauth2_scheme), db: Session = Depends(get_db)):
         credentials_exception = HTTPException(
             status_code=status.HTTP_401_UNAUTHORIZED,
-            detail="Could not validate credentials",
-            headers={"WWW-Authenticate": "Bearer"}
+            detail="Could not resolve credentials"
         )
         try:
-            payload = jwt.decode(token, SECRET_KEY, algorithms=[ALGORITHM])
+            payload = jwt.decode(token, settings.SECRET_KEY, algorithms=[settings.ALGORITHM])
 
             email: str = payload.get('email')
             exp: int = int(payload.get('exp'))
@@ -58,7 +58,7 @@ class Authentication:
                 raise credentials_exception
         except JWTError:
             raise credentials_exception
-        user = self.userService.get_user_info_by_email(email, db)
+        user = service.get_user_withid_by_email(email, db)
         if user is None:
             raise credentials_exception
         return user

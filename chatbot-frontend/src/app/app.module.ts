@@ -10,10 +10,15 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { MatInputModule } from '@angular/material/input';
 import { MatAutocompleteModule } from '@angular/material/autocomplete';
 import { MatButtonModule } from '@angular/material/button';
+import { InscriptionComponent } from './pages/authentication/inscription/inscription.component';
+
+import { AngularMaterialModule } from './angular-material-module';
+
 @NgModule({
   declarations: [
     AppComponent,
-    ChatComponent
+    ChatComponent,
+    InscriptionComponent
   ],
   imports: [
     BrowserModule,
@@ -24,7 +29,8 @@ import { MatButtonModule } from '@angular/material/button';
     MatInputModule,
     MatAutocompleteModule,
     ReactiveFormsModule,
-    MatButtonModule
+    MatButtonModule,
+    AngularMaterialModule
   ],
   providers: [],
   bootstrap: [AppComponent]
