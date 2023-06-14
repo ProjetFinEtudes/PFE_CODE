@@ -42,23 +42,23 @@ class Authentication:
         return user
     
     
-    def get_user_from_token(self, token: str = Depends(oauth2_scheme), db: Session = Depends(get_db)):
-        credentials_exception = HTTPException(
-            status_code=status.HTTP_401_UNAUTHORIZED,
-            detail="Could not resolve credentials"
-        )
-        try:
-            payload = jwt.decode(token, settings.SECRET_KEY, algorithms=[settings.ALGORITHM])
+    # def get_user_from_token(self, token: str = Depends(oauth2_scheme), db: Session = Depends(get_db)):
+    #     credentials_exception = HTTPException(
+    #         status_code=status.HTTP_401_UNAUTHORIZED,
+    #         detail="Could not resolve credentials"
+    #     )
+    #     try:
+    #         payload = jwt.decode(token, settings.SECRET_KEY, algorithms=[settings.ALGORITHM])
 
-            email: str = payload.get('email')
-            exp: int = int(payload.get('exp'))
-            if datetime.utcnow() > datetime.fromtimestamp(exp):
-                raise credentials_exception
-            if email is None:
-                raise credentials_exception
-        except JWTError:
-            raise credentials_exception
-        user = service.get_user_withid_by_email(email, db)
-        if user is None:
-            raise credentials_exception
-        return user
+    #         email: str = payload.get('email')
+    #         exp: int = int(payload.get('exp'))
+    #         if datetime.utcnow() > datetime.fromtimestamp(exp):
+    #             raise credentials_exception
+    #         if email is None:
+    #             raise credentials_exception
+    #     except JWTError:
+    #         raise credentials_exception
+    #     user = service.get_user_withid_by_email(email, db)
+    #     if user is None:
+    #         raise credentials_exception
+    #     return user
