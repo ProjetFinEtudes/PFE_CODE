@@ -239,8 +239,8 @@ CREATE TABLE `user` (
   `uid` INT PRIMARY KEY NOT NULL AUTO_INCREMENT,
   `first_name` varchar(100) NOT NULL,
   `last_name` varchar(100) NOT NULL,
-  `birth_date` DATE NOT NULL,
-  `genre` char(1) NOT NULL,
+  `birth_date` varchar(10) NOT NULL,
+  `genre` varchar(1) NOT NULL,
   `id_auth` INT NOT NULL,
   CONSTRAINT `fk_auth` FOREIGN KEY (`id_auth`) REFERENCES `auth`(`id_auth`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;

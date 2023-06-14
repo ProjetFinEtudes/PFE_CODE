@@ -9,14 +9,15 @@ import { User } from '../interfaces/user';
 })
 export class AuthService {
 
-  private GATEWAY_URL = 'http://localhost:3212/api';
+  private GATEWAY_URL: string = 'http://localhost:3212/api/';
 
   constructor(
     private http: HttpClient
   ) { }
 
-  register(auth: Auth, user: User) {
-    return this.http.post(`${this.GATEWAY_URL}/auth/register`, { auth, user });
+  register(formData: any) {
+    //return this.http.post(`${this.GATEWAY_URL}auth/register`, { auth, user });
+    return this.http.post(`http://localhost:3212/api/auth/register`, formData);
   }
 
 }

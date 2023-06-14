@@ -26,9 +26,11 @@ def user_login(credentials: AuthBase):
 
 @router.post("/register")
 async def register(data: UserBase, credentials: AuthBase):
+    print(credentials)
     result = requests.post(url=f"{AUTH_URL}/create_auth", data=credentials.json())
     if result.status_code==201:
         data.id_auth = int(result.text)
+        print(data)
         requests.post(url=f"{AUTH_URL}/create_user", data=data.json())
         return {"message": "User created"}
     else:

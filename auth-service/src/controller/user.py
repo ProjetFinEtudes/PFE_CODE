@@ -41,19 +41,6 @@ class User:
                 raise HTTPException(status_code=404, detail="No users found")
         except SQLAlchemyError as e:
             raise HTTPException(status_code=500, detail=str(e.__dict__['orig']))
-        
-
-        
-    def is_user_in_db_by_email(self, email: str, db: Session):
-        auth = db.query(AuthSchema).filter(AuthSchema.email==email).first()
-        print("test:", auth)
-        if auth != None: 
-            auth_base = AuthBase.from_orm(auth)
-            print(auth_base)
-            print(db.query(UserSchema).filter(UserSchema.uid==auth_base.uid).scalar())
-            return db.query(UserSchema).filter(UserSchema.uid==auth_base.uid).scalar()
-        return False
-    
 
 
     def is_user_in_db_by_uid(self, uid: int, db: Session):
@@ -77,7 +64,7 @@ class User:
                                    birth_date=user.birth_date, \
                                    genre=user.genre, \
                                    id_auth=user.id_auth)
-        # print(pydantic_user)
+        print(pydantic_user)
         try:        
             db.add(pydantic_user)
             db.commit()

@@ -3,4 +3,5 @@ export interface User {
     last_name: string;
     birth_date: Date;
     genre: string;
+    id_auth: number;
 }
