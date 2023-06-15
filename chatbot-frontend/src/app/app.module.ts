@@ -22,7 +22,7 @@ import { AngularMaterialModule } from './angular-material-module';
     AppComponent,
     ChatComponent,
     HeaderComponent,
-    FooterComponent
+    FooterComponent,
     InscriptionComponent
   ],
   imports: [
