@@ -13,6 +13,7 @@ async def predict(text:Message):
 @app.post("/ia/getdish")
 async def getdish(text:Message):
     return dish_step(text.message)
+
 @app.get("/ia/test")
 async def test():
     return "ça marche"
