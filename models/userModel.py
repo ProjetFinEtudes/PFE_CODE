@@ -4,7 +4,7 @@ from datetime import date
 class UserBase(BaseModel):
     first_name: str
     last_name: str
-    birth_date: date
+    birth_date: str
     genre: str
     id_auth: int
 
