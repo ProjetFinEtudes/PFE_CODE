@@ -15,12 +15,14 @@ import { MatButtonModule } from '@angular/material/button';
 import { InscriptionComponent } from './pages/authentication/inscription/inscription.component';
 
 import { AngularMaterialModule } from './angular-material-module';
+import { ConnexionComponent } from './pages/authentication/connexion/connexion.component';
 
 @NgModule({
   declarations: [
     AppComponent,
     ChatComponent,
-    InscriptionComponent
+    InscriptionComponent,
+    ConnexionComponent
   ],
   imports: [
     BrowserModule,

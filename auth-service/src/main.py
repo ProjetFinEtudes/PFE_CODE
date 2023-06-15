@@ -38,13 +38,17 @@ async def create_user(data: UserBase, db: Session = Depends(get_db)):
 async def create_auth(credentials: AuthBase, db: Session = Depends(get_db)):
     return auth_service.create_auth(credentials, db)
 
-@app.post("/login")
+@app.post("/login", status_code=200)
 async def login(credentials: AuthBase, db: Session = Depends(get_db)):
-    user = auth_service.authenticate_user(credentials.email, credentials.password, db)
+    (user, auth) = auth_service.authenticate(credentials.email, credentials.password, db)
 
-    if not user:
-        raise HTTPException(status_code=401, detail="Invalid email or password")
     access_token = create_access_token(
-        data={"email": user[1].email, "exp": datetime.utcnow() + timedelta(minutes=30)}
-    )
-    return {"token": access_token, "token_type": "bearer"}
+        data = {
+            "email": auth.email, 
+            "exp": datetime.utcnow() + timedelta(minutes=30)
+        })
+    
+    return {
+        "token_type": "bearer",
+        "token": access_token
+    }
