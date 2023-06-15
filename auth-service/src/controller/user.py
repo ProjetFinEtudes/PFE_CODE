@@ -7,7 +7,6 @@ from schemas.authSchema import AuthSchema
 from schemas.userSchema import UserSchema
 
 from models.userModel import UserBase
-from models.authModel import AuthBase
 
 
 class User:
@@ -71,7 +70,7 @@ class User:
             db.refresh(pydantic_user)
         except SQLAlchemyError as e:
             db.rollback()
-            raise HTTPException(status_code=400, detail="Could not create user")
+            raise HTTPException(status_code=400, detail="Unable to create user entity")
         return pydantic_user.uid
         
     def delete_user(self, user: UserBase, db: Session):

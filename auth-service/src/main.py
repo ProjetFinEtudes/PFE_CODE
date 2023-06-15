@@ -30,7 +30,7 @@ def get_db():
         db.close()
 
 
-@app.post("/create_user")
+@app.post("/create_user", status_code=201)
 async def create_user(data: UserBase, db: Session = Depends(get_db)):
     return user_service.create_user(data, db)
 

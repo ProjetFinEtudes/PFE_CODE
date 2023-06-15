@@ -26,7 +26,7 @@ class Authentication:
             db.refresh(pydantic_auth)
         except SQLAlchemyError as e:
             db.rollback()
-            raise HTTPException(status_code=400, detail="Could not create auth")
+            raise HTTPException(status_code=400, detail="Email already registered")
         return pydantic_auth.id_auth
 
     def verify_password(self, plain_password, hashed_password):

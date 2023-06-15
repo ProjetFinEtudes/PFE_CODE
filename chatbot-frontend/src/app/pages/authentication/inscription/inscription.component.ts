@@ -1,18 +1,10 @@
 import * as moment from 'moment';
 //import * as bcrypt from 'bcryptjs';
 
-import { Component, Inject, OnInit } from '@angular/core';
-import { FormBuilder, FormGroup, Validators } from '@angular/forms';
-// import { MAT_MOMENT_DATE_FORMATS } from '@angular/material-moment-adapter';
-import { DateAdapter, MAT_DATE_FORMATS, MAT_DATE_LOCALE } from '@angular/material/core';
+import { Component, OnInit } from '@angular/core';
+import { FormBuilder , FormGroup, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
 import { AuthService } from 'src/app/services/auth.service';
-import { first } from 'rxjs';
-import { HttpClient } from '@angular/common/http';
-
-
-import { Auth } from 'src/app/interfaces/auth';
-import { User } from 'src/app/interfaces/user';
 
 @Component({
   selector: 'app-inscription',
@@ -29,7 +21,6 @@ export class InscriptionComponent implements OnInit {
 
   constructor(
     private formBuilder: FormBuilder,
-    private http: HttpClient,
     private authService: AuthService,
     private router: Router,
   ) { }
@@ -47,7 +38,7 @@ export class InscriptionComponent implements OnInit {
 
   get f() { return this.form.controls; }
 
-  onSubmit() {
+  onRegister() {
     const json = {
       "credentials": {
         email: this.form.value.email,
@@ -62,18 +53,16 @@ export class InscriptionComponent implements OnInit {
       }
     };
 
-    console.log(json);
-
-    this.http.post(`http://localhost:3212/api/auth/register`, json)
+    this.authService.register(json)
       .subscribe({
-        next: (response) => {
-          console.log(response);
+        next: (res) => {
+          console.log(res);
           this.router.navigate(['/connexion']);
         },
-        error: (error) => {
-          console.log(error);
-          this.errorUser = (error.status == 400 || error.status == 409);
-          this.errorServer = (error.status == 500);
+        error: (err) => {
+          console.error(err);
+          this.errorUser = (err.status == 400 || err.status == 409);
+          this.errorServer = (err.status == 500);
         }
       });
   }
