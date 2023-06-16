@@ -16,6 +16,7 @@ import { HeaderComponent } from './header/header.component';
 import { FooterComponent } from './footer/footer.component';
 import { InscriptionComponent } from './pages/authentication/inscription/inscription.component';
 import { AngularMaterialModule } from './angular-material-module';
+import { HomeComponent } from './pages/home/home.component';
 
 @NgModule({
   declarations: [
@@ -23,7 +24,8 @@ import { AngularMaterialModule } from './angular-material-module';
     ChatComponent,
     HeaderComponent,
     FooterComponent,
-    InscriptionComponent
+    InscriptionComponent,
+    HomeComponent
   ],
   imports: [
     BrowserModule,
