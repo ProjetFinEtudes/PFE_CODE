@@ -10,3 +10,10 @@ class UserBase(BaseModel):
 
     class Config:
         orm_mode = True
+
+class User(BaseModel):
+    uid: int
+    first_name: str
+    last_name: str
+    birth_date: str
+    genre: str

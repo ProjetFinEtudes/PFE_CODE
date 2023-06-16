@@ -79,6 +79,20 @@ services:
       backend:
         ipv4_address: "${AUTH_IP}"
 
+  user-service:
+    build: ./user-service
+    ports:
+      - ${USER_PORT}:${USER_PORT}
+    env_file:
+      - ./.env
+    volumes:
+      - ./models:/code/models
+      - ./schemas:/code/schemas
+      - ./.env:/code/src/.env
+    networks:
+      backend:
+        ipv4_address: "${USER_IP}"
+
 networks:
   backend: 
     driver: bridge
