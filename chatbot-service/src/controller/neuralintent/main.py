@@ -1,5 +1,4 @@
 from abc import ABCMeta, abstractmethod
-
 import random
 import json
 import pickle
@@ -19,50 +18,50 @@ from keras.models import load_model
 nltk.download('punkt', quiet=True)
 nltk.download('wordnet', quiet=True)
 
-class IAssistant(metaclass=ABCMeta):
+class CustomAssistant(metaclass=ABCMeta):
 
     @abstractmethod
-    def train_model(self):
-        """ Implemented in child class """
+    def train(self):
+        """ Implémentation dans la classe enfant """
 
     @abstractmethod
-    def request_tag(self, message):
-        """ Implemented in child class """
+    def tag_request(self, message):
+        """ Implémentation dans la classe enfant """
 
     @abstractmethod
     def get_tag_by_id(self, id):
-        """ Implemented in child class """
+        """ Implémentation dans la classe enfant """
 
     @abstractmethod
-    def request_method(self, message):
-        """ Implemented in child class """
+    def process_request(self, message):
+        """ Implémentation dans la classe enfant """
 
     @abstractmethod
-    def request(self, message):
-        """ Implemented in child class """
+    def handle_request(self, message):
+        """ Implémentation dans la classe enfant """
 
 
-class GenericAssistant(IAssistant):
+class AIAssistant(CustomAssistant):
 
-    def __init__(self, intents, intent_methods={}, model_name="assistant_model"):
+    def __init__(self, intents, intent_methods={}, model_name="ai_model"):
         self.intents = intents
         self.intent_methods = intent_methods
         self.model_name = model_name
 
         if intents.endswith(".json"):
-            self.load_json_intents(intents)
+            self.load_intents_from_json(intents)
 
         self.lemmatizer = WordNetLemmatizer()
 
-    def load_json_intents(self, intents):
+    def load_intents_from_json(self, intents):
         self.intents = json.loads(open(intents).read())
 
-    def train_model(self):
+    def train(self):
 
         self.words = []
         self.classes = []
         documents = []
-        ignore_letters = ['!', '?', ',', '.']
+        ignore_chars = ['!', '?', ',', '.']
 
         for intent in self.intents['intents']:
             for pattern in intent['patterns']:
@@ -72,12 +71,10 @@ class GenericAssistant(IAssistant):
                 if intent['tag'] not in self.classes:
                     self.classes.append(intent['tag'])
 
-        self.words = [self.lemmatizer.lemmatize(w.lower()) for w in self.words if w not in ignore_letters]
+        self.words = [self.lemmatizer.lemmatize(w.lower()) for w in self.words if w not in ignore_chars]
         self.words = sorted(list(set(self.words)))
 
         self.classes = sorted(list(set(self.classes)))
-
-
 
         training = []
         output_empty = [0] * len(self.classes)
@@ -106,7 +103,6 @@ class GenericAssistant(IAssistant):
         self.model.add(Dropout(0.5))
         self.model.add(Dense(len(train_y[0]), activation='softmax'))
 
-
         sgd = SGD(learning_rate=0.01, momentum=0.9, nesterov=True)
         self.model.compile(loss='categorical_crossentropy', optimizer=sgd, metrics=['accuracy'])
 
@@ -114,7 +110,7 @@ class GenericAssistant(IAssistant):
 
     def save_model(self, model_name=None):
         if model_name is None:
-            self.model.save(f"/code/src/controller/{self.model_name}.h5", self.hist)
+            self.model.save(f"./code/srccontroller/{self.model_name}.h5", self.hist)
             pickle.dump(self.words, open(f'/code/src/controller/{self.model_name}_words.pkl', 'wb'))
             pickle.dump(self.classes, open(f'/code/src/controller/{self.model_name}_classes.pkl', 'wb'))
         else:
@@ -132,13 +128,13 @@ class GenericAssistant(IAssistant):
             self.classes = pickle.load(open(f'/code/src/controller/{model_name}_classes.pkl', 'rb'))
             self.model = load_model(f'/code/src/controller/{model_name}.h5')
 
-    def _clean_up_sentence(self, sentence):
+    def _clean_sentence(self, sentence):
         sentence_words = nltk.word_tokenize(sentence)
         sentence_words = [self.lemmatizer.lemmatize(word.lower()) for word in sentence_words]
         return sentence_words
 
-    def _bag_of_words(self, sentence, words):
-        sentence_words = self._clean_up_sentence(sentence)
+    def _get_bag_of_words(self, sentence, words):
+        sentence_words = self._clean_sentence(sentence)
         bag = [0] * len(words)
         for s in sentence_words:
             for i, word in enumerate(words):
@@ -146,8 +142,8 @@ class GenericAssistant(IAssistant):
                     bag[i] = 1
         return np.array(bag)
 
-    def _predict_class(self, sentence):
-        p = self._bag_of_words(sentence, self.words)
+    def _predict_intent(self, sentence):
+        p = self._get_bag_of_words(sentence, self.words)
         res = self.model.predict(np.array([p]))[0]
         ERROR_THRESHOLD = 0.1
         results = [[i, r] for i, r in enumerate(res) if r > ERROR_THRESHOLD]
@@ -158,31 +154,31 @@ class GenericAssistant(IAssistant):
             return_list.append({'intent': self.classes[r[0]], 'probability': str(r[1])})
         return return_list
 
-    def _get_response(self, ints, intents_json):
+    def _get_response(self, intents_list, intents_json):
         try:
-            tag = ints[0]['intent']
+            tag = intents_list[0]['intent']
             list_of_intents = intents_json['intents']
             for i in list_of_intents:
-                if i['tag']  == tag:
+                if i['tag'] == tag:
                     result = random.choice(i['responses'])
                     break
         except IndexError:
-            result = "I don't understand!"
+            result = "I don't understand the request !"
         return result
 
-    def request_tag(self, message):
+    def tag_request(self, message):
         pass
 
     def get_tag_by_id(self, id):
         pass
 
-    def request_method(self, message):
+    def process_request(self, message):
         pass
 
-    def request(self, message):
-        ints = self._predict_class(message)
-        print(ints)
-        if ints[0]['intent'] in self.intent_methods.keys():
-            self.intent_methods[ints[0]['intent']]()
+    def handle_request(self, message):
+        intents_list = self._predict_intent(message)
+        print(intents_list)
+        if intents_list[0]['intent'] in self.intent_methods.keys():
+            self.intent_methods[intents_list[0]['intent']]()
         else:
-            return self._get_response(ints, self.intents)
+            return self._get_response(intents_list, self.intents)
