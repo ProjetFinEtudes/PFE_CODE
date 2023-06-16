@@ -264,6 +264,15 @@ CREATE TABLE `chatmessage` (
   CONSTRAINT `fk_user_uid` FOREIGN KEY (`user_uid`) REFERENCES `user`(`uid`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 
+DROP TABLE IF EXISTS `user_tags`;
+
+CREATE TABLE `user_tags` (
+  `id_user` INT NOT NULL,
+  `id_tag` INT NOT NULL,
+  PRIMARY KEY (`id_user`, `id_tag`),
+  CONSTRAINT `user_tags_ibfk_1` FOREIGN KEY (`id_user`) REFERENCES `user` (`uid`),
+  CONSTRAINT `user_tags_ibfk_2` FOREIGN KEY (`id_tag`) REFERENCES `tags` (`id`)
+);
 
 /*!40103 SET TIME_ZONE=@OLD_TIME_ZONE */;
 

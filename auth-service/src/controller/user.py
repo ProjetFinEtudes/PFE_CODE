@@ -7,7 +7,6 @@ from schemas.authSchema import AuthSchema
 from schemas.userSchema import UserSchema
 
 from models.userModel import UserBase
-from models.authModel import AuthBase
 
 
 class User:
@@ -15,10 +14,10 @@ class User:
     def get_user_info_by_email(self, email: str, db: Session):
         auth_item = db.query(AuthSchema).filter_by(email=email).first()
         if auth_item:
-            user_item = db.query(UserSchema).filter_by(uid=auth_item.uid).first()
+            user_item = db.query(UserSchema).filter_by(uid=auth_item.id_auth).first()
             if user_item:
                 user_info = db.query(UserSchema, AuthSchema) \
-                    .join(AuthSchema, UserSchema.uid == AuthSchema.uid) \
+                    .join(AuthSchema, UserSchema.id_auth == AuthSchema.id_auth) \
                     .filter(AuthSchema.email == email) \
                     .first()
                 return user_info
@@ -41,19 +40,6 @@ class User:
                 raise HTTPException(status_code=404, detail="No users found")
         except SQLAlchemyError as e:
             raise HTTPException(status_code=500, detail=str(e.__dict__['orig']))
-        
-
-        
-    def is_user_in_db_by_email(self, email: str, db: Session):
-        auth = db.query(AuthSchema).filter(AuthSchema.email==email).first()
-        print("test:", auth)
-        if auth != None: 
-            auth_base = AuthBase.from_orm(auth)
-            print(auth_base)
-            print(db.query(UserSchema).filter(UserSchema.uid==auth_base.uid).scalar())
-            return db.query(UserSchema).filter(UserSchema.uid==auth_base.uid).scalar()
-        return False
-    
 
 
     def is_user_in_db_by_uid(self, uid: int, db: Session):
@@ -77,14 +63,14 @@ class User:
                                    birth_date=user.birth_date, \
                                    genre=user.genre, \
                                    id_auth=user.id_auth)
-        # print(pydantic_user)
+        print(pydantic_user)
         try:        
             db.add(pydantic_user)
             db.commit()
             db.refresh(pydantic_user)
         except SQLAlchemyError as e:
             db.rollback()
-            raise HTTPException(status_code=400, detail="Could not create user")
+            raise HTTPException(status_code=400, detail="Unable to create user entity")
         return pydantic_user.uid
         
     def delete_user(self, user: UserBase, db: Session):

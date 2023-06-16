@@ -1,6 +1,6 @@
 from sqlalchemy import ForeignKey
 from sqlalchemy.schema import Column
-from sqlalchemy import Integer, String, Date
+from sqlalchemy import Integer, String, Date, CHAR
 from sqlalchemy.orm import DeclarativeBase
 
 from schemas.authSchema import AuthSchema
@@ -15,7 +15,7 @@ class UserSchema(Base):
     first_name = Column(String(100))
     last_name = Column(String(100))
     birth_date = Column(Date)
-    genre = Column(String(1))
+    genre = Column(CHAR)
     id_auth = Column(Integer, ForeignKey(AuthSchema.id_auth), nullable=False)
 
     def __init__(self, first_name: str, last_name: str, birth_date: Date, genre: str, id_auth: int):
