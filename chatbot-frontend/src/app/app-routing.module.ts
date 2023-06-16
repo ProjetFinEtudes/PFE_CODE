@@ -8,7 +8,7 @@ import { ChatComponent } from './pages/chat/chat.component';
 
 const routes: Routes = [
   { path: '', component: HomeComponent},
-  { path: 'inscription', component: InscriptionComponent },
+  { path: 'register', component: InscriptionComponent },
   { path: 'connexion', component: ConnexionComponent },
   { path: 'chat', component: ChatComponent },
   { path: '**', component: Error404Component }
