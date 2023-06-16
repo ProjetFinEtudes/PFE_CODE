@@ -35,8 +35,10 @@ async def register(credentials: AuthBase, data: UserBase):
         raise HTTPException(status_code=result.status_code, detail="Unable to create user")
 
 @router.post('/login')
-def user_login(credentials: AuthBase):
-    headers = {'Content-Type': 'application/json', 'accept': 'application/json'}
-    text = {'email': credentials.email, 'password': credentials.password}
-    response = requests.post(f"{AUTH_URL}/login", headers=headers, data=json.dumps(text))
-    return response.json()
+def login(credentials: AuthBase):
+    result = requests.post(f"{AUTH_URL}/login", data=credentials.json())
+
+    if (result.status_code == 200):
+        return result.json()
+    else:
+        raise HTTPException(status_code=result.status_code, detail=result.json()['detail'])

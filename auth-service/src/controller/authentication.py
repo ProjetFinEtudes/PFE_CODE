@@ -32,14 +32,17 @@ class Authentication:
     def verify_password(self, plain_password, hashed_password):
         return plain_password == hashed_password
 
-    def authenticate_user(self, email: str, password: str, db: Session):
-        user = self.userService.get_user_info_by_email(email, db)
-        print(user[1])
-        if not user:
+    def authenticate(self, email: str, password: str, db: Session):
+        user_info = self.userService.get_user_info_by_email(email, db)
+
+        if user_info:
+            (user, auth) = user_info
+        else:
             raise HTTPException(status_code=404, detail="User not found")
-        if not self.verify_password(password, user[1].password):
+
+        if not self.verify_password(password, auth.password):
             raise HTTPException(status_code=400, detail="Incorrect password")
-        return user
+        return user_info
     
     
     # def get_user_from_token(self, token: str = Depends(oauth2_scheme), db: Session = Depends(get_db)):

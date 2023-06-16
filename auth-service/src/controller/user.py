@@ -14,10 +14,10 @@ class User:
     def get_user_info_by_email(self, email: str, db: Session):
         auth_item = db.query(AuthSchema).filter_by(email=email).first()
         if auth_item:
-            user_item = db.query(UserSchema).filter_by(uid=auth_item.uid).first()
+            user_item = db.query(UserSchema).filter_by(uid=auth_item.id_auth).first()
             if user_item:
                 user_info = db.query(UserSchema, AuthSchema) \
-                    .join(AuthSchema, UserSchema.uid == AuthSchema.uid) \
+                    .join(AuthSchema, UserSchema.id_auth == AuthSchema.id_auth) \
                     .filter(AuthSchema.email == email) \
                     .first()
                 return user_info
