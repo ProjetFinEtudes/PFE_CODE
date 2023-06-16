@@ -1,8 +1,6 @@
 import { Component, OnInit, ViewChild, AfterContentInit } from '@angular/core';
 import { FormControl } from '@angular/forms';
 import { Observable } from 'rxjs';
-import { map, startWith } from 'rxjs/operators';
-import { MatAutocompleteSelectedEvent } from '@angular/material/autocomplete';
 import { MatAutocomplete } from '@angular/material/autocomplete';
 import { ChatService } from 'src/app/services/chat.service';
 interface ChatMessage {

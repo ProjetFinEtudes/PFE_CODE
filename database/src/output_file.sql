@@ -254,6 +254,26 @@ LOCK TABLES `user` WRITE;
 /*!40000 ALTER TABLE `user` DISABLE KEYS */;
 /*!40000 ALTER TABLE `user` ENABLE KEYS */;
 UNLOCK TABLES;
+
+DROP TABLE IF EXISTS `chatmessage`;
+CREATE TABLE `chatmessage` (
+  `uid` INT PRIMARY KEY NOT NULL AUTO_INCREMENT,
+  `fromu` varchar(100) NOT NULL,
+  `text` varchar(10000) NOT NULL,
+  `user_uid` INT NOT NULL,
+  CONSTRAINT `fk_user_uid` FOREIGN KEY (`user_uid`) REFERENCES `user`(`uid`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+
+DROP TABLE IF EXISTS `user_tags`;
+
+CREATE TABLE `user_tags` (
+  `id_user` INT NOT NULL,
+  `id_tag` INT NOT NULL,
+  PRIMARY KEY (`id_user`, `id_tag`),
+  CONSTRAINT `user_tags_ibfk_1` FOREIGN KEY (`id_user`) REFERENCES `user` (`uid`),
+  CONSTRAINT `user_tags_ibfk_2` FOREIGN KEY (`id_tag`) REFERENCES `tags` (`id`)
+);
+
 /*!40103 SET TIME_ZONE=@OLD_TIME_ZONE */;
 
 /*!40101 SET SQL_MODE=@OLD_SQL_MODE */;

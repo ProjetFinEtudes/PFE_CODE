@@ -1,1 +1,1 @@
-from .main import GenericAssistant
+from .main import AIAssistant
