@@ -32,6 +32,7 @@ def get_db():
 
 @app.post("/create_user", status_code=201)
 async def create_user(data: UserBase, db: Session = Depends(get_db)):
+    print(data)
     return user_service.create_user(data, db)
 
 @app.post("/create_auth", status_code=201)

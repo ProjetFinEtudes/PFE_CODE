@@ -16,7 +16,6 @@ def dish_step_reco(message:Message):
     response = requests.post(f"{RECO_URL}/getdish", headers=headers, data=message.json())
     dish_steps = response.json()
     print(response)
-    #recipe_names = [recipe['name'] for recipe in dish_steps]
     result = new_assistant.handle_request(message.message) + "\n" + dish_steps
     print(result)
     return result   
