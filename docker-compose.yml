@@ -17,7 +17,19 @@ services:
         test: ["CMD", "mysqladmin" ,"ping", "-h", "localhost"]
         timeout: 10s
         retries: 6
-        
+  chatmessage-service:
+    build: ./chatmessage-service
+    ports:
+      - ${CHATMESSAGE_PORT}:${CHATMESSAGE_PORT}
+    env_file:
+      - ./.env
+    volumes:
+      - ./models:/code/models
+      - ./schemas:/code/schemas
+      - ./.env:/code/src/.env
+    networks:
+      backend:
+        ipv4_address: "${CHATMESSAGE_IP}"        
   chatbot-service:
     build: ./chatbot-service
     ports:
@@ -76,10 +88,10 @@ services:
       backend:
         ipv4_address: "${AUTH_IP}"
 
-  chatmessage-service:
-    build: ./chatmessage-service
+  user-service:
+    build: ./user-service
     ports:
-      - ${CHATMESSAGE_PORT}:${CHATMESSAGE_PORT}
+      - ${USER_PORT}:${USER_PORT}
     env_file:
       - ./.env
     volumes:
@@ -88,7 +100,7 @@ services:
       - ./.env:/code/src/.env
     networks:
       backend:
-        ipv4_address: "${CHATMESSAGE_IP}"
+        ipv4_address: "${USER_IP}"
 
 networks:
   backend: 
