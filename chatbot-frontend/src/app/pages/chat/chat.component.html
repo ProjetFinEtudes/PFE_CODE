@@ -6,18 +6,19 @@
     <div *ngIf="waitingForBot" class="message dots">
       <span></span><span></span><span></span>
     </div>
-  </div>
-
-  <div class="input-container">
-    <div class="input-wrapper">
-      <div class="input-group">
-        <input class="form-control" type="text" placeholder="Type your message" [(ngModel)]="userInput">
-        <div class="input-group-append">
-          <button class="btn btn-primary" type="button" (click)="sendMessage()">
-            <i class="material-icons">send</i>
-          </button>
+    <div class="input-container">
+      <div class="input-wrapper">
+        <div class="input-group">
+          <input class="form-control" type="text" placeholder="Type your message" [(ngModel)]="userInput">
+          <div class="input-group-append">
+            <button class="btn btn-primary" type="button" (click)="sendMessage()">
+              <i class="material-icons">send</i>
+            </button>
+          </div>
         </div>
       </div>
     </div>
   </div>
+
+
 </div>

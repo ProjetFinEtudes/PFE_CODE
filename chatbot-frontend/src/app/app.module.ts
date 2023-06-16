@@ -12,17 +12,23 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { MatInputModule } from '@angular/material/input';
 import { MatAutocompleteModule } from '@angular/material/autocomplete';
 import { MatButtonModule } from '@angular/material/button';
+import { HeaderComponent } from './header/header.component';
+import { FooterComponent } from './footer/footer.component';
 import { InscriptionComponent } from './pages/authentication/inscription/inscription.component';
-
 import { AngularMaterialModule } from './angular-material-module';
 import { ConnexionComponent } from './pages/authentication/connexion/connexion.component';
+import { HomeComponent } from './pages/home/home.component';
 
 @NgModule({
   declarations: [
     AppComponent,
     ChatComponent,
     InscriptionComponent,
-    ConnexionComponent
+    ConnexionComponent,
+    HeaderComponent,
+    FooterComponent,
+    InscriptionComponent,
+    HomeComponent
   ],
   imports: [
     BrowserModule,
