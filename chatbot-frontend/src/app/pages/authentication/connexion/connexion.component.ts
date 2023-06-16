@@ -28,14 +28,15 @@ export class ConnexionComponent {
     this.authService.login(this.auth)
       .subscribe({
         next: (res: any) => {
+          console.log(res)
           const token: Token = {
-            access_token: res.token,
+            access_token: res.access_token,
             token_type: res.token_type
           };
           this.authService.setToken(token);
           this.router.navigate(['/']);
         },
-        error: (err: any) => { 
+        error: (err: any) => {
           console.log(err) ;
           this.error = true;
         }

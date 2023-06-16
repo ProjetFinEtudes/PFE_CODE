@@ -63,7 +63,10 @@ export class AuthService {
   }
 
   login(auth: Auth) {
-    return this.http.post(`http://localhost:3212/api/auth/login`, auth);
+    let formData = new FormData()
+    formData.append('username', auth.email);
+    formData.append('password', auth.password);
+    return this.http.post(`http://localhost:3212/api/auth/login`, formData);
   }
 
 }

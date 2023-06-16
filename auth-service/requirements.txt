@@ -6,3 +6,5 @@ sqlalchemy
 uvicorn==0.21.1
 requests
 python-jose
+python-multipart==0.0.6
+cryptography

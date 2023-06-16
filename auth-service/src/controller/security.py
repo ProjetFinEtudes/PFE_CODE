@@ -1,5 +1,6 @@
 from datetime import datetime,timedelta
 from typing import Optional
+from fastapi import Depends, HTTPException
 from jose import jwt
 from dotenv import load_dotenv
 import os

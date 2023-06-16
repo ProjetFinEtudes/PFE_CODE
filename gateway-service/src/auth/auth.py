@@ -1,13 +1,14 @@
 import os
+from typing import Annotated
 import requests
 
-from fastapi import APIRouter, HTTPException
+from fastapi import APIRouter, Depends, HTTPException
 from dotenv import load_dotenv
 from datetime import datetime
-
+from fastapi.security import OAuth2PasswordRequestForm
 from models.authModel import AuthBase
 from models.userModel import UserBase
-
+from models import Token
 load_dotenv()
 
 AUTH_URL = os.getenv("AUTH_URL")
@@ -36,10 +37,11 @@ async def register(credentials: AuthBase, data: UserBase):
         raise HTTPException(status_code=result.status_code, detail="Unable to create user")
 
 @router.post('/login')
-def login(credentials: AuthBase):
+def login(credentials: Annotated[OAuth2PasswordRequestForm, Depends()]):
+    credentials = AuthBase(email=credentials.username,password=credentials.password)
     result = requests.post(f"{AUTH_URL}/login", data=credentials.json())
 
     if (result.status_code == 200):
-        return result.json()
+        return Token(access_token=result.json()['token'],token_type=result.json()['token_type'])
     else:
         raise HTTPException(status_code=result.status_code, detail=result.json()['detail'])
