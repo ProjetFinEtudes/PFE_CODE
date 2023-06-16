@@ -53,6 +53,8 @@ export class InscriptionComponent implements OnInit {
       }
     };
 
+    console.log(json)
+
     this.authService.register(json)
       .subscribe({
         next: (res) => {
