@@ -25,6 +25,7 @@ async def register(credentials: AuthBase, data: UserBase):
         data.id_auth = int(result.text)
         date = datetime.strptime(data.birth_date, "%a %b %d %Y %H:%M:%S GMT%z")
         data.birth_date = date.strftime("%Y-%m-%d")
+        print(data.birth_date)
 
         response = requests.post(url=USER_URL, data=data.json())
         if (response.status_code == 201):
