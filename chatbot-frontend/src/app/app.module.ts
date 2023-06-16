@@ -18,6 +18,7 @@ import { InscriptionComponent } from './pages/authentication/inscription/inscrip
 import { AngularMaterialModule } from './angular-material-module';
 import { ConnexionComponent } from './pages/authentication/connexion/connexion.component';
 import { HomeComponent } from './pages/home/home.component';
+import { Error404Component } from './pages/common/error404/error404.component';
 
 @NgModule({
   declarations: [
@@ -28,7 +29,8 @@ import { HomeComponent } from './pages/home/home.component';
     HeaderComponent,
     FooterComponent,
     InscriptionComponent,
-    HomeComponent
+    HomeComponent,
+    Error404Component
   ],
   imports: [
     BrowserModule,
