@@ -5,6 +5,7 @@ from .recommendation import recommendation
 from .chatbot import chatbot
 from .auth import auth
 from .chatmessage import chatmessage
+from .user import user
 app = FastAPI()
 subapi = FastAPI()
 
@@ -20,4 +21,5 @@ subapi.include_router(recommendation.router)
 subapi.include_router(chatbot.router)
 subapi.include_router(auth.router)
 subapi.include_router(chatmessage.router)
+subapi.include_router(user.router)
 app.mount("/api", subapi)
