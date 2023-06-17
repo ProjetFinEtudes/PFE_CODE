@@ -3,14 +3,19 @@ import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Observable } from 'rxjs';
 import { AuthService } from './auth.service';
 
+interface ChatMessage {
+  fromu: 'user' | 'bot';
+  text: string;
+}
+
 @Injectable({
   providedIn: 'root'
 })
 export class ChatService {
-  private chatUrl = 'http://localhost:3212/api/chat/chat'; // Update with your API URL
-
-  constructor(private http: HttpClient,private authService:AuthService) {}
-
+  private chatUrl = 'http://localhost:3212/api/chat'; // Update with your API URL
+  conversationHistory: ChatMessage[][] = []
+  constructor(private http: HttpClient,private authService:AuthService) {
+  }
   sendMessage(message: string): Observable<any> {
     const accessToken = this.authService.getAccessToken();
     const headers = new HttpHeaders({
@@ -23,6 +28,29 @@ export class ChatService {
       message: message
     };
 
-    return this.http.post<any>(this.chatUrl, body, { headers: headers });
+    return this.http.post<any>(`${this.chatUrl}/chat`, body, { headers: headers });
+  }
+   convertToNewFormat(conversationHistory:ChatMessage[]) {
+    const newFormat = {
+      messages: conversationHistory.map(conversation => ({
+        fromu: conversation.fromu,
+        text: conversation.text
+      }))
+    };
+
+    return newFormat;
+  }
+
+  createConversation(conversation: ChatMessage[]): Observable<any> {
+    const token = sessionStorage.getItem('token');
+    const headers = { Authorization: `Bearer ${token}` };
+    let conv = this.convertToNewFormat(conversation)
+    return this.http.post<any>(`${this.chatUrl}/chat_message`, conv, { headers });
+  }
+
+  getConversation(): Observable<ChatMessage[]> {
+    const token = sessionStorage.getItem('token');
+    const headers = { Authorization: `Bearer ${token}` };
+    return this.http.get<ChatMessage[]>(`${this.chatUrl}/get_chat`, { headers });
   }
 }
