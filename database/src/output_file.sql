@@ -274,6 +274,13 @@ CREATE TABLE `user_tags` (
   CONSTRAINT `user_tags_ibfk_2` FOREIGN KEY (`id_tag`) REFERENCES `tags` (`id`)
 );
 
+CREATE TABLE user_conv (
+    id SERIAL PRIMARY KEY,
+    user_id INTEGER,
+    conversation JSON,
+    CONSTRAINT `user_conv_ibfk_1` FOREIGN KEY (`user_id`) REFERENCES `user` (`uid`)
+);
+
 /*!40103 SET TIME_ZONE=@OLD_TIME_ZONE */;
 
 /*!40101 SET SQL_MODE=@OLD_SQL_MODE */;

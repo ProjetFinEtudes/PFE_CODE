@@ -4,6 +4,7 @@ from fastapi.security import OAuth2PasswordRequestForm
 from .recommendation import recommendation
 from .chatbot import chatbot
 from .auth import auth
+from .chatmessage import chatmessage
 app = FastAPI()
 subapi = FastAPI()
 
@@ -18,4 +19,5 @@ app.add_middleware(
 subapi.include_router(recommendation.router)
 subapi.include_router(chatbot.router)
 subapi.include_router(auth.router)
+subapi.include_router(chatmessage.router)
 app.mount("/api", subapi)

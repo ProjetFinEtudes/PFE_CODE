@@ -5,6 +5,8 @@ from fastapi import FastAPI, Depends, HTTPException
 from datetime import datetime, timedelta
 from sqlalchemy import create_engine
 
+from models.chatMessageModel import Conversation
+
 from .controller.chatmessage import Chatmessage
 from sqlalchemy.orm import Session, sessionmaker
 
@@ -29,6 +31,8 @@ def get_db():
 
 
 @app.post("/save_chat")
-async def save_chat(data: ChatBase, db: Session = Depends(get_db)):
-    return Chatmessage.save_chat(data, db)
-
+def create_user_conversation(user_id: int, conversation: Conversation, db: Session = Depends(get_db)):
+    return Chatmessage.create_user_conversation(user_id,conversation,db)
+@app.get("/get_chat")
+def get_user_conversation(user_id:int,db: Session = Depends(get_db)):
+    return Chatmessage.get_user_conversations(user_id,db)
