@@ -1,1 +1,34 @@
-<p>header works!</p>
+<header class="header">
+  <nav *ngIf="authService.isLoggedIn()" class="navbar navbar-expand-lg navbar-light bg-light">
+    <a class="navbar-brand" href="#">Your Logo</a>
+    <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+      <span class="navbar-toggler-icon"></span>
+    </button>
+    <div class="collapse navbar-collapse" id="navbarNav">
+      <ul class="navbar-nav ml-auto">
+        <li class="nav-item">
+          <a class="nav-link" href="#">Home</a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link" href="#">About</a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link" href="#">Services</a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link" href="#">Contact</a>
+        </li>
+      </ul>
+    </div>
+    <div>
+      <button class="btn btn-outline-success my-2 my-sm-0" (click)="logout()">Logout</button>
+    </div>
+  </nav>
+
+  <nav *ngIf="!authService.isLoggedIn()" class="navbar navbar-expand-lg navbar-light bg-light">
+    <a class="navbar-brand" href="#">Your Logo</a>
+    <div>
+      <button class="btn btn-outline-success my-2 my-sm-0" routerLink="/connexion">Login</button>
+    </div>
+  </nav>
+</header>

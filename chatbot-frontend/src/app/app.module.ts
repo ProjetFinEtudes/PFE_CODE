@@ -9,16 +9,14 @@ import { ChatComponent } from './pages/chat/chat.component';
 import { HttpClientModule } from '@angular/common/http';
 import { ReactiveFormsModule } from '@angular/forms';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
-import { MatInputModule } from '@angular/material/input';
-import { MatAutocompleteModule } from '@angular/material/autocomplete';
-import { MatButtonModule } from '@angular/material/button';
-import { HeaderComponent } from './header/header.component';
-import { FooterComponent } from './footer/footer.component';
+import { HeaderComponent } from './pages/common/header/header.component';
+import { FooterComponent } from './pages/common/footer/footer.component';
 import { InscriptionComponent } from './pages/authentication/inscription/inscription.component';
 import { AngularMaterialModule } from './angular-material-module';
 import { ConnexionComponent } from './pages/authentication/connexion/connexion.component';
 import { HomeComponent } from './pages/home/home.component';
 import { Error404Component } from './pages/common/error404/error404.component';
+import { ProfileComponent } from './pages/profile/profile.component';
 
 @NgModule({
   declarations: [
@@ -30,7 +28,8 @@ import { Error404Component } from './pages/common/error404/error404.component';
     FooterComponent,
     InscriptionComponent,
     HomeComponent,
-    Error404Component
+    Error404Component,
+    ProfileComponent
   ],
   imports: [
     BrowserModule,
@@ -38,10 +37,7 @@ import { Error404Component } from './pages/common/error404/error404.component';
     FormsModule,
     HttpClientModule,
     BrowserAnimationsModule,
-    MatInputModule,
-    MatAutocompleteModule,
     ReactiveFormsModule,
-    MatButtonModule,
     AngularMaterialModule
   ],
   providers: [
