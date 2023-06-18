@@ -273,7 +273,7 @@ CREATE TABLE `user_tags` (
   CONSTRAINT `user_tags_ibfk_1` FOREIGN KEY (`id_user`) REFERENCES `user` (`uid`),
   CONSTRAINT `user_tags_ibfk_2` FOREIGN KEY (`id_tag`) REFERENCES `tags` (`id`)
 );
-
+DROP TABLE IF EXISTS `user_conv`;
 CREATE TABLE user_conv (
     id SERIAL PRIMARY KEY,
     user_id INTEGER,

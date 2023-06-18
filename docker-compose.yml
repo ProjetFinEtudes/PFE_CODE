@@ -29,7 +29,22 @@ services:
       - ./.env:/code/src/.env
     networks:
       backend:
-        ipv4_address: "${CHATMESSAGE_IP}"        
+        ipv4_address: "${CHATMESSAGE_IP}"  
+
+  tag-service:
+    build: ./tag-service
+    ports:
+      - ${TAG_PORT}:${TAG_PORT}
+    env_file:
+      - ./.env
+    volumes:
+      - ./models:/code/models
+      - ./schemas:/code/schemas
+      - ./.env:/code/src/.env
+    networks:
+      backend:
+        ipv4_address: "${tag_IP}"   
+             
   chatbot-service:
     build: ./chatbot-service
     ports:
