@@ -16,7 +16,7 @@ export class UserService {
   constructor(
     private http: HttpClient,
     private authService: AuthService
-  ) { 
+  ) {
     this.token = this.authService.getAccessToken()!;
     this.getUser()
       .subscribe(
@@ -41,7 +41,7 @@ export class UserService {
       'Authorization': `Bearer ${this.token}`
     });
 
-    return this.http.put<User>(`http://localhost:3212/api/user`, user, { headers });
+    return this.http.patch<User>(`http://localhost:3212/api/user`, user, { headers });
   }
 
 

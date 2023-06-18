@@ -15,19 +15,20 @@ export class ProfileComponent {
   user: User = <User>{};
   password: Password = <Password>{};
 
-  constructor(public userService: UserService) { 
+  constructor(public userService: UserService) {
     this.user = this.userService.user;
+    console.log(this.user)
   }
 
   updateUser() {
     console.log(this.user);
-    // this.userService.updateUser(this.user)
-    //   .subscribe(
-    //     (user: User) => {
-    //       this.user = user;
-    //       console.log(this.user);
-    //     }
-    //   );
+    this.userService.updateUser(this.user)
+      .subscribe(
+        (user: User) => {
+          this.user = user;
+          console.log(this.user);
+        }
+      );
   }
 
   changePassword() {
