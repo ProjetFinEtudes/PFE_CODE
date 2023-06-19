@@ -9,6 +9,7 @@ def create_user_tag(user_id:int, tag_name:str, db: Session):
     user_tag = UserTagBaseModel(id_user=user_id,id_tag=get_tag_id_by_name(tag_name,db))
     print(user_tag)
     pydantic_user_tag = UserTagSchema(**user_tag.dict())
+    print(pydantic_user_tag)
     try:
         db.add(pydantic_user_tag)
         db.commit()

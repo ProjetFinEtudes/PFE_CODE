@@ -43,7 +43,7 @@ services:
       - ./.env:/code/src/.env
     networks:
       backend:
-        ipv4_address: "${tag_IP}"   
+        ipv4_address: "${TAG_IP}"   
              
   chatbot-service:
     build: ./chatbot-service
