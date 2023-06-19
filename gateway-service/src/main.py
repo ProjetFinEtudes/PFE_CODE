@@ -6,6 +6,7 @@ from .chatbot import chatbot
 from .auth import auth
 from .chatmessage import chatmessage
 from .user import user
+from .tags import tag
 app = FastAPI()
 subapi = FastAPI()
 
@@ -22,4 +23,5 @@ subapi.include_router(chatbot.router)
 subapi.include_router(auth.router)
 subapi.include_router(chatmessage.router)
 subapi.include_router(user.router)
+subapi.include_router(tag.router)
 app.mount("/api", subapi)
