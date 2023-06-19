@@ -18,22 +18,16 @@ export class UserService {
     private authService: AuthService
   ) {
     this.token = this.authService.getAccessToken()!;
-    this.getUser()
-      .subscribe(
-        (user: User) => {
-          this.user = user;
-        }
-      );
-
+    this.getUser().then((res)=>this.user = res)
   }
 
 
-  getUser(): Observable<User> {
+ async  getUser():Promise<User> {
     const headers = new HttpHeaders({
       'Authorization': `Bearer ${this.token}`
     });
-
-    return this.http.get<User>(`http://localhost:3212/api/user`, { headers });
+    let user = await this.http.get<User>(`http://localhost:3212/api/user`, { headers }).toPromise()
+    return user!
   }
 
   updateUser(user: User): Observable<User> {

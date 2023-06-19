@@ -20,11 +20,11 @@ export class ProfileComponent implements OnInit{
   userTags:any[]=[]
 
   constructor(public userService: UserService,private tagService:TagService) {
-    this.user = this.userService.user;
     console.log(this.user)
   }
 
-  ngOnInit(): void {
+  async ngOnInit(): Promise<void> {
+    this.user = await this.userService.getUser();
     this.tagService.getAllTags().subscribe(
       (      response: any[]) => {
         this.availableTags = response;
