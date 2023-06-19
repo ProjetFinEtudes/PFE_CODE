@@ -6,8 +6,8 @@ from schemas import Message
 app = FastAPI()
 
 @app.post("/ia/predict")
-async def predict(text:Message):
-    return recommend_recipes(text.message)
+async def predict(user_id:int,text:Message):
+    return recommend_recipes(user_id,text.message)
     
 
 @app.post("/ia/getdish")

@@ -18,8 +18,8 @@ export class TagService {
       'Content-Type': 'application/json',
       'Authorization': `Bearer ${this.token}`
     });
-    const url = `${this.apiUrl}/`;
-    return this.http.post(url+'?tag_name='+tagName, { headers: headers });
+    const url = `${this.apiUrl}/?tag_name=${tagName}`;
+    return this.http.post(url,tagName, { headers });
   }
 
   getAllTags(): Observable<any> {
