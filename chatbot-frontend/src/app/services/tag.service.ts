@@ -7,7 +7,7 @@ import { AuthService } from './auth.service';
   providedIn: 'root'
 })
 export class TagService {
-  private apiUrl = 'http://localhost:3212/api/'; // Remplacez par l'URL de votre API
+  private apiUrl = 'http://localhost:3212/api/tag'; // Remplacez par l'URL de votre API
   token: string = ""
   constructor(private http: HttpClient,private authService: AuthService) {
     this.token = this.authService.getAccessToken()!
@@ -19,7 +19,7 @@ export class TagService {
       'Authorization': `Bearer ${this.token}`
     });
     const url = `${this.apiUrl}/`;
-    return this.http.post(url, { tag_name: tagName }, { headers: headers });
+    return this.http.post(url+'?tag_name='+tagName, { headers: headers });
   }
 
   getAllTags(): Observable<any> {
@@ -43,7 +43,7 @@ export class TagService {
   deleteUserTag(userId: number, tagName: string): Observable<any> {
     const headers = new HttpHeaders({
       'Content-Type': 'application/json',
-      'Authorization': `Bearer ${token}`
+      'Authorization': `Bearer ${this.token}`
     });
     const url = `${this.apiUrl}/user_tags/${userId}/${tagName}`;
     return this.http.delete(url, { headers: headers });
