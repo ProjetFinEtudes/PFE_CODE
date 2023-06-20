@@ -18,7 +18,6 @@ export class UserService {
     private authService: AuthService
   ) {
     this.token = this.authService.getAccessToken()!;
-    this.getUser().then((res)=>this.user = res)
   }
 
 
