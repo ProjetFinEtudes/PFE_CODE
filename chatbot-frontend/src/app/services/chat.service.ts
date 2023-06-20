@@ -53,4 +53,9 @@ export class ChatService {
     const headers = { Authorization: `Bearer ${token}` };
     return this.http.get<ChatMessage[]>(`${this.chatUrl}/get_chat`, { headers });
   }
+  deleteConversation(id:any){
+    const token = sessionStorage.getItem('token');
+    const headers = { Authorization: `Bearer ${token}` };
+    return this.http.delete<ChatMessage[]>(`${this.chatUrl}/delete_chat?chat_id=${id}`, { headers });
+  }
 }
