@@ -25,6 +25,8 @@ export class UserService {
       });
     }
   }
+
+  async getUser(): Promise<User> {
     const token = this.authService.getAccessToken()
     const headers = new HttpHeaders({
       'Authorization': `Bearer ${token}`
