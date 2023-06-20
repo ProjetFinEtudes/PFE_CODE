@@ -17,10 +17,14 @@ export class UserService {
     private http: HttpClient,
     private authService: AuthService
   ) {
+    if (this.authService.isLoggedIn()) {
+      this.token = this.authService.getAccessToken()!;
+      this.getUser()
+      .then((user: User) => {
+        this.setUser(user);
+      });
+    }
   }
-
-
- async  getUser():Promise<User> {
     const token = this.authService.getAccessToken()
     const headers = new HttpHeaders({
       'Authorization': `Bearer ${token}`
@@ -30,6 +34,14 @@ export class UserService {
     return user!
   }
 
+  setUser(user: User) {
+    this.user = user;
+  }
+
+  clearUser() {
+    this.user = <User>{};
+  }
+
   updateUser(user: User): Observable<User> {
     const token = this.authService.getAccessToken()
     const headers = new HttpHeaders({
@@ -37,6 +49,14 @@ export class UserService {
     });
 
     return this.http.patch<User>(`http://localhost:3212/api/user`, user, { headers });
+  }
+
+  updatePassword(password: string): Observable<string> {
+    const headers = new HttpHeaders({
+      'Authorization': `Bearer ${this.token}`
+    });
+
+    return this.http.patch<string>(`http://localhost:3212/api/auth/`, password, { headers });
   }
 
 

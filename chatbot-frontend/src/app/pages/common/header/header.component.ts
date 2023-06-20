@@ -13,14 +13,19 @@ export class HeaderComponent {
 
   constructor(
     public authService: AuthService,
+    public userService: UserService,
     private router: Router
   ) { }
 
   logout() {
+    // console.log('token before clear: ', this.authService.getAccessToken());
+    // console.log('user before clear: ', this.userService.user);
+
     this.authService.clearToken();
-    //this.userService.clearUser();
-    window.localStorage.clear();
-    window.sessionStorage.clear();
+    // console.log('token cleared: ', this.authService.getAccessToken());
+
+    this.userService.clearUser();
+    // console.log('user cleared: ', this.userService.user);
 
     this.router.navigate(['/']);
   }

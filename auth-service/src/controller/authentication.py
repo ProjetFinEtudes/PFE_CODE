@@ -30,6 +30,13 @@ def get_auth_by_id(id_auth: int, db: Session):
     else:
         raise HTTPException(status_code=404, detail="Auth not found")
     
+def get_auth_by_email(email: str, db: Session):
+    auth_item = db.query(AuthSchema).filter_by(email=email).first()
+    if auth_item:
+        return auth_item
+    else:
+        raise HTTPException(status_code=404, detail="Auth not found")
+    
 def update_auth(auth: Auth, db: Session):
     auth_item = db.query(AuthSchema).filter_by(id_auth=auth.id_auth).first()
     if auth_item is None:

@@ -26,7 +26,11 @@ export class ProfileComponent implements OnInit {
   }
 
   async ngOnInit(): Promise<void> {
-    this.user = await this.userService.getUser();
+    await this.userService.getUser()
+      .then((user: User) => {
+        this.user = user;
+      });
+
     this.tagService.getAllTags().subscribe(
       (response: any[]) => {
         this.availableTags = response;
@@ -36,7 +40,8 @@ export class ProfileComponent implements OnInit {
         this.tagControl.setValue(this.selectedTags);
       },
       error => {
-        alert('An error occurred while fetching tags');
+        alert('An error occurred while fetching tags')
+
       }
     );
     this.tagService.getUserTags().subscribe((res) => {
@@ -79,6 +84,19 @@ export class ProfileComponent implements OnInit {
 
   changePassword() {
     console.log(this.password);
+    if (this.password.new_password === this.password.confirm_password) {
+      this.userService.updatePassword(this.password.new_password)
+        .subscribe(
+          (response: any) => {
+            console.log('Password updated successfully');
+          },
+          error => {
+            console.log('An error occurred while updating password');
+          }
+        );
+    } else {
+      console.log('New passwords do not match');
+    }
   }
 
 }

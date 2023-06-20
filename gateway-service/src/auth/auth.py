@@ -6,9 +6,11 @@ from fastapi import APIRouter, Depends, HTTPException
 from dotenv import load_dotenv
 from datetime import datetime
 from fastapi.security import OAuth2PasswordRequestForm
-from models.authModel import AuthBase
+from models.authModel import AuthBase, Auth
+from models.passwordModel import Password
 from models.userModel import UserBase
-from models import Token
+from models.tokenModel import Token, TokenData
+from .token import get_current_user
 load_dotenv()
 
 AUTH_URL = os.getenv("AUTH_URL")
@@ -19,6 +21,24 @@ router = APIRouter(
     tags=['auth']
 )
 
+@router.patch("/")
+async def update_auth(password: str, token: Annotated[TokenData, Depends(get_current_user)]):
+    print('here')
+    result = requests.get(url=AUTH_URL, data=token.uid)
+    print(result.json())
+    auth = Auth(**result.json())
+    print(auth)
+    if (auth.password == password):
+        auth.password = password
+        response = requests.patch(url=AUTH_URL, data=auth.json(), headers={"Authorization": f"Bearer {token}"})
+        if (response.status_code == 200):
+            return {"message": "Password updated"}
+        else:
+            raise HTTPException(status_code=response.status_code, detail="Unable to update password")
+    else:
+        raise HTTPException(status_code=400, detail="Incorrect password")
+
+
 @router.post("/register")
 async def register(credentials: AuthBase, data: UserBase):
     result = requests.post(url=AUTH_URL, data=credentials.json())
@@ -26,7 +46,6 @@ async def register(credentials: AuthBase, data: UserBase):
         data.id_auth = int(result.text)
         date = datetime.strptime(data.birth_date, "%a %b %d %Y %H:%M:%S GMT%z")
         data.birth_date = date.strftime("%Y-%m-%d")
-        print(data.birth_date)
 
         response = requests.post(url=USER_URL, data=data.json())
         if (response.status_code == 201):

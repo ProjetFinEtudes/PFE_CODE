@@ -31,8 +31,8 @@ async def create_auth(credentials: AuthBase, db: Session = Depends(get_db)):
     return auth_controller.create_auth(credentials, db)
 
 @app.get("/")
-def get_auth(id_auth: int, db: Session = Depends(get_db)):
-    return auth_controller.get_auth_by_id(id_auth, db)
+def get_auth(email: str, db: Session = Depends(get_db)):
+    return auth_controller.get_auth_by_email(email, db)
 
 @app.patch("/")
 def update_auth(auth: Auth, db: Session = Depends(get_db)):
