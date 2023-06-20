@@ -13,6 +13,7 @@ export class HeaderComponent {
 
   constructor(
     public authService: AuthService,
+    /*public userService: UserService,*/
     private router: Router
   ) { }
 

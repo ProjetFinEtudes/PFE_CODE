@@ -34,11 +34,14 @@ export class AuthService {
   }
 
   isLoggedIn() {
-    return !(this.token.access_token === '');
+    return !(sessionStorage.getItem('token') === null);
   }
 
   getToken() {
-    return this.token;
+    return this.token;          // this.userService.getUser()
+    // .then((user: User) => {
+    //   this.userService.user = user;
+    // })
   }
 
   getAccessToken() {

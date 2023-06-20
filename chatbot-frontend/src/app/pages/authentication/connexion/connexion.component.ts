@@ -4,6 +4,8 @@ import { Router } from '@angular/router';
 import { AuthService } from 'src/app/services/auth.service';
 import { Auth } from 'src/app/interfaces/auth';
 import { Token } from 'src/app/interfaces/token';
+import { UserService } from 'src/app/services/user.service';
+import { User } from 'src/app/interfaces/user';
 
 @Component({
   selector: 'app-connexion',
@@ -21,6 +23,7 @@ export class ConnexionComponent {
 
   constructor(
     private authService: AuthService,
+    private userService: UserService,
     private router: Router
   ) { }
 
@@ -34,6 +37,12 @@ export class ConnexionComponent {
             token_type: res.token_type
           };
           this.authService.setToken(token);
+
+          // this.userService.getUser()
+          // .then((user: User) => {
+          //   this.userService.user = user;
+          // })
+
           this.router.navigate(['/']);
         },
         error: (err: any) => {

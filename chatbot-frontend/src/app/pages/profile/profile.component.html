@@ -25,9 +25,9 @@
                             <mat-option value="M">Male</mat-option>
                         </mat-select>
                     </mat-form-field>
+                    
                     <mat-form-field>
-                        <mat-label>Add Tag</mat-label>
-                        <mat-select [(ngModel)]="selectedTag" (selectionChange)="onTagSelected()">
+                        <mat-select placeholder="Tag" [(ngModel)]="selectedTag" (selectionChange)="onTagSelected()">
                             <mat-option *ngFor="let tag of availableTags" [value]="tag.id">{{ tag.name }}</mat-option>
                         </mat-select>
                     </mat-form-field>

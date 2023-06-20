@@ -30,4 +30,5 @@ async def get_current_user(token: str = Depends(oauth2_scheme)):
     except JWTError:
         payload = jwt.decode(token, SECRET_KEY, algorithms=[ALGORITHM])
         raise credentials_exception
+    #print(token_data)
     return token_data
