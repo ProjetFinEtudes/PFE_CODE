@@ -1,26 +1,57 @@
-/* header.component.css */
 .header {
-  background-color: #f8f9fa;
+  background-color: #fff;
   padding: 10px;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
 }
 
-.navbar {
-  justify-content: space-between;
-}
-
-.navbar-brand {
+.header .navbar-brand {
   font-weight: bold;
+  font-size: 20px;
+  color: #333;
 }
 
-.navbar-nav .nav-item {
+.header .navbar-toggler {
+  border: none;
+  outline: none;
+}
+
+.header .navbar-toggler-icon {
+  width: 24px;
+  height: 24px;
+}
+
+.header .navbar-nav {
+  margin-left: auto;
+}
+
+.header .nav-item {
   margin-left: 10px;
 }
 
-.nav-link {
+.header .nav-link {
   color: #333;
-  font-weight: 500;
+  font-size: 16px;
+  font-weight: bold;
+  transition: color 0.3s ease;
 }
 
-.nav-link:hover {
+.header .nav-link:hover {
+  color: #777;
+}
+
+.header .btn {
+  font-size: 16px;
+  font-weight: bold;
+  margin-left: 10px;
+}
+
+.header .btn-outline-success {
   color: #007bff;
+  border-color: #007bff;
+}
+
+.header .btn-outline-success:hover {
+  color: #fff;
+  background-color: #007bff;
+  border-color: #007bff;
 }
