@@ -30,6 +30,7 @@ router = APIRouter(
     prefix="/chat",
     tags=['chatbot']
 )
+
 @router.post('/chat_message')
 def create_user_conversation(token: Annotated[TokenData,Depends(get_current_user)], conversation: Conversation,db: Session = Depends(get_db)):
     user = db.execute(select(AuthSchema).where(AuthSchema.email == token.uid)).scalar_one_or_none()

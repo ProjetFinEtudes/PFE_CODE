@@ -2,7 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { FormControl } from '@angular/forms';
 
 import { User } from 'src/app/interfaces/user';
-import { Password } from 'src/app/interfaces/password';
+import { Passwords, Password } from 'src/app/interfaces/password';
 import { UserService } from 'src/app/services/user.service';
 import { TagService } from 'src/app/services/tag.service';
 
@@ -15,7 +15,7 @@ import { TagService } from 'src/app/services/tag.service';
 export class ProfileComponent implements OnInit {
 
   user: User = <User>{};
-  password: Password = <Password>{};
+  passwords: Passwords = <Passwords>{};
   availableTags: any[] = [];
   selectedTags: number[] = [];
   userTags: any[] = [];
@@ -83,17 +83,17 @@ export class ProfileComponent implements OnInit {
   }
 
   changePassword() {
-    console.log(this.password);
-    if (this.password.new_password === this.password.confirm_password) {
-      this.userService.updatePassword(this.password.new_password)
-        .subscribe(
-          (response: any) => {
-            console.log('Password updated successfully');
+    console.log(this.passwords);
+    if (this.passwords.new_password === this.passwords.confirm_password) {
+      this.userService.updatePassword(this.passwords)
+        .subscribe({
+          next: () => {
+            console.log('Trying to update password');
           },
-          error => {
+          error: () => {
             console.log('An error occurred while updating password');
           }
-        );
+        });
     } else {
       console.log('New passwords do not match');
     }

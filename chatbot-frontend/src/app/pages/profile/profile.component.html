@@ -35,15 +35,15 @@
             <mat-card>
                 <mat-card-content>
                     <mat-form-field>
-                        <input matInput type="password" placeholder="Type your current password" [(ngModel)]="password.current_password">
+                        <input matInput type="password" placeholder="Type your current password" [(ngModel)]="passwords.current_password">
                     </mat-form-field>
                     
                     <mat-form-field>
-                        <input matInput type="password" placeholder="Type your new password" [(ngModel)]="password.new_password">
+                        <input matInput type="password" placeholder="Type your new password" [(ngModel)]="passwords.new_password">
                     </mat-form-field>
                     
                     <mat-form-field>
-                        <input matInput type="password" placeholder="Confirm your new password" [(ngModel)]="password.confirm_password">
+                        <input matInput type="password" placeholder="Confirm your new password" [(ngModel)]="passwords.confirm_password">
                     </mat-form-field>
                     
                     <button mat-raised-button color="primary" (click)="changePassword()">Change Password</button>

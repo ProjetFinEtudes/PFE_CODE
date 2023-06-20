@@ -36,7 +36,7 @@ export class ConnexionComponent {
           };
           this.authService.setToken(token);
 
-          this.userService.getUser().then((res)=>this.userService.user = res)
+          this.userService.getUser().then((res) => this.userService.user = res)
 
           this.router.navigate(['/']);
         },
