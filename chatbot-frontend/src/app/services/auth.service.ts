@@ -34,7 +34,7 @@ export class AuthService {
   }
 
   isLoggedIn() {
-    return (sessionStorage.getItem('token'));
+    return (sessionStorage.getItem('token')!==null);
   }
 
   getToken() {

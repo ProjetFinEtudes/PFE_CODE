@@ -10,28 +10,30 @@ import { Observable } from 'rxjs';
 })
 export class UserService {
 
-  token: string = '';
+  token: string |null ='';
   user: User = <User>{};
 
   constructor(
     private http: HttpClient,
     private authService: AuthService
   ) {
-    this.token = this.authService.getAccessToken()!;
   }
 
 
  async  getUser():Promise<User> {
+    const token = this.authService.getAccessToken()
     const headers = new HttpHeaders({
-      'Authorization': `Bearer ${this.token}`
+      'Authorization': `Bearer ${token}`
     });
+    
     let user = await this.http.get<User>(`http://localhost:3212/api/user`, { headers }).toPromise()
     return user!
   }
 
   updateUser(user: User): Observable<User> {
+    const token = this.authService.getAccessToken()
     const headers = new HttpHeaders({
-      'Authorization': `Bearer ${this.token}`
+      'Authorization': `Bearer ${token}`
     });
 
     return this.http.patch<User>(`http://localhost:3212/api/user`, user, { headers });
