@@ -1,4 +1,4 @@
-import { Component, OnInit, ViewChild, AfterContentInit } from '@angular/core';
+import { Component, OnInit, ViewChild, OnDestroy,Renderer2  } from '@angular/core';
 import { FormControl } from '@angular/forms';
 import { Observable } from 'rxjs';
 import { MatAutocomplete } from '@angular/material/autocomplete';
@@ -13,23 +13,24 @@ interface ChatMessage {
   templateUrl: './chat.component.html',
   styleUrls: ['./chat.component.css']
 })
-export class ChatComponent implements OnInit, AfterContentInit {
+export class ChatComponent implements OnInit, OnDestroy {
   userInput: string = '';
   messages: ChatMessage[] = [];
   filteredOptions: Observable<string[]> | undefined;
   @ViewChild(MatAutocomplete) auto!: MatAutocomplete;
-
+  isModalOpen:boolean=false
   chatInput = new FormControl();
   waitingForBot: boolean = false;
   conversationHistory: ChatMessage[][] = [[]];
-  constructor(private chatService: ChatService) {
+  constructor(private chatService: ChatService,private renderer: Renderer2) {
     this.setConversationData()
   }
   ngOnInit(): void {
-
+    this.renderer.setStyle(document.body, 'overflow-y', 'hidden');
   }
 
-  ngAfterContentInit(): void {
+  ngOnDestroy(): void {
+    this.renderer.removeStyle(document.body, 'overflow-y');
   }
   convertConversationData(conversationData: any[]): ChatMessage[][] {
     return conversationData.map(data => {
@@ -68,7 +69,19 @@ export class ChatComponent implements OnInit, AfterContentInit {
     this.chatService.createConversation(this.messages).subscribe((res)=>{
       this.setConversationData()
       alert('Conversation Saved')
-
+      console.log(this.conversationHistory)
     })
+  }
+  openModal() {
+    this.isModalOpen = true;
+  }
+
+  closeModal() {
+    this.isModalOpen = false;
+  }
+  onKeyPress(event: KeyboardEvent) {
+    if (event.keyCode === 13) { // Vérifie si la touche appuyée est la touche Entrée
+      this.sendMessage(); // Appelle la fonction sendMessage()
+    }
   }
 }

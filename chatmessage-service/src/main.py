@@ -36,3 +36,6 @@ def create_user_conversation(user_id: int, conversation: Conversation, db: Sessi
 @app.get("/get_chat")
 def get_user_conversation(user_id:int,db: Session = Depends(get_db)):
     return Chatmessage.get_user_conversations(user_id,db)
+@app.delete("/delete_chat")
+def delete_user_conv(chat_id,db: Session = Depends(get_db)):
+    return Chatmessage.delete_chat(chat_id,db)

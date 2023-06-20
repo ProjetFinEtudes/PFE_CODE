@@ -10,7 +10,7 @@ import { Observable } from 'rxjs';
 })
 export class UserService {
 
-  token: string = '';
+  token: string |null ='';
   user: User = <User>{};
 
   constructor(
@@ -25,8 +25,6 @@ export class UserService {
       });
     }
   }
-
-  async getUser(): Promise<User> {
     const token = this.authService.getAccessToken()
     const headers = new HttpHeaders({
       'Authorization': `Bearer ${token}`

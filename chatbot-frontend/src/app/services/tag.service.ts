@@ -40,12 +40,12 @@ export class TagService {
     return this.http.get(url, { headers: headers });
   }
 
-  deleteUserTag(userId: number, tagName: string): Observable<any> {
+  deleteUserTag(tagName: string): Observable<any> {
     const headers = new HttpHeaders({
       'Content-Type': 'application/json',
       'Authorization': `Bearer ${this.token}`
     });
-    const url = `${this.apiUrl}/user_tags/${userId}/${tagName}`;
+    const url = `${this.apiUrl}/user_tags/tag_name=leeks${tagName}`;
     return this.http.delete(url, { headers: headers });
   }
 }

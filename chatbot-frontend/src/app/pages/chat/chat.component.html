@@ -1,32 +1,47 @@
 <div class="chat-container">
-  <div class="side-menu">
-    <div class="conversation-previews">
-      <span *ngFor="let conversation of conversationHistory" (click)="displayConversation(conversation)">
-        {{ conversation[0]?.text}}
-      </span>
+<!-- Modal Trigger Button -->
+<button class="btn btn-primary" (click)="openModal()">See saved Conversation</button>
+<!-- Conversation Previews Modal -->
+<div class="modal" [ngClass]="{'show': isModalOpen}" (click)="closeModal()">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title">Conversation History</h5>
+        <button type="button" class="close" (click)="closeModal()">
+          <span>&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+          <div class="conversation-previews">
+            <span *ngFor="let conversation of conversationHistory" (click)="displayConversation(conversation)">
+              {{ conversation[0]?.text }}
+            </span>
+          </div>
+      </div>
     </div>
   </div>
-  <div class="container d-flex flex-column align-items-center justify-content-between min-vh-100">
-    <button class="btn btn-primary save-button" (click)="saveConversation()">Save Active Conv</button>
+  </div>
+  <div class="chatbox-wrapper">
+    <button class="btn btn-primary" style="margin-top: 1%;" (click)="saveConversation()">Save Active Conv</button>
 
-    <div class="messages-container mb-4">
-      <div *ngFor="let message of messages" [ngClass]="{'message-from-user': message.fromu === 'user', 'message-from-bot': message.fromu === 'bot'}">
-        <div class="message">{{ message.text }}</div>
+    <div class="message-box">
+
+      <div *ngFor="let message of messages"  class="chat" [ngClass]="{'response':message.fromu == 'bot', 'message':message.fromu=== 'user'}">
+        <img *ngIf="message.fromu === 'bot'" src="assets/chatbot.jpg">
+        <img *ngIf="message.fromu === 'user'" src="assets/user.png">
+        <span class="message-text">
+          {{ message.text }}
+        </span>
       </div>
-      <div *ngIf="waitingForBot" class="message dots">
-        <span></span><span></span><span></span>
-      </div>
-      <div class="input-container">
-        <div class="input-wrapper">
-          <div class="input-group">
-            <input class="form-control" type="text" placeholder="Type your message" [(ngModel)]="userInput">
-            <div class="input-group-append">
-              <button class="btn btn-primary" type="button" (click)="sendMessage()">
-                <i class="material-icons">send</i>
-              </button>
-            </div>
-          </div>
-        </div>
+    </div>
+    <div class="messagebar">
+      <div class="bar-wrapper">
+        <input type="text" placeholder="Enter your message..." [(ngModel)]="userInput"  (keypress)="onKeyPress($event)">
+        <button (click)="sendMessage()">
+          <span class="material-symbols-rounded">
+            send
+            </span>
+        </button>
       </div>
     </div>
   </div>

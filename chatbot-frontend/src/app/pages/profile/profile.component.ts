@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { FormControl } from '@angular/forms';
 
 import { User } from 'src/app/interfaces/user';
 import { Password } from 'src/app/interfaces/password';
@@ -11,15 +12,16 @@ import { TagService } from 'src/app/services/tag.service';
   templateUrl: './profile.component.html',
   styleUrls: ['./profile.component.css']
 })
-export class ProfileComponent implements OnInit{
+export class ProfileComponent implements OnInit {
 
   user: User = <User>{};
   password: Password = <Password>{};
   availableTags: any[] = [];
-  selectedTag: number | null = null;
-  userTags:any[]=[]
+  selectedTags: number[] = [];
+  userTags: any[] = [];
+  tagControl = new FormControl();
 
-  constructor(public userService: UserService,private tagService:TagService) {
+  constructor(public userService: UserService, private tagService: TagService) {
     console.log(this.user)
   }
 
@@ -32,15 +34,34 @@ export class ProfileComponent implements OnInit{
     this.tagService.getAllTags().subscribe(
       (response: any[]) => {
         this.availableTags = response;
+        this.selectedTags = this.availableTags
+          .filter(tag => this.userTags.includes(tag.name))
+          .map(tag => tag.id);
+        this.tagControl.setValue(this.selectedTags);
       },
       error => {
         alert('An error occurred while fetching tags')
+
       }
     );
-    this.tagService.getUserTags().subscribe((res)=>{
-      this.userTags = res
-    })
+    this.tagService.getUserTags().subscribe((res) => {
+      this.userTags = res;
+    });
+    this.tagControl.valueChanges.subscribe((selectedValues: number[]) => {
+      selectedValues.forEach((selectedValue: number) => {
+        const selectedTag = this.availableTags.find(tag => tag.id === selectedValue);
+        if (selectedTag && !this.userTags.includes(selectedTag.name)) {
+          this.userTags.push(selectedTag.name);
+          this.tagService.createTag(selectedTag.name).subscribe(res => {
+              console.log(res)
+          });
+        }
+      });
+    
+      this.userTags = this.userTags.filter(tag => selectedValues.includes(this.availableTags.find(t => t.name === tag)?.id));
+    });
   }
+
   updateUser() {
     console.log(this.user);
     this.userService.updateUser(this.user)
@@ -51,15 +72,13 @@ export class ProfileComponent implements OnInit{
         }
       );
   }
-  onTagSelected() {
-    if (this.selectedTag) {
-      const selectedTagName = this.availableTags.find(tag => tag.id === this.selectedTag)?.name;
-      if (selectedTagName) {
-        // Ajouter le tag sélectionné à la liste des tags de l'utilisateur
-        this.userTags.push(selectedTagName);
-        this.tagService.createTag(selectedTagName).subscribe((res)=>console.log(res))
-      }
-      this.selectedTag = null; // Réinitialiser la sélection du tag
+
+  deleteTag(tagId: any) {
+    const tagToRemove = this.availableTags.find(tag => tag.id === tagId);
+    if (tagToRemove) {
+      const tagName = tagToRemove.name;
+      this.userTags = this.userTags.filter(tag => tag !== tagName);
+      this.tagService.deleteUserTag(tagId).subscribe((res) => console.log(res));
     }
   }
 

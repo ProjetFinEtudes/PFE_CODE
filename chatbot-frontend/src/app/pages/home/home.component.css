@@ -1,34 +1,43 @@
-/* home.component.css */
-.home {
-    text-align: center;
-    margin-top: 50px;
-  }
-  
-  h1 {
-    font-size: 24px;
-    color:cadetblue
-  }
-  
-  h2 {
-    font-size: 20px;
-    margin-top: 30px;
-    color:cadetblue
+.hero {
+  height: 100vh;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
 
-  }
-  
-  p {
-    font-size: 16px;
-    margin-top: 20px;
-    color: aliceblue;
-  }
-  
-  .chat-button {
-    padding: 10px 20px;
-    font-size: 18px;
-    background-color: #007bff;
-    color: #fff;
-    border: none;
-    border-radius: 4px;
-    cursor: pointer;
-  }
-  
+.hero-content {
+  text-align: center;
+  color: #fff;
+}
+
+.hero-content h1 {
+  font-size: 3rem;
+  margin-bottom: 1rem;
+}
+
+.hero-content p {
+  font-size: 1.5rem;
+  margin-bottom: 2rem;
+}
+
+.btn {
+  display: inline-block;
+  background-color: #007bff;
+  color: #fff;
+  padding: 0.75rem 1.5rem;
+  border-radius: 0.25rem;
+  font-size: 1.2rem;
+  text-decoration: none;
+}
+
+.btn:hover {
+  background-color: #0069d9;
+}
+
+.btn-primary {
+  background-color: #007bff;
+}
+
+.btn-primary:hover {
+  background-color: #0069d9;
+}

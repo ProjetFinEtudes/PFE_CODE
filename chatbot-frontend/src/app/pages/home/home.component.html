@@ -1,14 +1,6 @@
-<div class="home">
-    <h1>Welcome to our Recipe Chatbot!</h1>
-    <p>Discover a world of delicious recipes with our interactive chatbot. Whether you're a seasoned chef or a beginner in the kitchen, our chatbot is here to help you explore and create amazing dishes.</p>
-    
-    <h2>How It Works</h2>
-    <p>Our chatbot is designed to provide personalized recipe recommendations based on your preferences and dietary restrictions. Simply start a conversation with the chatbot and let it know your preferences. It will ask you a series of questions to understand your taste, dietary needs, and any specific ingredients you have or want to avoid.</p>
-    
-    <h2>Get Started</h2>
-    <p>To begin your culinary journey, click the "Chat Now" button below and the chatbot will guide you through the process of finding the perfect recipe for you. Enjoy cooking and bon appétit!</p>
-    
-    <button *ngIf="!authService.isLoggedIn()" class="chat-button" routerLink="/register">Register Now</button>
-    <button *ngIf="authService.isLoggedIn()" class="chat-button" routerLink="/chat">Chat Now</button>
+
+<div class="hero-content">
+  <h1>Welcome to RecipeBot</h1>
+  <p>Discover delicious recipes tailored just for you!</p>
+  <a routerLink="/register" class="btn btn-primary">Get Started</a>
 </div>
-  
