@@ -34,3 +34,14 @@ class Chatmessage:
     def get_user_conversations(user_id: int,db: Session ):
         conversations = db.query(UserConversation).filter(UserConversation.user_id == user_id).all()
         return conversations
+    def delete_chat(self, chat_id: int, db: Session):
+        chat = db.query(ChatSchema).filter(ChatSchema.uid == chat_id).first()
+        if not chat:
+            raise HTTPException(status_code=404, detail="Chat not found")
+
+        try:
+            db.delete(chat)
+            db.commit()
+        except SQLAlchemyError as e:
+            db.rollback()
+            raise HTTPException(status_code=400, detail="Could not delete chat")
