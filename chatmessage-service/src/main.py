@@ -39,3 +39,6 @@ def get_user_conversation(user_id:int,db: Session = Depends(get_db)):
 @app.delete("/delete_chat")
 def delete_user_conv(chat_id,db: Session = Depends(get_db)):
     return Chatmessage.delete_chat(chat_id,db)
+@app.put("/update_chat/{user_id}/{id_conv}")
+def update_user_conversation(user_id: int, id_conv: int, update_conversation: Conversation, db: Session = Depends(get_db)):
+    return Chatmessage.update_user_conversation(user_id, id_conv, update_conversation, db)

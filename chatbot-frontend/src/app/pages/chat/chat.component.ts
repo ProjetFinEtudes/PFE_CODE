@@ -1,8 +1,14 @@
-import { Component, OnInit, ViewChild, OnDestroy,Renderer2  } from '@angular/core';
+import { Component, OnInit, ViewChild, OnDestroy, Renderer2 } from '@angular/core';
 import { FormControl } from '@angular/forms';
 import { Observable } from 'rxjs';
 import { MatAutocomplete } from '@angular/material/autocomplete';
 import { ChatService } from 'src/app/services/chat.service';
+
+interface ConversationData {
+  id: number;
+  conversation: ChatMessage[];
+}
+
 interface ChatMessage {
   fromu: 'user' | 'bot';
   text: string;
@@ -18,13 +24,15 @@ export class ChatComponent implements OnInit, OnDestroy {
   messages: ChatMessage[] = [];
   filteredOptions: Observable<string[]> | undefined;
   @ViewChild(MatAutocomplete) auto!: MatAutocomplete;
-  isModalOpen:boolean=false
+  isModalOpen: boolean = false;
   chatInput = new FormControl();
   waitingForBot: boolean = false;
-  conversationHistory: ChatMessage[][] = [[]];
-  constructor(private chatService: ChatService,private renderer: Renderer2) {
-    this.setConversationData()
+  conversationHistory: ConversationData[] = [];
+  activeConvId: number = 0
+  constructor(private chatService: ChatService, private renderer: Renderer2) {
+    this.setConversationData();
   }
+
   ngOnInit(): void {
     this.renderer.setStyle(document.body, 'overflow-y', 'hidden');
   }
@@ -32,56 +40,76 @@ export class ChatComponent implements OnInit, OnDestroy {
   ngOnDestroy(): void {
     this.renderer.removeStyle(document.body, 'overflow-y');
   }
-  convertConversationData(conversationData: any[]): ChatMessage[][] {
-    return conversationData.map(data => {
-      const conversation = JSON.parse(data.conversation);
-      return conversation.messages.map((message: ChatMessage) => ({
-        fromu: message.fromu,
-        text: message.text
-      }));
-    });
+
+  async convertConversationData(conversationData: any[]): Promise<ConversationData[]> {
+    return Promise.all(
+      conversationData.map(async (data: any) => {
+        const conversation = JSON.parse(data.conversation);
+        return {
+          id: data.id,
+          conversation: conversation.messages.map((message: ChatMessage) => ({
+            fromu: message.fromu,
+            text: message.text
+          }))
+        };
+      })
+    );
   }
-  async setConversationData(){
-    let convDat = await this.chatService.getConversation().toPromise()
+
+  async setConversationData(): Promise<void> {
+    const convDat = await this.chatService.getConversation().toPromise();
     this.conversationHistory = await this.convertConversationData(convDat!);
   }
+
   async sendMessage(): Promise<void> {
-    this.conversationHistory
-    console.log(this.userInput)
     if (this.userInput.trim() === '') {
-      console.log('ici')
       return;
     }
-    this.waitingForBot=true
+    this.waitingForBot = true;
     this.messages.push({ fromu: 'user', text: this.userInput });
     this.chatService.sendMessage(this.userInput).subscribe(response => {
       this.messages.push({ fromu: 'bot', text: response.response });
-      this.waitingForBot=false
-    console.log(this.messages)
+      this.waitingForBot = false;
     });
-    console.log(this.messages)
     this.userInput = '';
   }
-  displayConversation(conv:ChatMessage[]){
-    this.messages = conv
+
+  displayConversation(conv: ConversationData): void {
+    this.activeConvId=conv.id
+    this.messages = conv.conversation;
   }
-  saveConversation(){
-    this.chatService.createConversation(this.messages).subscribe((res)=>{
-      this.setConversationData()
-      alert('Conversation Saved')
-      console.log(this.conversationHistory)
-    })
+
+  saveConversation(): void {
+    const activeConversation: ConversationData = {
+      id: this.conversationHistory.length + 1,
+      conversation: this.messages
+    };
+    this.chatService.createConversation(this.activeConvId,this.messages).subscribe(res => {
+      this.setConversationData();
+      alert('Conversation Saved');
+    });
   }
-  openModal() {
+
+  openModal(): void {
     this.isModalOpen = true;
   }
 
-  closeModal() {
+  closeModal(): void {
     this.isModalOpen = false;
   }
-  onKeyPress(event: KeyboardEvent) {
-    if (event.keyCode === 13) { // Vérifie si la touche appuyée est la touche Entrée
-      this.sendMessage(); // Appelle la fonction sendMessage()
+
+  onKeyPress(event: KeyboardEvent): void {
+    if (event.keyCode === 13) {
+      this.sendMessage();
     }
+  }
+  deleteConversation(id: any){
+    this.chatService.deleteConversation(id).subscribe((res)=>{
+      console.log(res)
+      this.setConversationData()
+    })
+  }
+  newConv(){
+    this.messages = []
   }
 }

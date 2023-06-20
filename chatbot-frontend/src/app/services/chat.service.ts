@@ -41,11 +41,17 @@ export class ChatService {
     return newFormat;
   }
 
-  createConversation(conversation: ChatMessage[]): Observable<any> {
+  createConversation(conv_id:number,conversation: ChatMessage[]): Observable<any> {
     const token = sessionStorage.getItem('token');
     const headers = { Authorization: `Bearer ${token}` };
     let conv = this.convertToNewFormat(conversation)
-    return this.http.post<any>(`${this.chatUrl}/chat_message`, conv, { headers });
+    if(conv_id == 0)
+    {
+      return this.http.post<any>(`${this.chatUrl}/chat_message`, conv, { headers });
+    } else
+    {
+      return this.http.put<any>(`${this.chatUrl}/update_chat?id_conv=${conv_id}`, conv, { headers })
+    }
   }
 
   getConversation(): Observable<ChatMessage[]> {

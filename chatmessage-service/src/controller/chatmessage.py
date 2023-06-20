@@ -46,3 +46,15 @@ class Chatmessage:
             print(e)
             db.rollback()
             raise HTTPException(status_code=400, detail="Could not delete chat")
+    def update_user_conversation(user_id: int, id_conv: int, update_conversation: Conversation, db: Session):
+        db_conversation = db.query(UserConversation).filter(UserConversation.id == id_conv, UserConversation.user_id == user_id).first()
+        if not db_conversation:
+            raise HTTPException(status_code=404, detail="Conversation not found")
+        try:
+            db_conversation.conversation = update_conversation.json()
+            db.commit()
+            db.refresh(db_conversation)
+            return db_conversation
+        except SQLAlchemyError as e:
+            db.rollback()
+            raise HTTPException(status_code=400, detail="Could not update conversation")

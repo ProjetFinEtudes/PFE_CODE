@@ -47,6 +47,12 @@ def get_chat(token: Annotated[TokenData,Depends(get_current_user)],db: Session =
 def delete_chat(chat_id:int,token: Annotated[TokenData,Depends(get_current_user)]):
     response = requests.delete(f"{CHATMESSAGE_URL}/delete_chat?chat_id={chat_id}':delete_chat")
     return response.json()
-# @app.delete("/delete_chat")
-# def delete_user_conv(chat_id,db: Session = Depends(get_db)):
-#     return Chatmessage.delete_chat(chat_id)
+@router.put('/update_chat')
+def update_chat(token: Annotated[TokenData,Depends(get_current_user)],id_conv,update_conv:Conversation,db: Session = Depends(get_db)):
+    user = db.execute(select(AuthSchema).where(AuthSchema.email == token.uid)).scalar_one_or_none()
+    user_id = user.id_auth
+    response = requests.put(f"{CHATMESSAGE_URL}/update_chat/{user_id}/{id_conv}",data=update_conv.json())
+    return response.json()
+# @app.put("/update_chat/{user_id}/{id_conv}")
+# def update_user_conversation(user_id: int, id_conv: int, update_conversation: Conversation, db: Session = Depends(get_db)):
+#     return Chatmessage.update_user_conversation(user_id, id_conv, update_conversation, db)
