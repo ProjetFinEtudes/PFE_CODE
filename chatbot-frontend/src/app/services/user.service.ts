@@ -4,7 +4,7 @@ import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { User } from '../interfaces/user';
 import { AuthService } from './auth.service';
 import { Observable } from 'rxjs';
-import { Passwords, Password } from '../interfaces/password';
+import { PasswordsAndConfirmPassword, Passwords } from '../interfaces/password';
 
 @Injectable({
   providedIn: 'root'
@@ -54,14 +54,15 @@ export class UserService {
     return this.http.patch<User>(`http://localhost:3212/api/user`, user, { headers });
   }
 
-  updatePassword(passwords: Passwords): Observable<Password> {
+  updatePassword(passwords: Passwords): Observable<Passwords> {
     const token = this.authService.getAccessToken()
     const headers = new HttpHeaders({
       'Authorization': `Bearer ${token}`
     });
 
-    const new_password: Password = { "password": passwords.new_password };
-    return this.http.patch<Password>(`http://localhost:3212/api/auth/`, new_password, { headers });
+    const new_password: Passwords = { "current_password": passwords.current_password, "new_password": passwords.new_password };
+
+    return this.http.patch<Passwords>(`http://localhost:3212/api/auth/`, new_password, { headers });
   }
 
 

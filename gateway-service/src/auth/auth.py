@@ -37,15 +37,14 @@ router = APIRouter(
     tags=['auth']
 )
 
-#result = requests.get(url=AUTH_URL, data="flo.mounacq@gmail.com")
 @router.patch("/")
-async def update_auth(pw: PasswordBase, token: Annotated[TokenData, Depends(get_current_user)], db: Session = Depends(get_db)):
-    auth = db.execute(select(AuthSchema).where(AuthSchema.email == token.uid)).scalar_one_or_none()
-    #print(auth)
-    pydantic_auth = Auth(id_auth=auth.id_auth, email=auth.email, password=pw.password)
-    print(pydantic_auth)
-    if (pydantic_auth.password == pw.password):
-        pydantic_auth.password = pw.password
+async def update_auth(passwords: PasswordBase, token: Annotated[TokenData, Depends(get_current_user)], db: Session = Depends(get_db)):
+    auth_item = db.execute(select(AuthSchema).where(AuthSchema.email == token.uid)).scalar_one_or_none()
+    if (auth_item.password == passwords.current_password):
+        pydantic_auth = Auth(id_auth=auth_item.id_auth,
+                            email=auth_item.email,
+                            password=passwords.new_password)
+        
         response = requests.patch(url=AUTH_URL, data=pydantic_auth.json())
         if (response.status_code == 200):
             return {"message": "Password updated"}
@@ -53,23 +52,6 @@ async def update_auth(pw: PasswordBase, token: Annotated[TokenData, Depends(get_
             raise HTTPException(status_code=response.status_code, detail="Unable to update password")
     else:
         raise HTTPException(status_code=400, detail="Incorrect password")
-    
-# @router.patch("/")
-# async def update_auth(pw: PasswordBase, token: Annotated[TokenData, Depends(get_current_user)], db: Session = Depends(get_db)):
-#     auth = db.execute(select(AuthSchema).where(AuthSchema.email == token.uid)).scalar_one_or_none()
-#     #print(auth)
-#     pydantic_auth = Auth(id_auth=auth.id_auth, email=auth.email, password=pw.password)
-#     print(pydantic_auth)
-#     if (pydantic_auth.password == pw.password):
-#         pydantic_auth.password = pw.password
-#         response = requests.patch(url=AUTH_URL, data=pydantic_auth.json())
-#         if (response.status_code == 200):
-#             return {"message": "Password updated"}
-#         else:
-#             raise HTTPException(status_code=response.status_code, detail="Unable to update password")
-#     else:
-#         raise HTTPException(status_code=400, detail="Incorrect password")
-
 
 @router.post("/register")
 async def register(credentials: AuthBase, data: UserBase):
