@@ -79,4 +79,9 @@ export class ChatComponent implements OnInit, OnDestroy {
   closeModal() {
     this.isModalOpen = false;
   }
+  onKeyPress(event: KeyboardEvent) {
+    if (event.keyCode === 13) { // Vérifie si la touche appuyée est la touche Entrée
+      this.sendMessage(); // Appelle la fonction sendMessage()
+    }
+  }
 }

@@ -36,7 +36,7 @@
     </div>
     <div class="messagebar">
       <div class="bar-wrapper">
-        <input type="text" placeholder="Enter your message..." [(ngModel)]="userInput">
+        <input type="text" placeholder="Enter your message..." [(ngModel)]="userInput"  (keypress)="onKeyPress($event)">
         <button (click)="sendMessage()">
           <span class="material-symbols-rounded">
             send
