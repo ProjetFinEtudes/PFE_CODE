@@ -15,8 +15,9 @@ import { InscriptionComponent } from './pages/authentication/inscription/inscrip
 import { AngularMaterialModule } from './angular-material-module';
 import { ConnexionComponent } from './pages/authentication/connexion/connexion.component';
 import { HomeComponent } from './pages/home/home.component';
-import { Error404Component } from './pages/common/error404/error404.component';
 import { ProfileComponent } from './pages/profile/profile.component';
+import { NotFoundComponent } from './pages/common/not-found/not-found.component';
+import { AccessDeniedComponent } from './pages/common/access-denied/access-denied.component';
 
 @NgModule({
   declarations: [
@@ -28,8 +29,9 @@ import { ProfileComponent } from './pages/profile/profile.component';
     FooterComponent,
     InscriptionComponent,
     HomeComponent,
-    Error404Component,
-    ProfileComponent
+    ProfileComponent,
+    NotFoundComponent,
+    AccessDeniedComponent
   ],
   imports: [
     BrowserModule,

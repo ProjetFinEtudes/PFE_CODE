@@ -38,10 +38,7 @@ export class AuthService {
   }
 
   getToken() {
-    return this.token;          // this.userService.getUser()
-    // .then((user: User) => {
-    //   this.userService.user = user;
-    // })
+    return this.token;
   }
 
   getAccessToken() {

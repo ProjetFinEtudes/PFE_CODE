@@ -31,17 +31,13 @@ export class ConnexionComponent {
     this.authService.login(this.auth)
       .subscribe({
         next: (res: any) => {
-          console.log(res)
           const token: Token = {
             access_token: res.access_token,
             token_type: res.token_type
           };
           this.authService.setToken(token);
 
-          // this.userService.getUser()
-          // .then((user: User) => {
-          //   this.userService.user = user;
-          // })
+          // this.userService.getUser().then((user: User) => { this.userService.user = user; })
 
           this.router.navigate(['/']);
         },
@@ -51,5 +47,6 @@ export class ConnexionComponent {
         }
     });
   }
+
 
 }

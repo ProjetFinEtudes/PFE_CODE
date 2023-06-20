@@ -27,8 +27,6 @@ export class ProfileComponent implements OnInit{
     await this.userService.getUser()
       .then((user: User) => {
         this.user = user;
-        this.userService.user = user;
-        console.log(this.user)
       });
 
     this.tagService.getAllTags().subscribe(
