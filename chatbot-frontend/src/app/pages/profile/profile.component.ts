@@ -35,6 +35,7 @@ export class ProfileComponent implements OnInit {
   async ngOnInit(): Promise<void> {
     await this.userService.getUser()
       .then((user: User) => {
+        console.log(user);
         this.user = user;
       });
 
@@ -48,7 +49,6 @@ export class ProfileComponent implements OnInit {
       },
       error => {
         alert('An error occurred while fetching tags')
-
       }
     );
     this.tagService.getUserTags().subscribe((res) => {
@@ -60,7 +60,7 @@ export class ProfileComponent implements OnInit {
         if (selectedTag && !this.userTags.includes(selectedTag.name)) {
           this.userTags.push(selectedTag.name);
           this.tagService.createTag(selectedTag.name).subscribe(res => {
-              console.log(res)
+            console.log(res)
           });
         }
       });
@@ -70,13 +70,11 @@ export class ProfileComponent implements OnInit {
   }
 
   updateUser() {
-    console.log(this.user);
     this.user.birth_date = this.userService.formatDate(this.user.birth_date);
     this.userService.updateUser(this.user)
       .subscribe(
         (user: User) => {
           this.user = user;
-          console.log(this.user);
         }
       );
   }
@@ -91,7 +89,6 @@ export class ProfileComponent implements OnInit {
   }
 
   changePassword() {
-    console.log(this.passwords);
     if (this.passwords.new_password === this.passwords.confirm_password) {
       this.authService.updatePassword(this.passwords)
         .subscribe({

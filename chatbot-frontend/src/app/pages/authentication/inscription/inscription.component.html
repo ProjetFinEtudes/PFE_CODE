@@ -1,57 +1,46 @@
-<section>
-    <mat-card>
-        <mat-card-title>Inscription</mat-card-title>
-        <mat-card-content>
-            <form [formGroup]="form" (ngSubmit)="onRegister()">
-                <p>
-                    <mat-form-field appearance="fill">
-                        <input formControlName="firstname" type="text" matInput placeholder="Prénom" required>
-                        <mat-hint *ngIf="f['firstname'].touched && f['firstname'].errors">Ce champ est invalide</mat-hint>
-                    </mat-form-field>
-                </p>
-                <p>
-                    <mat-form-field appearance="fill">
-                        <input formControlName="lastname" type="text" matInput placeholder="Nom" required>
-                        <mat-hint *ngIf="f['lastname'].touched && f['lastname'].errors">Ce champ est invalide</mat-hint>
-                    </mat-form-field>
-                </p>
-                <p>
-                    <mat-form-field appearance="fill">
-                        <mat-label>Date de naissance</mat-label>
-                        <input formControlName="birthdate" [max]="maxDate" matInput [matDatepicker]="picker">
-                        <mat-hint *ngIf="f['birthdate'].touched && f['birthdate'].errors">Ce champ est invalide</mat-hint>
-                        <mat-datepicker-toggle matIconSuffix [for]="picker"></mat-datepicker-toggle>
-                        <mat-datepicker #picker></mat-datepicker>
-                    </mat-form-field>
-                </p>
-                <p>
-                    <mat-form-field appearance="fill">
-                        <mat-label>Genre</mat-label>
-                        <mat-hint *ngIf="f['genre'].touched && f['genre'].errors">Ce champ est invalide</mat-hint>
-                        <mat-select formControlName="genre">
-                          <mat-option value="F">Female</mat-option>
-                          <mat-option value="M">Male</mat-option>
-                        </mat-select>
-                      </mat-form-field>  
-                </p>
-                <p>
-                    <mat-form-field appearance="fill">
-                        <input formControlName="email" type="text" matInput placeholder="Adresse e-mail" required>
-                        <mat-hint *ngIf="f['email'].touched && f['email'].errors">Ce champ est invalide</mat-hint>
-                    </mat-form-field>
-                </p>
-                <p>
-                    <mat-form-field appearance="fill">
-                        <input formControlName="password" type="password" matInput placeholder="Mot de passe" required>
-                        <mat-hint *ngIf="f['password'].touched && f['password'].errors">Ce champ est invalide</mat-hint>
-                    </mat-form-field>
-                </p>
-                <p *ngIf="errorUser" class="error">L'utilisateur existe déjà</p>
-                <p *ngIf="errorServer" class="error">Une erreur s'est produite</p>
-                <div class="button">
-                    <button type="submit" [disabled]="this.form.invalid" mat-button>S'inscrire</button>
-                </div>
-            </form>
-        </mat-card-content>
-    </mat-card>
-</section>
+<mat-card>
+    <mat-card-title>Sign Up</mat-card-title>
+    <mat-card-content>
+        <form [formGroup]="form" (ngSubmit)="onRegister()">
+            <mat-form-field>
+                <input formControlName="firstname" type="text" matInput placeholder="First Name" required>
+                <mat-hint *ngIf="f['firstname'].touched && f['firstname'].errors">This field is required</mat-hint>
+            </mat-form-field>
+
+            <mat-form-field>
+                <input formControlName="lastname" type="text" matInput placeholder="Last Name" required>
+                <mat-hint *ngIf="f['lastname'].touched && f['lastname'].errors">This field is required</mat-hint>
+            </mat-form-field>
+
+            <mat-form-field>
+                <input formControlName="birthdate" [max]="maxDate" matInput [matDatepicker]="picker" placeholder="Date of Birth">
+                <mat-hint *ngIf="f['birthdate'].touched && f['birthdate'].errors">This field is required</mat-hint>
+                <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
+                <mat-datepicker #picker></mat-datepicker>
+            </mat-form-field>
+
+            <mat-form-field>
+                <mat-hint *ngIf="f['genre'].touched && f['genre'].errors">This field is required</mat-hint>
+                <mat-select formControlName="genre" placeholder="Genre">
+                <mat-option value="F">Female</mat-option>
+                <mat-option value="M">Male</mat-option>
+                </mat-select>
+            </mat-form-field>
+
+            <mat-form-field>
+                <input formControlName="email" type="email" matInput placeholder="Email" required>
+                <mat-hint *ngIf="f['email'].touched && f['email'].errors">This field is required</mat-hint>
+            </mat-form-field>
+
+            <mat-form-field>
+                <input formControlName="password" type="password" matInput placeholder="Password" required>
+                <mat-hint *ngIf="f['password'].touched && f['password'].errors">This field is required</mat-hint>
+            </mat-form-field>
+
+            <p *ngIf="errorUser" class="error">L'utilisateur existe déjà</p>
+            <p *ngIf="errorServer" class="error">Une erreur s'est produite</p>
+
+            <button mat-raised-button color="primary" [disabled]="this.form.invalid">Sign Up</button>
+        </form>
+    </mat-card-content>
+</mat-card>

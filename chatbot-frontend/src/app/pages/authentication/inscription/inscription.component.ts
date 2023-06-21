@@ -55,16 +55,12 @@ export class InscriptionComponent implements OnInit {
       }
     };
 
-    console.log(json)
-
     this.authService.register(json)
       .subscribe({
         next: (res) => {
-          console.log(res);
           this.router.navigate(['/connexion']);
         },
         error: (err) => {
-          console.error(err);
           this.errorUser = (err.status == 400 || err.status == 409);
           this.errorServer = (err.status == 500);
         }
