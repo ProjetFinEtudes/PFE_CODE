@@ -1,34 +1,39 @@
 .profile-container {
     max-width: 900px;
-    margin: 0 auto;
     padding: 20px;
     background-color: #444;
     color: #fff;
     display: flex;
     flex-direction: column;
     align-items: center;
-    margin-top: 25px;
+    margin: 20px auto;
 }
 
 .card-container {
     display: flex;
     flex-wrap: wrap;
     justify-content: space-between;
-    margin-bottom: 20px;
 }
 
 .user-info-card,
-.password-card {
+.password-card,
+.tag-card {
     flex-basis: calc(50% - 10px);
     color: #fff;
 }
 
 @media (max-width: 600px) {
     .user-info-card,
-    .password-card {
+    .password-card,
+    .tag-card {
         flex-basis: 100%;
         margin-right: 0;
     }
+}
+
+mat-card-title {
+    text-align: center;
+    margin: 10px auto;
 }
 
 mat-card {
@@ -64,4 +69,25 @@ button {
 
 .delete-link .mat-icon {
     margin-right: 5px;
+}
+
+.message {
+    position: absolute;
+    top: 125px;
+    right: 20px;
+    padding: 10px;
+    border-radius: 5px;
+    font-size: 14px;
+  }
+
+.success {
+    background-color: #d4edda;
+    border: 2px solid #155724;
+    color: #155724;
+}
+
+.danger {
+    background-color: #f8d7da;
+    border: 2px solid #721c24;
+    color: #721c24;
 }
