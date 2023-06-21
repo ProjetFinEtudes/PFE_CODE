@@ -37,8 +37,8 @@
                 <mat-hint *ngIf="f['password'].touched && f['password'].errors">This field is required</mat-hint>
             </mat-form-field>
 
-            <p *ngIf="errorUser" class="error">L'utilisateur existe déjà</p>
-            <p *ngIf="errorServer" class="error">Une erreur s'est produite</p>
+            <p *ngIf="errorUser" class="error">User already exists</p>
+            <p *ngIf="errorServer" class="error">An error has occurred</p>
 
             <button mat-raised-button color="primary" [disabled]="this.form.invalid">Sign Up</button>
         </form>
