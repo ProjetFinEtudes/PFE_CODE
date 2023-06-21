@@ -5,6 +5,7 @@ import { Component, OnInit } from '@angular/core';
 import { FormBuilder , FormGroup, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
 import { AuthService } from 'src/app/services/auth.service';
+import { UserService } from 'src/app/services/user.service';
 
 @Component({
   selector: 'app-inscription',
@@ -22,6 +23,7 @@ export class InscriptionComponent implements OnInit {
   constructor(
     private formBuilder: FormBuilder,
     private authService: AuthService,
+    private userService: UserService,
     private router: Router,
   ) { }
 
@@ -47,22 +49,18 @@ export class InscriptionComponent implements OnInit {
       "data": {
         first_name: this.form.value.firstname,
         last_name: this.form.value.lastname,
-        birth_date: this.form.value.birthdate.toString().split(' (')[0],
+        birth_date: this.userService.formatDate(this.form.value.birthdate.toString()),
         genre: this.form.value.genre,
         id_auth: 0
       }
     };
 
-    console.log(json)
-
     this.authService.register(json)
       .subscribe({
         next: (res) => {
-          console.log(res);
           this.router.navigate(['/connexion']);
         },
         error: (err) => {
-          console.error(err);
           this.errorUser = (err.status == 400 || err.status == 409);
           this.errorServer = (err.status == 500);
         }

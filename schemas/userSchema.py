@@ -16,7 +16,7 @@ class UserSchema(Base):
     last_name = Column(String(100))
     birth_date = Column(Date)
     genre = Column(CHAR)
-    id_auth = Column(Integer, ForeignKey(AuthSchema.id_auth), nullable=False)
+    id_auth = Column(Integer, ForeignKey(AuthSchema.id_auth, ondelete="CASCADE"), nullable=False)
 
     def __init__(self, first_name: str, last_name: str, birth_date: Date, genre: str, id_auth: int):
         self.first_name = first_name

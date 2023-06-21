@@ -4,6 +4,7 @@ import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { User } from '../interfaces/user';
 import { AuthService } from './auth.service';
 import { Observable } from 'rxjs';
+import { PasswordsAndConfirmPassword, Passwords } from '../interfaces/password';
 
 @Injectable({
   providedIn: 'root'
@@ -24,6 +25,16 @@ export class UserService {
         this.setUser(user);
       });
     }
+  }
+
+  formatDate(date: string): string {
+    const dateObj = new Date(date);
+
+    const year = dateObj.getFullYear();
+    const month = String(dateObj.getMonth() + 1).padStart(2, '0');
+    const day = String(dateObj.getDate()).padStart(2, '0');
+    
+    return `${year}-${month}-${day}`;
   }
 
   async getUser(): Promise<User> {
@@ -53,13 +64,7 @@ export class UserService {
     return this.http.patch<User>(`http://localhost:3212/api/user`, user, { headers });
   }
 
-  updatePassword(password: string): Observable<string> {
-    const headers = new HttpHeaders({
-      'Authorization': `Bearer ${this.token}`
-    });
 
-    return this.http.patch<string>(`http://localhost:3212/api/auth/`, password, { headers });
-  }
 
 
 }

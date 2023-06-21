@@ -5,6 +5,7 @@ import { AuthService } from 'src/app/services/auth.service';
 import { Auth } from 'src/app/interfaces/auth';
 import { Token } from 'src/app/interfaces/token';
 import { UserService } from 'src/app/services/user.service';
+import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 
 @Component({
   selector: 'app-connexion',
@@ -13,21 +14,32 @@ import { UserService } from 'src/app/services/user.service';
 })
 export class ConnexionComponent {
 
-  auth: Auth = {
-    email: '',
-    password: ''
-  };
-
+  form!: FormGroup;
   error: boolean = false;
 
   constructor(
+    private formBuilder: FormBuilder,
     private authService: AuthService,
-    private router: Router,
-    private userService:UserService
+    private userService:UserService,
+    private router: Router
   ) { }
 
+  ngOnInit(): void {
+    this.form = this.formBuilder.group({
+      email: ['', Validators.required],
+      password: ['', Validators.required]
+    });
+  }
+
+  get f() { return this.form.controls; }
+
   onLogin() {
-    this.authService.login(this.auth)
+    const auth: Auth = {
+      email: this.form.value.email,
+      password: this.form.value.password
+    };
+
+    this.authService.login(auth)
       .subscribe({
         next: (res: any) => {
           const token: Token = {
@@ -36,7 +48,7 @@ export class ConnexionComponent {
           };
           this.authService.setToken(token);
 
-          this.userService.getUser().then((res)=>this.userService.user = res)
+          this.userService.getUser().then((res) => this.userService.user = res)
 
           this.router.navigate(['/']);
         },

@@ -1,26 +1,20 @@
-<section>
-    <mat-card>
-        <mat-card-title>Connexion</mat-card-title>
-        <mat-card-content>
-            <form (ngSubmit)="onLogin()" #f="ngForm">
-                <p>
-                    <mat-form-field appearance="fill">
-                        <input name="email" #ctrlId="ngModel" [(ngModel)]='auth.email' type="email" matInput placeholder="E-mail" required>
-                        <mat-hint *ngIf="ctrlId.touched && ctrlId.invalid">Ce champ est requis</mat-hint>
-                    </mat-form-field>
-                </p>
+<mat-card>
+    <mat-card-title>Login</mat-card-title>
+    <mat-card-content>
+        <form [formGroup]="form" (ngSubmit)="onLogin()">
+            <mat-form-field>
+                <input formControlName="email" type="email" matInput placeholder="Email" required>
+                <mat-hint *ngIf="f['email'].touched && f['email'].errors">This field is required</mat-hint>
+            </mat-form-field>
 
-                <p>
-                    <mat-form-field appearance="fill">
-                        <input name="passe" #ctrlPasse="ngModel" [(ngModel)]='auth.password' type="password" matInput placeholder="Mot de passe" required>
-                        <mat-hint *ngIf="ctrlPasse.touched && ctrlPasse.invalid">Ce champ est requis</mat-hint>
-                    </mat-form-field>
-                </p>
-                <p *ngIf="error" class="error">E-mail ou mot de passe invalide</p>
-                <div class="button">
-                    <button type="submit" [disabled]="f.invalid" mat-button>Se connecter</button>
-                </div>
-            </form>
-        </mat-card-content>
-    </mat-card>
-</section>
+            <mat-form-field>
+                <input formControlName="password" type="password" matInput placeholder="Password" required>
+                <mat-hint *ngIf="f['password'].touched && f['password'].errors">This field is required</mat-hint>
+            </mat-form-field>
+
+            <p *ngIf="error" class="error">Email or password invalid</p>
+
+            <button mat-raised-button color="primary" [disabled]="this.form.invalid">Login</button>
+        </form>
+    </mat-card-content>
+</mat-card>

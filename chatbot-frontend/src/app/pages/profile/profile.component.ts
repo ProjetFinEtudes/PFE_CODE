@@ -2,9 +2,11 @@ import { Component, OnInit } from '@angular/core';
 import { FormControl } from '@angular/forms';
 
 import { User } from 'src/app/interfaces/user';
-import { Password } from 'src/app/interfaces/password';
+import { PasswordsAndConfirmPassword, Passwords } from 'src/app/interfaces/password';
 import { UserService } from 'src/app/services/user.service';
 import { TagService } from 'src/app/services/tag.service';
+import { AuthService } from 'src/app/services/auth.service';
+import { Router } from '@angular/router';
 
 
 @Component({
@@ -15,19 +17,25 @@ import { TagService } from 'src/app/services/tag.service';
 export class ProfileComponent implements OnInit {
 
   user: User = <User>{};
-  password: Password = <Password>{};
+  passwords: PasswordsAndConfirmPassword = <PasswordsAndConfirmPassword>{};
+
   availableTags: any[] = [];
   selectedTags: number[] = [];
   userTags: any[] = [];
   tagControl = new FormControl();
 
-  constructor(public userService: UserService, private tagService: TagService) {
+  constructor(private userService: UserService,
+    private authService: AuthService,
+    private tagService: TagService, 
+    private router: Router
+  ) {
     console.log(this.user)
   }
 
   async ngOnInit(): Promise<void> {
     await this.userService.getUser()
       .then((user: User) => {
+        console.log(user);
         this.user = user;
       });
 
@@ -41,7 +49,6 @@ export class ProfileComponent implements OnInit {
       },
       error => {
         alert('An error occurred while fetching tags')
-
       }
     );
     this.tagService.getUserTags().subscribe((res) => {
@@ -53,7 +60,7 @@ export class ProfileComponent implements OnInit {
         if (selectedTag && !this.userTags.includes(selectedTag.name)) {
           this.userTags.push(selectedTag.name);
           this.tagService.createTag(selectedTag.name).subscribe(res => {
-              console.log(res)
+            console.log(res)
           });
         }
       });
@@ -63,12 +70,11 @@ export class ProfileComponent implements OnInit {
   }
 
   updateUser() {
-    console.log(this.user);
+    this.user.birth_date = this.userService.formatDate(this.user.birth_date);
     this.userService.updateUser(this.user)
       .subscribe(
         (user: User) => {
           this.user = user;
-          console.log(this.user);
         }
       );
   }
@@ -83,20 +89,32 @@ export class ProfileComponent implements OnInit {
   }
 
   changePassword() {
-    console.log(this.password);
-    if (this.password.new_password === this.password.confirm_password) {
-      this.userService.updatePassword(this.password.new_password)
-        .subscribe(
-          (response: any) => {
+    if (this.passwords.new_password === this.passwords.confirm_password) {
+      this.authService.updatePassword(this.passwords)
+        .subscribe({
+          next: (res: any) => {
+            console.log(res);
             console.log('Password updated successfully');
           },
-          error => {
-            console.log('An error occurred while updating password');
+          error: () => {
+            console.log('An error occurred while updating password. Maybe your current password is incorrect');
           }
-        );
+        });
     } else {
       console.log('New passwords do not match');
     }
+  }
+
+  deleteAccount() {
+    this.authService.deleteAccount()
+      .subscribe({
+        next: () => {
+          console.log('Account deleted successfully');
+          this.authService.clearToken();
+          this.userService.clearUser();
+          this.router.navigate(['/']);
+        }
+      });
   }
 
 }

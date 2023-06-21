@@ -9,3 +9,6 @@ class AuthBase(BaseModel):
 
 class Auth(AuthBase):
     id_auth: int
+
+class AuthId(BaseModel):
+    id_auth: int
