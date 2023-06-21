@@ -9,7 +9,7 @@ from .controller import authentication as auth_controller
 from .controller.security import create_access_token
 from sqlalchemy.orm import Session, sessionmaker
 
-from models.authModel import AuthBase, Auth
+from models.authModel import AuthBase, Auth, AuthId
 from models.userModel import UserBase
 
 app = FastAPI()
@@ -38,10 +38,9 @@ def get_auth(email: str, db: Session = Depends(get_db)):
 def update_auth(auth: Auth, db: Session = Depends(get_db)):
     return auth_controller.update_auth(auth, db)
 
-
 @app.delete("/")
-def delete_auth(id_auth: int, db: Session = Depends(get_db)):
-    return auth_controller.delete_auth_by_id(id_auth, db)
+def delete_auth(id: AuthId, db: Session = Depends(get_db)):
+    return auth_controller.delete_auth_by_id(id.id_auth, db)
 
 @app.post("/login", status_code=200)
 async def login(credentials: AuthBase, db: Session = Depends(get_db)):

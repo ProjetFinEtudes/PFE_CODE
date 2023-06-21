@@ -27,6 +27,16 @@ export class UserService {
     }
   }
 
+  formatDate(date: string): string {
+    const dateObj = new Date(date);
+
+    const year = dateObj.getFullYear();
+    const month = String(dateObj.getMonth() + 1).padStart(2, '0');
+    const day = String(dateObj.getDate()).padStart(2, '0');
+    
+    return `${year}-${month}-${day}`;
+  }
+
   async getUser(): Promise<User> {
     const token = this.authService.getAccessToken()
     const headers = new HttpHeaders({
@@ -54,16 +64,7 @@ export class UserService {
     return this.http.patch<User>(`http://localhost:3212/api/user`, user, { headers });
   }
 
-  updatePassword(passwords: Passwords): Observable<Passwords> {
-    const token = this.authService.getAccessToken()
-    const headers = new HttpHeaders({
-      'Authorization': `Bearer ${token}`
-    });
 
-    const new_password: Passwords = { "current_password": passwords.current_password, "new_password": passwords.new_password };
-
-    return this.http.patch<Passwords>(`http://localhost:3212/api/auth/`, new_password, { headers });
-  }
 
 
 }

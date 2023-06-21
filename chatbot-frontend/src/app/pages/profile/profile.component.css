@@ -7,7 +7,7 @@
     display: flex;
     flex-direction: column;
     align-items: center;
-    margin-top: 50px;
+    margin-top: 25px;
 }
 
 .card-container {
@@ -20,7 +20,6 @@
 .user-info-card,
 .password-card {
     flex-basis: calc(50% - 10px);
-    /* background-color: #444; */
     color: #fff;
 }
 
@@ -49,4 +48,20 @@ mat-form-field .mat-input-element {
 button {
     margin-top: 10px;
     float: right;
+}
+
+.delete-link {
+    display: inline-flex;
+    align-items: center;
+    color: red;
+    text-decoration: none;
+    cursor: pointer;
+}
+
+.delete-link:hover {
+    color: darkred;
+}
+
+.delete-link .mat-icon {
+    margin-right: 5px;
 }

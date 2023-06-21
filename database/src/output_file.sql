@@ -242,7 +242,7 @@ CREATE TABLE `user` (
   `birth_date` DATE NOT NULL,
   `genre` char(1) NOT NULL,
   `id_auth` INT NOT NULL,
-  CONSTRAINT `fk_auth` FOREIGN KEY (`id_auth`) REFERENCES `auth`(`id_auth`)
+  CONSTRAINT `fk_auth` FOREIGN KEY (`id_auth`) REFERENCES `auth`(`id_auth`) ON DELETE CASCADE
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
@@ -265,7 +265,6 @@ CREATE TABLE `chatmessage` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 
 DROP TABLE IF EXISTS `user_tags`;
-
 CREATE TABLE `user_tags` (
   `id_user` INT NOT NULL,
   `id_tag` INT NOT NULL,
@@ -273,6 +272,7 @@ CREATE TABLE `user_tags` (
   CONSTRAINT `user_tags_ibfk_1` FOREIGN KEY (`id_user`) REFERENCES `user` (`uid`),
   CONSTRAINT `user_tags_ibfk_2` FOREIGN KEY (`id_tag`) REFERENCES `tags` (`id`)
 );
+
 DROP TABLE IF EXISTS `user_conv`;
 CREATE TABLE user_conv (
     id SERIAL PRIMARY KEY,

@@ -5,6 +5,8 @@ import { User } from 'src/app/interfaces/user';
 import { PasswordsAndConfirmPassword, Passwords } from 'src/app/interfaces/password';
 import { UserService } from 'src/app/services/user.service';
 import { TagService } from 'src/app/services/tag.service';
+import { AuthService } from 'src/app/services/auth.service';
+import { Router } from '@angular/router';
 
 
 @Component({
@@ -16,12 +18,17 @@ export class ProfileComponent implements OnInit {
 
   user: User = <User>{};
   passwords: PasswordsAndConfirmPassword = <PasswordsAndConfirmPassword>{};
+
   availableTags: any[] = [];
   selectedTags: number[] = [];
   userTags: any[] = [];
   tagControl = new FormControl();
 
-  constructor(public userService: UserService, private tagService: TagService) {
+  constructor(private userService: UserService,
+    private authService: AuthService,
+    private tagService: TagService, 
+    private router: Router
+  ) {
     console.log(this.user)
   }
 
@@ -64,6 +71,7 @@ export class ProfileComponent implements OnInit {
 
   updateUser() {
     console.log(this.user);
+    this.user.birth_date = this.userService.formatDate(this.user.birth_date);
     this.userService.updateUser(this.user)
       .subscribe(
         (user: User) => {
@@ -85,9 +93,10 @@ export class ProfileComponent implements OnInit {
   changePassword() {
     console.log(this.passwords);
     if (this.passwords.new_password === this.passwords.confirm_password) {
-      this.userService.updatePassword(this.passwords)
+      this.authService.updatePassword(this.passwords)
         .subscribe({
-          next: () => {
+          next: (res: any) => {
+            console.log(res);
             console.log('Password updated successfully');
           },
           error: () => {
@@ -97,6 +106,18 @@ export class ProfileComponent implements OnInit {
     } else {
       console.log('New passwords do not match');
     }
+  }
+
+  deleteAccount() {
+    this.authService.deleteAccount()
+      .subscribe({
+        next: () => {
+          console.log('Account deleted successfully');
+          this.authService.clearToken();
+          this.userService.clearUser();
+          this.router.navigate(['/']);
+        }
+      });
   }
 
 }
