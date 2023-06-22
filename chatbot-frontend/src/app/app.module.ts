@@ -19,6 +19,7 @@ import { ProfileComponent } from './pages/profile/profile.component';
 import { NotFoundComponent } from './pages/common/not-found/not-found.component';
 import { AccessDeniedComponent } from './pages/common/access-denied/access-denied.component';
 import { ContactComponent } from './pages/common/contact/contact.component';
+import { TermsAndConditionsComponent } from './pages/common/terms-and-conditions/terms-and-conditions.component';
 
 @NgModule({
   declarations: [
@@ -33,7 +34,8 @@ import { ContactComponent } from './pages/common/contact/contact.component';
     ProfileComponent,
     NotFoundComponent,
     AccessDeniedComponent,
-    ContactComponent
+    ContactComponent,
+    TermsAndConditionsComponent
   ],
   imports: [
     BrowserModule,
