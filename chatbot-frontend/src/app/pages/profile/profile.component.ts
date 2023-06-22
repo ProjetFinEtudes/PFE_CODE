@@ -51,7 +51,7 @@ export class ProfileComponent implements OnInit {
           this.tagControl.setValue(this.selectedTags);
         },
         error: () => {
-          this.displayMessageFewSeconds('An error occurred while fetching tags.', 'danger');
+          this.displayMessageFewSeconds('An error occurred while fetching tags', 'danger');
         }
       });
 
@@ -68,7 +68,7 @@ export class ProfileComponent implements OnInit {
             this.userTags.push(selectedTag.name);
             this.tagService.createTag(selectedTag.name).subscribe(res => {
               // console.log(res)
-              this.displayMessageFewSeconds('Tag added successfully.', 'success');
+              this.displayMessageFewSeconds('Tag added successfully', 'success');
             });
           }
         });
@@ -106,7 +106,7 @@ export class ProfileComponent implements OnInit {
       .subscribe(
         (user: User) => {
           this.user = user;
-          this.displayMessageFewSeconds('User updated successfully.', 'success');
+          this.displayMessageFewSeconds('User updated successfully', 'success');
         }
       );
   }
@@ -140,15 +140,15 @@ export class ProfileComponent implements OnInit {
         .subscribe({
           next: () => {
             console.log('Password updated successfully');
-            this.displayMessageFewSeconds('Password updated successfully. You will be asked to log in again.', 'success');
+            this.displayMessageFewSeconds('Password updated successfully', 'success');
             this.delayLogoutAndRoot('/connexion');
           },
           error: () => {
-            this.displayMessageFewSeconds('Your current password is invalid.', 'danger');
+            this.displayMessageFewSeconds('Your current password is incorrect', 'danger');
           }
         });
     } else {
-      this.displayMessageFewSeconds('New passwords do not match.', 'danger');
+      this.displayMessageFewSeconds('New passwords do not match', 'danger');
     }
   }
 
@@ -157,11 +157,8 @@ export class ProfileComponent implements OnInit {
       .subscribe({
         next: () => {
           console.log('Account deleted successfully');
-          this.displayMessageFewSeconds('Account deleted successfully. You will be redirected to the home page.', 'success');
+          this.displayMessageFewSeconds('Account deleted successfully', 'success');
           this.delayLogoutAndRoot('/');
-          // this.authService.clearToken();
-          // this.userService.clearUser();
-          // this.router.navigate(['/']);
         }
       });
   }

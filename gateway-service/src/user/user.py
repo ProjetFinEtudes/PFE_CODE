@@ -9,7 +9,7 @@ from sqlalchemy.orm import Session, sessionmaker
 from models.userModel import User
 from models.models import TokenData
 from schemas.authSchema import AuthSchema
-from schemas.userSchema import UserSchema
+from schemas.tagSchema import UserSchema
 from ..auth.token import get_current_user
 from dotenv import load_dotenv
 

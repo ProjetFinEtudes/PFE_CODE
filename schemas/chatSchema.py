@@ -3,7 +3,7 @@ from sqlalchemy.schema import Column
 from sqlalchemy import Integer, String, Date
 from sqlalchemy.orm import DeclarativeBase
 
-from schemas.userSchema import UserSchema
+from schemas.tagSchema import UserSchema
 
 
 class Base(DeclarativeBase):

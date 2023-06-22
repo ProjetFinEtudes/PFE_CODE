@@ -5,7 +5,7 @@ from sqlalchemy.exc import SQLAlchemyError
 from models.authModel import AuthBase, Auth
 
 from schemas.authSchema import AuthSchema
-from schemas.userSchema import UserSchema
+from schemas.tagSchema import UserSchema
 
 def create_auth(credentials: AuthBase, db: Session):
     pydantic_auth = AuthSchema(email=credentials.email,

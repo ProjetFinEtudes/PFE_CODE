@@ -2,7 +2,7 @@ from sqlalchemy import ForeignKey
 from sqlalchemy import Column, Integer, JSON
 from sqlalchemy.orm import DeclarativeBase
 
-from schemas.userSchema import UserSchema
+from schemas.tagSchema import UserSchema
 
 class Base(DeclarativeBase):
     pass
