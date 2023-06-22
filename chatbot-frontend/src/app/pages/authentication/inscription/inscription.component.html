@@ -5,26 +5,26 @@
             <mat-form-field>
                 <mat-label>First Name</mat-label>
                 <input formControlName="firstname" type="text" matInput required>
-                <mat-hint *ngIf="f['firstname'].touched && f['firstname'].errors">This field is required</mat-hint>
+                <mat-error *ngIf="f['firstname'].touched && f['firstname'].errors">This field is required</mat-error>
             </mat-form-field>
 
             <mat-form-field>
                 <mat-label>Last Name</mat-label>
                 <input formControlName="lastname" type="text" matInput required>
-                <mat-hint *ngIf="f['lastname'].touched && f['lastname'].errors">This field is required</mat-hint>
+                <mat-error *ngIf="f['lastname'].touched && f['lastname'].errors">This field is required</mat-error>
             </mat-form-field>
 
             <mat-form-field>
                 <mat-label>Date of Birth</mat-label>
                 <input formControlName="birthdate" [max]="maxDate" matInput [matDatepicker]="picker">
-                <mat-hint *ngIf="f['birthdate'].touched && f['birthdate'].errors">This field is required</mat-hint>
+                <mat-error *ngIf="f['birthdate'].touched && f['birthdate'].errors">This field is required</mat-error>
                 <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
                 <mat-datepicker #picker></mat-datepicker>
             </mat-form-field>
 
             <mat-form-field>
                 <mat-label>Genre</mat-label>
-                <mat-hint *ngIf="f['genre'].touched && f['genre'].errors">This field is required</mat-hint>
+                <mat-error *ngIf="f['genre'].touched && f['genre'].errors">This field is required</mat-error>
                 <mat-select formControlName="genre">
                 <mat-option value="F">Female</mat-option>
                 <mat-option value="M">Male</mat-option>
@@ -34,13 +34,13 @@
             <mat-form-field>
                 <mat-label>Email</mat-label>
                 <input formControlName="email" type="email" matInput required>
-                <mat-hint *ngIf="f['email'].touched && f['email'].errors">This field is required</mat-hint>
+                <mat-error *ngIf="f['email'].touched && f['email'].errors">This field is required</mat-error>
             </mat-form-field>
 
             <mat-form-field>
                 <mat-label>Password</mat-label>
                 <input formControlName="password" type="password" matInput required>
-                <mat-hint *ngIf="f['password'].touched && f['password'].errors">This field is required</mat-hint>
+                <mat-error *ngIf="f['password'].touched && f['password'].errors">This field is required</mat-error>
             </mat-form-field>
 
             <p *ngIf="errorUser" class="error">User already exists</p>

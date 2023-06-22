@@ -26,11 +26,6 @@ mat-form-field .mat-input-element {
     color: #fff;
 }
 
-mat-hint {
-    color: #ff0000;
-    font-size: 15px;
-}
-
 input::placeholder {
     color: #ccc;
 }
