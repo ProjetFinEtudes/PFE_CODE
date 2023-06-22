@@ -37,8 +37,12 @@ router = APIRouter(
 )
 
 @router.patch("/")
-async def update(passwords: PasswordBase, token: Annotated[TokenData, Depends(get_current_user)], db: Session = Depends(get_db)):
-    auth_item = db.execute(select(AuthSchema).where(AuthSchema.email == token.uid)).scalar_one_or_none()
+async def update_auth(passwords: PasswordBase, token: Annotated[TokenData, Depends(get_current_user)], db: Session = Depends(get_db)):
+    auth_item = db.execute(
+        select(AuthSchema)
+        .where(AuthSchema.email == token.uid)
+        ).scalar_one_or_none()
+    
     if (auth_item.password == passwords.current_password):
         pydantic_auth = Auth(id_auth=auth_item.id_auth,
                             email=auth_item.email,
@@ -53,8 +57,12 @@ async def update(passwords: PasswordBase, token: Annotated[TokenData, Depends(ge
         raise HTTPException(status_code=400, detail="Incorrect password")
     
 @router.delete("/")
-async def delete(token: Annotated[TokenData, Depends(get_current_user)], db: Session = Depends(get_db)):
-    auth_item = db.execute(select(AuthSchema).where(AuthSchema.email == token.uid)).scalar_one_or_none()
+async def delete_auth(token: Annotated[TokenData, Depends(get_current_user)], db: Session = Depends(get_db)):
+    auth_item = db.execute(
+        select(AuthSchema)
+        .where(AuthSchema.email == token.uid)
+        ).scalar_one_or_none()
+    
     if (auth_item):
         auth_id = AuthId(id_auth=auth_item.id_auth)
         response = requests.delete(url=AUTH_URL, data=auth_id.json())
