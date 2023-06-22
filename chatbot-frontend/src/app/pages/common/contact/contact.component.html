@@ -1,0 +1,30 @@
+<mat-card>
+    <mat-card-title>Contact</mat-card-title>
+    <mat-card-content>
+        <form [formGroup]="form" (ngSubmit)="onSend()">
+            <mat-form-field appearance="fill">
+                <mat-label>Name</mat-label>
+                <input matInput formControlName="name" placeholder="Enter your name" required>
+                <mat-error *ngIf="f['name'].invalid && f['name'].touched">Please enter your name</mat-error>
+            </mat-form-field>
+        
+            <mat-form-field appearance="fill">
+                <mat-label>Email</mat-label>
+                <input matInput formControlName="email" placeholder="Enter your email" required>
+                <mat-error *ngIf="f['email'].invalid && f['email'].touched">
+                    Please enter a valid email address
+                </mat-error>
+            </mat-form-field>
+        
+            <mat-form-field appearance="fill">
+                <mat-label>Message</mat-label>
+                <textarea matInput formControlName="message" placeholder="Enter your message" rows="6" required></textarea>
+                <mat-error *ngIf="f['message'].invalid && f['message'].touched">Please enter a message</mat-error>
+            </mat-form-field>
+
+            <p *ngIf="isMessageSent" class="success">Your message has been sent. Thank you!</p>
+        
+            <button mat-raised-button color="primary" [disabled]="this.form.invalid">Send</button>
+        </form>
+    </mat-card-content>
+</mat-card>

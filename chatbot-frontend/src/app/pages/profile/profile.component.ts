@@ -7,7 +7,7 @@ import { UserService } from 'src/app/services/user.service';
 import { TagService } from 'src/app/services/tag.service';
 import { AuthService } from 'src/app/services/auth.service';
 import { Router } from '@angular/router';
-import { Message } from 'src/app/interfaces/message';
+import { Action } from 'src/app/interfaces/action';
 
 
 @Component({
@@ -19,7 +19,7 @@ export class ProfileComponent implements OnInit {
 
   user: User = <User>{};
   passwords: PasswordsAndConfirmPassword = <PasswordsAndConfirmPassword>{};
-  message: Message = <Message>{};
+  action: Action = <Action>{};
 
   availableTags: any[] = [];
   selectedTags: number[] = [];
@@ -77,20 +77,20 @@ export class ProfileComponent implements OnInit {
     });
   }
 
-  setMessage(content: string, className: string) {
-    this.message = {
-      content: content,
+  setActionMessage(msg: string, className: string) {
+    this.action = {
+      message: msg,
       class: className
     };
   }
 
-  clearMessage() {
-    this.message = <Message>{};
+  clearActionMessage() {
+    this.action = <Action>{};
   }
 
   displayMessageFewSeconds(content: string, className: string) {
-    this.setMessage(content, className);
-    setTimeout(() => this.clearMessage(), 5000);
+    this.setActionMessage(content, className);
+    setTimeout(() => this.clearActionMessage(), 5000);
   }
 
   isAllUserFieldsFilled() {
