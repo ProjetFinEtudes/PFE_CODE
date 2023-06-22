@@ -3,7 +3,7 @@ from sqlalchemy.orm import Session
 from sqlalchemy import exists
 from sqlalchemy.exc import SQLAlchemyError
 
-from schemas.userSchema import UserSchema
+from schemas.tagSchema import UserSchema
 
 from models.userModel import UserBase, User
 

@@ -2,7 +2,6 @@ from sqlalchemy import Date, Column, ForeignKey, Integer, String
 from sqlalchemy.ext.declarative import declarative_base
 from sqlalchemy.orm import relationship
 from schemas.authSchema import AuthSchema
-from schemas.userSchema import UserSchema
 Base = declarative_base()
 
 
@@ -10,7 +9,8 @@ class TagSchema(Base):
     __tablename__ = 'tags'
     id = Column(Integer, primary_key=True, autoincrement=True)
     name = Column(String(255), nullable=False)
-    
+
+
 class UserSchema(Base):
     __tablename__ = 'user'
     uid = Column(Integer, primary_key=True, nullable=False, autoincrement=True)
@@ -30,6 +30,7 @@ class UserSchema(Base):
 
     def __repr__(self):
         return f"<User(uid={self.uid}, first_name={self.first_name}, last_name={self.last_name}, birth_date={self.birth_date}, genre={self.genre}, id_auth={self.id_auth})>"
+
 
 class UserTagSchema(Base):
     __tablename__ = 'user_tags'
