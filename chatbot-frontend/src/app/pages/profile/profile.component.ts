@@ -126,15 +126,22 @@ export class ProfileComponent implements OnInit {
     || (this.passwords.confirm_password === undefined || this.passwords.confirm_password === ''))
   }
 
+  delayLogout() {
+    setTimeout(() => {
+      this.authService.clearToken();
+      this.userService.clearUser();
+      this.router.navigate(['/']);
+    }, 5000);
+  }
+
   changePassword() {
     if (this.passwords.new_password === this.passwords.confirm_password) {
       this.authService.updatePassword(this.passwords)
         .subscribe({
-          next: (res: any) => {
+          next: () => {
             console.log('Password updated successfully');
-            this.authService.clearToken();
-            this.userService.clearUser();
-            this.router.navigate(['/']);
+            this.displayMessageFewSeconds('Password updated successfully', 'success');
+            this.delayLogout();
           },
           error: () => {
             this.displayMessageFewSeconds('Your current password is invalid', 'danger');
@@ -150,6 +157,8 @@ export class ProfileComponent implements OnInit {
       .subscribe({
         next: () => {
           console.log('Account deleted successfully');
+          // this.displayMessageFewSeconds('Account deleted successfully', 'success');
+          // this.delayLogout();
           this.authService.clearToken();
           this.userService.clearUser();
           this.router.navigate(['/']);
