@@ -8,24 +8,27 @@
                 <mat-card-content>
                     <mat-form-field>
                         <mat-label>First Name</mat-label>
-                        <input matInput [(ngModel)]="user.first_name">
+                        <input matInput #ctlFn="ngModel" [(ngModel)]="user.first_name" placeholder="Enter your first name" required>
+                        <mat-error *ngIf="ctlFn.touched && ctlFn.invalid">This field is required</mat-error>
                     </mat-form-field>
                     
                     <mat-form-field>
                         <mat-label>Last Name</mat-label>
-                        <input matInput [(ngModel)]="user.last_name">
+                        <input matInput #ctlLn="ngModel" [(ngModel)]="user.last_name" placeholder="Enter your last name" required>
+                        <mat-error *ngIf="ctlLn.touched && ctlLn.invalid">This field is required</mat-error>
                     </mat-form-field>
                     
                     <mat-form-field>
                         <mat-label>Date of Birth</mat-label>
-                        <input matInput [matDatepicker]="picker" [(ngModel)]="user.birth_date">
+                        <input matInput #ctlDoB="ngModel" [matDatepicker]="picker" [(ngModel)]="user.birth_date" placeholder="Pick your date of birth" required>
+                        <mat-error *ngIf="ctlDoB.touched && ctlDoB.invalid">This field is required</mat-error>
                         <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
                         <mat-datepicker #picker></mat-datepicker>
                     </mat-form-field>
                     
                     <mat-form-field>
                         <mat-label>Genre</mat-label>
-                        <mat-select [(ngModel)]="user.genre">
+                        <mat-select [(ngModel)]="user.genre" placeholder="Select your genre" required>
                             <mat-option value="F">Female</mat-option>
                             <mat-option value="M">Male</mat-option>
                         </mat-select>
@@ -42,17 +45,20 @@
                 <mat-card-content>
                     <mat-form-field>
                         <mat-label>Current Password</mat-label>
-                        <input matInput type="password" [(ngModel)]="passwords.current_password">
+                        <input matInput type="password" #ctlPass="ngModel" [(ngModel)]="passwords.current_password" placeholder="Enter your current password" required>
+                        <mat-error *ngIf="ctlPass.touched && ctlPass.invalid">This field is required</mat-error>
                     </mat-form-field>
                     
                     <mat-form-field>
                         <mat-label>New Password</mat-label>
-                        <input matInput type="password" [(ngModel)]="passwords.new_password">
+                        <input matInput type="password" #ctlNewPass="ngModel" [(ngModel)]="passwords.new_password" placeholder="Enter your new password" required>
+                        <mat-error *ngIf="ctlNewPass.touched && ctlNewPass.invalid">This field is required</mat-error>
                     </mat-form-field>
                     
                     <mat-form-field>
                         <mat-label>Confirm Password</mat-label>
-                        <input matInput type="password" [(ngModel)]="passwords.confirm_password">
+                        <input matInput type="password" #ctlConfPass="ngModel" [(ngModel)]="passwords.confirm_password" placeholder="Confirm your new password" required>
+                        <mat-error *ngIf="ctlConfPass.touched && ctlConfPass.invalid">This field is required</mat-error>
                     </mat-form-field>
                     
                     <button mat-raised-button color="primary" (click)="changePassword()" [disabled]="isAllPasswordFieldsFilled()">Update Password</button>

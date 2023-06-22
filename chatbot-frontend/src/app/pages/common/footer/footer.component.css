@@ -56,3 +56,12 @@
   color:#aaa;
   margin-bottom:0;
 }
+
+img {
+  height: 50px;
+  width: 50px;
+}
+
+.social a {
+  cursor: pointer;
+}

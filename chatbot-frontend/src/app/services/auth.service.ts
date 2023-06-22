@@ -39,7 +39,6 @@ export class AuthService {
 
   isLoggedIn() {
     return !(sessionStorage.getItem('token') === null);
-
   }
 
   getToken() {
@@ -73,7 +72,6 @@ export class AuthService {
     formData.append('password', auth.password);
     return this.http.post(`http://localhost:3212/api/auth/login`, formData);
   }
-
 
   updatePassword(passwords: Passwords) {
     const token = this.getAccessToken();

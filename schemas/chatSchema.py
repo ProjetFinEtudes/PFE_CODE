@@ -14,7 +14,7 @@ class ChatSchema(Base):
     uid = Column(Integer, primary_key=True, nullable=False, autoincrement=True)
     fromu = Column(String(100))
     text = Column(String(10000))
-    user_uid = Column(Integer, ForeignKey(UserSchema.uid), nullable=False)
+    user_uid = Column(Integer, ForeignKey(UserSchema.uid, ondelete="CASCADE"), nullable=False)
 
     def __init__(self, fromu: str, text: str, id_user: int):
         self.fromu = fromu

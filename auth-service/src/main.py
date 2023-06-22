@@ -1,5 +1,4 @@
 import os
-import requests
 
 from fastapi import FastAPI, Depends, HTTPException
 from datetime import datetime, timedelta
@@ -10,7 +9,6 @@ from .controller.security import create_access_token
 from sqlalchemy.orm import Session, sessionmaker
 
 from models.authModel import AuthBase, Auth, AuthId
-from models.userModel import UserBase
 
 app = FastAPI()
 

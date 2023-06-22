@@ -1,6 +1,7 @@
 from sqlalchemy import ForeignKey
 from sqlalchemy.schema import Column
 from sqlalchemy import Integer, String, Date, CHAR
+from sqlalchemy.orm import relationship
 from sqlalchemy.orm import DeclarativeBase
 
 from schemas.authSchema import AuthSchema
