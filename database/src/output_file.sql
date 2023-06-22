@@ -261,7 +261,7 @@ CREATE TABLE `chatmessage` (
   `fromu` varchar(100) NOT NULL,
   `text` varchar(10000) NOT NULL,
   `user_uid` INT NOT NULL,
-  CONSTRAINT `fk_user_uid` FOREIGN KEY (`user_uid`) REFERENCES `user`(`uid`)
+  CONSTRAINT `fk_user_uid` FOREIGN KEY (`user_uid`) REFERENCES `user`(`uid`) ON DELETE CASCADE
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 
 DROP TABLE IF EXISTS `user_tags`;
@@ -269,7 +269,7 @@ CREATE TABLE `user_tags` (
   `id_user` INT NOT NULL,
   `id_tag` INT NOT NULL,
   PRIMARY KEY (`id_user`, `id_tag`),
-  CONSTRAINT `user_tags_ibfk_1` FOREIGN KEY (`id_user`) REFERENCES `user` (`uid`),
+  CONSTRAINT `user_tags_ibfk_1` FOREIGN KEY (`id_user`) REFERENCES `user` (`uid`) ON DELETE CASCADE,
   CONSTRAINT `user_tags_ibfk_2` FOREIGN KEY (`id_tag`) REFERENCES `tags` (`id`)
 );
 
@@ -278,7 +278,7 @@ CREATE TABLE user_conv (
     id SERIAL PRIMARY KEY,
     user_id INTEGER,
     conversation JSON,
-    CONSTRAINT `user_conv_ibfk_1` FOREIGN KEY (`user_id`) REFERENCES `user` (`uid`)
+    CONSTRAINT `user_conv_ibfk_1` FOREIGN KEY (`user_id`) REFERENCES `user` (`uid`) ON DELETE CASCADE
 );
 
 /*!40103 SET TIME_ZONE=@OLD_TIME_ZONE */;
