@@ -1,21 +1,20 @@
 import os
-from typing import Annotated
 import requests
 
 from sqlalchemy import create_engine, select
 from sqlalchemy.orm import Session, sessionmaker
 from fastapi import APIRouter, Depends, HTTPException
 from dotenv import load_dotenv
-from datetime import datetime
 from fastapi.security import OAuth2PasswordRequestForm
+from typing import Annotated
+
 from models.authModel import AuthBase, Auth, AuthId
 from models.passwordModel import PasswordBase
 from models.userModel import UserBase
 from models.tokenModel import Token, TokenData
-
 from schemas.authSchema import AuthSchema
-
 from .token import get_current_user
+
 load_dotenv()
 
 MYSQL_DATABASE_URL= os.getenv('MYSQL_DATABASE_URL')
@@ -71,8 +70,6 @@ async def register(credentials: AuthBase, data: UserBase):
     result = requests.post(url=AUTH_URL, data=credentials.json())
     if (result.status_code == 201):
         data.id_auth = int(result.text)
-        # full_date = datetime.strptime(data.birth_date, "%a %b %d %Y %H:%M:%S GMT%z")
-        # data.birth_date = full_date.strftime("%Y-%m-%d")
 
         response = requests.post(url=USER_URL, data=data.json())
         if (response.status_code == 201):

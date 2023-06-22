@@ -37,22 +37,17 @@ router = APIRouter(
     tags=['user']
 )
 
-
 @router.get('/')
 def get_user(token: Annotated[TokenData,Depends(get_current_user)],db: Session = Depends(get_db)):
     user = db.execute(select(AuthSchema).where(AuthSchema.email == token.uid)).scalar_one_or_none()
     user_id = user.id_auth
-    response =  requests.get(f"{USER_URL}/?uid={user_id}")
+    response = requests.get(f"{USER_URL}/?uid={user_id}")
     return response.json()
 
 @router.patch('/')
 def update_user(user:User,token: Annotated[TokenData,Depends(get_current_user)],db: Session = Depends(get_db)):
     user_auth = db.execute(select(AuthSchema).where(AuthSchema.email == token.uid)).scalar_one_or_none()
-    user_id = user_auth.id_auth
-    user.uid = user_id
-
-    # full_date = datetime.strptime(user.birth_date, "%a %b %d %Y %H:%M:%S GMT%z")
-    # user.birth_date = full_date.strftime("%Y-%m-%d")
-    response=requests.patch(f"{USER_URL}/",data=user.json())
+    user.uid = user_auth.id_auth
+    response=requests.patch(url=USER_URL, data=user.json())
     return response.json()
 
