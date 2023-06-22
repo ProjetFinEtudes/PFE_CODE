@@ -1,6 +1,6 @@
 mat-card {
     max-width: 500px;
-    margin: 25px auto;
+    margin: 60px auto;
     padding: 20px;
     background-color: #555;
     color: #fff;
@@ -25,21 +25,18 @@ mat-form-field .mat-input-element {
     color: #fff;
 }
 
-mat-hint {
-    color: #ff0000;
-    font-size: 15px;
-}
-
 input::placeholder {
     color: #ccc;
 }
 
-.error {
-    padding: 9px;
-    width: 75%;
+.success {
+    padding: 5px;
+    margin: 2px auto;
+    width: 77.5%;
     float: left;
-    color: #fff;
-    background-color: red;
+    color: #155724;
+    background-color: #d4edda;
+    border: 1px solid #155724;
     text-align: center;
     border-radius: 5px;
 }
