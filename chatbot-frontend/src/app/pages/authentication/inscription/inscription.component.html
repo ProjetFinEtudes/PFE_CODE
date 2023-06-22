@@ -4,42 +4,42 @@
         <form [formGroup]="form" (ngSubmit)="onRegister()">
             <mat-form-field>
                 <mat-label>First Name</mat-label>
-                <input formControlName="firstname" type="text" matInput required>
+                <input formControlName="firstname" type="text" matInput placeholder="Enter your first name" required>
                 <mat-error *ngIf="f['firstname'].touched && f['firstname'].errors">This field is required</mat-error>
             </mat-form-field>
 
             <mat-form-field>
                 <mat-label>Last Name</mat-label>
-                <input formControlName="lastname" type="text" matInput required>
+                <input formControlName="lastname" type="text" matInput placeholder="Enter your last name" required>
                 <mat-error *ngIf="f['lastname'].touched && f['lastname'].errors">This field is required</mat-error>
             </mat-form-field>
 
             <mat-form-field>
                 <mat-label>Date of Birth</mat-label>
-                <input formControlName="birthdate" [max]="maxDate" matInput [matDatepicker]="picker">
-                <mat-error *ngIf="f['birthdate'].touched && f['birthdate'].errors">This field is required</mat-error>
+                <input formControlName="birthdate" [max]="maxDate" matInput placeholder="Pick your date of birth" [matDatepicker]="picker">
                 <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
                 <mat-datepicker #picker></mat-datepicker>
+                <mat-error *ngIf="f['birthdate'].touched && f['birthdate'].errors">This field is required</mat-error>
             </mat-form-field>
 
             <mat-form-field>
                 <mat-label>Genre</mat-label>
-                <mat-error *ngIf="f['genre'].touched && f['genre'].errors">This field is required</mat-error>
-                <mat-select formControlName="genre">
-                <mat-option value="F">Female</mat-option>
-                <mat-option value="M">Male</mat-option>
+                <mat-select formControlName="genre" placeholder="Select your genre">
+                    <mat-option value="F">Female</mat-option>
+                    <mat-option value="M">Male</mat-option>
                 </mat-select>
+                <mat-error *ngIf="f['genre'].touched && f['genre'].errors">This field is required</mat-error>
             </mat-form-field>
 
             <mat-form-field>
                 <mat-label>Email</mat-label>
-                <input formControlName="email" type="email" matInput required>
+                <input formControlName="email" type="email" matInput placeholder="Enter your email" required>
                 <mat-error *ngIf="f['email'].touched && f['email'].errors">This field is required</mat-error>
             </mat-form-field>
 
             <mat-form-field>
                 <mat-label>Password</mat-label>
-                <input formControlName="password" type="password" matInput required>
+                <input formControlName="password" type="password" matInput placeholder="Enter your password" required>
                 <mat-error *ngIf="f['password'].touched && f['password'].errors">This field is required</mat-error>
             </mat-form-field>
 

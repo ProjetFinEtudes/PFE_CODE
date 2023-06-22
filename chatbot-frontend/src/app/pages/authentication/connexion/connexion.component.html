@@ -4,13 +4,13 @@
         <form [formGroup]="form" (ngSubmit)="onLogin()">
             <mat-form-field>
                 <mat-label>Email</mat-label>
-                <input formControlName="email" type="email" matInput required>
+                <input formControlName="email" type="email" matInput placeholder="Enter your email" required>
                 <mat-error *ngIf="f['email'].touched && f['email'].errors">This field is required</mat-error>
             </mat-form-field>
 
             <mat-form-field>
                 <mat-label>Password</mat-label>
-                <input formControlName="password" type="password" matInput required>
+                <input formControlName="password" type="password" matInput placeholder="Enter your password" required>
                 <mat-error *ngIf="f['password'].touched && f['password'].errors">This field is required</mat-error>
             </mat-form-field>
 
