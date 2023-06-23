@@ -11,7 +11,7 @@ import { PasswordsAndConfirmPassword, Passwords } from '../interfaces/password';
 })
 export class UserService {
 
-  token: string |null ='';
+  token: string | null ='';
   user: User = <User>{};
 
   constructor(
@@ -21,9 +21,9 @@ export class UserService {
     if (this.authService.isLoggedIn()) {
       this.token = this.authService.getAccessToken()!;
       this.getUser()
-      .then((user: User) => {
-        this.setUser(user);
-      });
+        .then((user: User) => {
+          this.setUser(user);
+        });
     }
   }
 
@@ -63,8 +63,5 @@ export class UserService {
 
     return this.http.patch<User>(`http://localhost:3212/api/user`, user, { headers });
   }
-
-
-
 
 }

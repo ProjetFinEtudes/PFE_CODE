@@ -3,7 +3,7 @@ from sqlalchemy.orm import Session
 from sqlalchemy.exc import SQLAlchemyError
 import os
 from models.tagModel import UserTagBaseModel
-from schemas.tagSchema import UserTagSchema,TagSchema
+from schemas.tagSchema import UserTagSchema, TagSchema
 
 def create_user_tag(user_id:int, tag_name:str, db: Session):
     user_tag = UserTagBaseModel(id_user=user_id,id_tag=get_tag_id_by_name(tag_name,db))

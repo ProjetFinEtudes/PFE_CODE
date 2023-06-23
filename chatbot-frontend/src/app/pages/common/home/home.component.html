@@ -1,0 +1,6 @@
+<div class="hero-content txacc">
+  <h1>Welcome to RecipeBot</h1>
+  <p>Discover delicious recipes tailored just for you!</p>
+  <a *ngIf="!this.authService.isLoggedIn()" routerLink="/register" class="btn btn-primary">Get Started</a>
+  <a *ngIf="this.authService.isLoggedIn()" routerLink="/chat" class="btn btn-primary">Chat Now</a>
+</div>

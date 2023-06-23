@@ -14,10 +14,12 @@ import { FooterComponent } from './pages/common/footer/footer.component';
 import { InscriptionComponent } from './pages/authentication/inscription/inscription.component';
 import { AngularMaterialModule } from './angular-material-module';
 import { ConnexionComponent } from './pages/authentication/connexion/connexion.component';
-import { HomeComponent } from './pages/home/home.component';
+import { HomeComponent } from './pages/common/home/home.component';
 import { ProfileComponent } from './pages/profile/profile.component';
 import { NotFoundComponent } from './pages/common/not-found/not-found.component';
 import { AccessDeniedComponent } from './pages/common/access-denied/access-denied.component';
+import { ContactComponent } from './pages/common/contact/contact.component';
+import { TermsAndConditionsComponent } from './pages/common/terms-and-conditions/terms-and-conditions.component';
 
 @NgModule({
   declarations: [
@@ -31,7 +33,9 @@ import { AccessDeniedComponent } from './pages/common/access-denied/access-denie
     HomeComponent,
     ProfileComponent,
     NotFoundComponent,
-    AccessDeniedComponent
+    AccessDeniedComponent,
+    ContactComponent,
+    TermsAndConditionsComponent
   ],
   imports: [
     BrowserModule,

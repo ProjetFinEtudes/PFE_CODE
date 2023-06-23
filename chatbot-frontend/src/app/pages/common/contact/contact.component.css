@@ -1,6 +1,6 @@
 mat-card {
     max-width: 500px;
-    margin: 25px auto;
+    margin: 60px auto;
     padding: 20px;
     background-color: #555;
     color: #fff;
@@ -29,14 +29,14 @@ input::placeholder {
     color: #ccc;
 }
 
-.error {
+.success {
     padding: 5px;
     margin: 2px auto;
-    width: 75%;
+    width: 77.5%;
     float: left;
-    color: #721c24;
-    background-color: #f8d7da;
-    border: 1px solid #721c24;
+    color: #155724;
+    background-color: #d4edda;
+    border: 1px solid #155724;
     text-align: center;
     border-radius: 5px;
 }

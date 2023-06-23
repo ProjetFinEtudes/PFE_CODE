@@ -26,21 +26,18 @@ mat-form-field .mat-input-element {
     color: #fff;
 }
 
-mat-hint {
-    color: #ff0000;
-    font-size: 15px;
-}
-
 input::placeholder {
     color: #ccc;
 }
 
 .error {
-    padding: 9px;
+    padding: 5px;
+    margin: 2px auto;
     width: 77.5%;
     float: left;
-    color: #fff;
-    background-color: red;
+    color: #721c24;
+    background-color: #f8d7da;
+    border: 1px solid #721c24;
     text-align: center;
     border-radius: 5px;
 }

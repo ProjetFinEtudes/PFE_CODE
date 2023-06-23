@@ -1,19 +1,15 @@
 from fastapi import HTTPException, Depends, status
 from sqlalchemy.orm import Session
-from jose import JWTError, jwt
-from datetime import datetime
 from sqlalchemy.exc import SQLAlchemyError
-from fastapi.security import OAuth2PasswordBearer
 
 from models.authModel import AuthBase, Auth
 
 from schemas.authSchema import AuthSchema
-from schemas.userSchema import UserSchema
+from schemas.tagSchema import UserSchema
 
 def create_auth(credentials: AuthBase, db: Session):
     pydantic_auth = AuthSchema(email=credentials.email,
                                 password=credentials.password)
-    print(pydantic_auth)
     try:
         db.add(pydantic_auth)
         db.commit()

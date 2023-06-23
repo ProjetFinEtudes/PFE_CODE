@@ -3,8 +3,7 @@ from sqlalchemy.orm import Session
 from sqlalchemy import exists
 from sqlalchemy.exc import SQLAlchemyError
 
-from schemas.authSchema import AuthSchema
-from schemas.userSchema import UserSchema
+from schemas.tagSchema import UserSchema
 
 from models.userModel import UserBase, User
 
@@ -14,7 +13,6 @@ def create_user(user: UserBase, db: Session):
                                 birth_date=user.birth_date, \
                                 genre=user.genre, \
                                 id_auth=user.id_auth)
-    print(pydantic_user)
     try:        
         db.add(pydantic_user)
         db.commit()

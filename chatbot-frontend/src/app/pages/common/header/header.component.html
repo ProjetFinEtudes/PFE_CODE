@@ -1,19 +1,10 @@
 <header class="header">
   <nav *ngIf="authService.isLoggedIn()" class="navbar navbar-expand-lg navbar-light bg-light">
-    <a class="navbar-brand" href="#"><img src="https://i.ibb.co/T87RLFG/logo1.png" alt="logo" width="150" height="50"> </a>
+    <a class="navbar-brand" routerLink="/"><img src="https://i.ibb.co/T87RLFG/logo1.png" alt="logo" width="150" height="50"> </a>
     <div class="collapse navbar-collapse" id="navbarNav">
       <ul class="navbar-nav ml-auto">
         <li class="nav-item">
-          <a class="nav-link" href="#">Home</a>
-        </li>
-        <li class="nav-item">
-          <a class="nav-link" href="#">About</a>
-        </li>
-        <li class="nav-item">
           <a class="nav-link" routerLink="/chat">Chat</a>
-        </li>
-        <li class="nav-item">
-          <a class="nav-link" href="#">Contact</a>
         </li>
         <li class="nav-item">
           <a class="nav-link" routerLink="/profile">Profile</a>
