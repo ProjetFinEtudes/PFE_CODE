@@ -45,7 +45,7 @@ export class TagService {
       'Content-Type': 'application/json',
       'Authorization': `Bearer ${this.token}`
     });
-    const url = `${this.apiUrl}/user_tags/tag_name=leeks${tagName}`;
+    const url = `${this.apiUrl}/user_tags/${tagName}`;
     return this.http.delete(url, { headers: headers });
   }
 }

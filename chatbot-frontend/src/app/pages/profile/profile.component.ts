@@ -7,6 +7,7 @@ import { UserService } from 'src/app/services/user.service';
 import { TagService } from 'src/app/services/tag.service';
 import { AuthService } from 'src/app/services/auth.service';
 import { Router } from '@angular/router';
+import { MatOptionSelectionChange } from '@angular/material/core';
 
 
 @Component({
@@ -26,7 +27,7 @@ export class ProfileComponent implements OnInit {
 
   constructor(private userService: UserService,
     private authService: AuthService,
-    private tagService: TagService, 
+    private tagService: TagService,
     private router: Router
   ) {
     console.log(this.user)
@@ -64,7 +65,7 @@ export class ProfileComponent implements OnInit {
           });
         }
       });
-    
+
       this.userTags = this.userTags.filter(tag => selectedValues.includes(this.availableTags.find(t => t.name === tag)?.id));
     });
   }
@@ -84,7 +85,7 @@ export class ProfileComponent implements OnInit {
     if (tagToRemove) {
       const tagName = tagToRemove.name;
       this.userTags = this.userTags.filter(tag => tag !== tagName);
-      this.tagService.deleteUserTag(tagId).subscribe((res) => console.log(res));
+      this.tagService.deleteUserTag(tagName).subscribe((res) => console.log(res));
     }
   }
 
@@ -116,5 +117,16 @@ export class ProfileComponent implements OnInit {
         }
       });
   }
+
+  tagClick(tagId: any) {
+    const tagIndex = this.tagControl.value.indexOf(tagId);
+    const isSelected = tagIndex > -1;
+
+    if (!isSelected) {
+      // La case a été décochée
+      this.deleteTag(tagId);
+    }
+  }
+
 
 }

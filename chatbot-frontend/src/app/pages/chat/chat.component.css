@@ -76,7 +76,7 @@
 .message-box{
   height: calc(100vh - 5rem);
   overflow-y: auto;
-  padding-bottom: 10rem;
+  padding-bottom: 13rem;
 }
 
 

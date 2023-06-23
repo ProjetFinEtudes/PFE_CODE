@@ -6,3 +6,4 @@ sqlalchemy
 uvicorn==0.21.1
 requests
 python-jose
+cryptography

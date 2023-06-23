@@ -1,6 +1,6 @@
 <div class="profile-container">
     <h2>Profile</h2>
-    
+
     <div class="card-container">
         <div class="user-info-card">
             <mat-card>
@@ -8,17 +8,17 @@
                     <mat-form-field>
                         <input matInput placeholder="First Name" [(ngModel)]="user.first_name">
                     </mat-form-field>
-                    
+
                     <mat-form-field>
                         <input matInput placeholder="Last Name" [(ngModel)]="user.last_name">
                     </mat-form-field>
-                    
+
                     <mat-form-field>
                         <input matInput [matDatepicker]="picker" placeholder="Birth Date" [(ngModel)]="user.birth_date">
                         <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
                         <mat-datepicker #picker></mat-datepicker>
                     </mat-form-field>
-                    
+
                     <mat-form-field>
                         <mat-select placeholder="Genre" [(ngModel)]="user.genre">
                             <mat-option value="F">Female</mat-option>
@@ -37,15 +37,15 @@
                     <mat-form-field>
                         <input matInput type="password" placeholder="Type your current password" [(ngModel)]="passwords.current_password">
                     </mat-form-field>
-                    
+
                     <mat-form-field>
                         <input matInput type="password" placeholder="Type your new password" [(ngModel)]="passwords.new_password">
                     </mat-form-field>
-                    
+
                     <mat-form-field>
                         <input matInput type="password" placeholder="Confirm your new password" [(ngModel)]="passwords.confirm_password">
                     </mat-form-field>
-                    
+
                     <button mat-raised-button color="primary" (click)="changePassword()">Change Password</button>
                 </mat-card-content>
             </mat-card>
@@ -57,7 +57,7 @@
                     <mat-form-field>
                         <mat-label>Add Tags</mat-label>
                         <mat-select [formControl]="tagControl" multiple>
-                            <mat-option *ngFor="let tag of availableTags" [value]="tag.id">
+                            <mat-option *ngFor="let tag of availableTags" [value]="tag.id" (click)="tagClick(tag.id)">
                                 {{ tag.name }}
                             </mat-option>
                         </mat-select>
@@ -67,9 +67,9 @@
         </div>
 
     </div>
-    
+
     <a (click)="deleteAccount()" class="delete-link">
         <mat-icon>delete</mat-icon> Delete My Account
-    </a>  
-      
-</div>  
+    </a>
+
+</div>

@@ -56,10 +56,10 @@ def get_user_tags(token: Annotated[TokenData,Depends(get_current_user)],db: Sess
     headers = {'Content-Type': 'application/json', 'accept': 'application/json'}       
     response = requests.get(f"{TAG_URL}/user_tags/{user_id}", headers=headers)
     return response.json()
-@router.delete('/user_tags/{user_id}/{tag_name}')
+@router.delete('/user_tags/{tag_name}')
 def delete_user_tag(tag_name:str,token: Annotated[TokenData,Depends(get_current_user)],db: Session = Depends(get_db)):
     user = db.execute(select(AuthSchema).where(AuthSchema.email == token.uid)).scalar_one_or_none()
     user_id = user.id_auth
     headers = {'Content-Type': 'application/json', 'accept': 'application/json'}       
-    response = requests.get(f"{TAG_URL}/user_tags/{user_id}", headers=headers)
+    response = requests.delete(f"{TAG_URL}/user_tags/{user_id}/{tag_name}", headers=headers)
     return response.json()

@@ -37,11 +37,20 @@ def get_all_tags(db:Session):
 
 def delete_user_tag(user_id: int, tag_name: str, db: Session):
     tag_id = get_tag_id_by_name(tag_name,db)
-    deleted_count = db.query(UserTagSchema).filter_by(id_user=user_id, id_tag=tag_id).delete()
-    if deleted_count == 0:
-        raise HTTPException(status_code=404, detail="User tag not found")
-    db.commit()
-    return {"message": "User tag deleted successfully"}
+    print('ici')
+    print(user_id)
+    print(tag_name)
+    print(tag_id)
+    deleted_count = db.query(UserTagSchema).filter_by(id_user=user_id, id_tag=tag_id).first()
+    print(deleted_count.__dict__)
+    try:
+        db.delete(deleted_count)
+        db.commit()
+        return {"deleted"}
+    except SQLAlchemyError as e:
+        return e
+
+
 
 def get_tag_id_by_name(name: str, db: Session):
     try:
