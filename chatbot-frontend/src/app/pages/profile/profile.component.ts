@@ -67,7 +67,6 @@ export class ProfileComponent implements OnInit {
           if (selectedTag && !this.userTags.includes(selectedTag.name)) {
             this.userTags.push(selectedTag.name);
             this.tagService.createTag(selectedTag.name).subscribe(res => {
-              // console.log(res)
               this.displayMessageFewSeconds('Tag added successfully', 'success');
             });
           }
